@@ -714,14 +714,40 @@ function switchRadio(el) {
 // ═══════════════════════════
 // PLAYER
 // ═══════════════════════════
+const STREAM_URL = 'http://213.136.96.14:8000/nostalgie2.mp3';
+let audio = new Audio();
+audio.preload = 'none';
 let playing = false;
-function togglePlay() {
-  playing = !playing;
-  document.getElementById('playTxt').textContent = playing ? 'En écoute...' : 'Écouter en Direct';
-  document.getElementById('liveText').textContent = playing ? '▌▌ PAUSE' : 'DIRECT 101.1';
+
+function updateBtnIcon() {
   document.getElementById('mainBtn').innerHTML = playing
     ? '<svg width="10" height="12" viewBox="0 0 10 12" fill="#0A0A0A"><rect x="0" y="0" width="3" height="12"/><rect x="7" y="0" width="3" height="12"/></svg>'
     : '<svg width="11" height="13" viewBox="0 0 11 13" fill="#0A0A0A"><path d="M0 0L11 6.5L0 13V0Z"/></svg>';
+}
+
+function togglePlay() {
+  if (!playing) {
+    audio.src = STREAM_URL;
+    audio.play().then(() => {
+      playing = true;
+      document.getElementById('playTxt').textContent = 'En écoute...';
+      document.getElementById('liveText').textContent = '▌▌ PAUSE';
+      updateBtnIcon();
+    }).catch(() => {
+      playing = false;
+      document.getElementById('playTxt').textContent = 'Écouter en Direct';
+      document.getElementById('liveText').textContent = 'DIRECT 101.1';
+      updateBtnIcon();
+      alert('Connexion au flux impossible. Vérifiez votre connexion.');
+    });
+  } else {
+    audio.pause();
+    audio.src = '';
+    playing = false;
+    document.getElementById('playTxt').textContent = 'Écouter en Direct';
+    document.getElementById('liveText').textContent = 'DIRECT 101.1';
+    updateBtnIcon();
+  }
 }
 
 // ═══════════════════════════
