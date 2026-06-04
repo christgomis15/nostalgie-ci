@@ -288,46 +288,42 @@ nav button.active{color:var(--or);border-bottom-color:var(--or);}
       <div class="wr-live-ring"><span class="wi-live-ic">N</span></div>
       <div><div class="wi-name">Nostalgie Live</div><div class="wi-desc">101.1 FM · Direct</div></div>
     </div>
-    <div class="wr-item" data-name="Nostalgie Zouk" onclick="switchRadio(this)">
-      <div class="wi-badge">ZK</div>
-      <div><div class="wi-name">Zouk</div><div class="wi-desc">Antillais & Africain</div></div>
-    </div>
-    <div class="wr-item" data-name="Nostalgie Nouveautés" onclick="switchRadio(this)">
+
+    <div class="wr-item" data-name="Nostalgie Nouveautés" onclick="comingSoon(this)">
       <div class="wi-badge">NV</div>
       <div><div class="wi-name">Nouveautés</div><div class="wi-desc">Hits du moment</div></div>
     </div>
-    <div class="wr-item" data-name="Nostalgie Rétro" onclick="switchRadio(this)">
+    <div class="wr-item" data-name="Nostalgie Rétro" onclick="comingSoon(this)">
       <div class="wi-badge">RT</div>
       <div><div class="wi-name">Rétro</div><div class="wi-desc">80s · 90s · 2000s</div></div>
     </div>
-    <div class="wr-item" data-name="Nostalgie Zouglou" onclick="switchRadio(this)">
+    <div class="wr-item" data-name="Nostalgie Zouglou" onclick="comingSoon(this)">
       <div class="wi-badge">ZG</div>
       <div><div class="wi-name">Zouglou</div><div class="wi-desc">100% Ivoirien</div></div>
     </div>
-    <div class="wr-item" data-name="Nostalgie Coupé Décalé" onclick="switchRadio(this)">
+    <div class="wr-item" data-name="Nostalgie Coupé Décalé" onclick="comingSoon(this)">
       <div class="wi-badge">CD</div>
       <div><div class="wi-name">Coupé Décalé</div><div class="wi-desc">Les grands noms</div></div>
     </div>
-    <div class="wr-item" data-name="Nostalgie Amapiano" onclick="switchRadio(this)">
-      <div class="wi-badge">AP</div>
-      <div><div class="wi-name">Amapiano</div><div class="wi-desc">Le son Afrique</div></div>
-    </div>
-    <div class="wr-item" data-name="Nostalgie Gospel" onclick="switchRadio(this)">
-      <div class="wi-badge">GP</div>
-      <div><div class="wi-name">Gospel</div><div class="wi-desc">Louanges & Prières</div></div>
-    </div>
-    <div class="wr-item" data-name="Nostalgie Afrobeats" onclick="switchRadio(this)">
+
+
+    <div class="wr-item" data-name="Nostalgie Afrobeats" onclick="comingSoon(this)">
       <div class="wi-badge">AF</div>
       <div><div class="wi-name">Afrobeats</div><div class="wi-desc">Nigeria · Ghana · CI</div></div>
     </div>
-    <div class="wr-item" data-name="Nostalgie R&amp;B Soul" onclick="switchRadio(this)">
+    <div class="wr-item" data-name="Nostalgie R&amp;B Soul" onclick="comingSoon(this)">
       <div class="wi-badge">RB</div>
       <div><div class="wi-name">R&amp;B Soul</div><div class="wi-desc">US & Afro R&amp;B</div></div>
     </div>
-    <div class="wr-item" data-name="Nostalgie Reggae" onclick="switchRadio(this)">
-      <div class="wi-badge">RG</div>
-      <div><div class="wi-name">Reggae</div><div class="wi-desc">Roots & Dancehall</div></div>
+    <div class="wr-item" data-name="Nostalgie Rap Ivoire" onclick="comingSoon(this)">
+      <div class="wi-badge">RI</div>
+      <div><div class="wi-name">Rap Ivoire</div><div class="wi-desc">100% CI Hip-Hop</div></div>
     </div>
+    <div class="wr-item" data-name="Nostalgie Musiques du Monde" onclick="comingSoon(this)">
+      <div class="wi-badge">MM</div>
+      <div><div class="wi-name">Musiques du Monde</div><div class="wi-desc">World & Global Beats</div></div>
+    </div>
+
   </div>
 </div>
 
@@ -712,9 +708,23 @@ function switchRadio(el) {
 }
 
 // ═══════════════════════════
+// WEBRADIOS - BIENTÔT DISPONIBLE
+// ═══════════════════════════
+function comingSoon(el) {
+  document.querySelectorAll('.wr-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  const name = el.dataset.name || 'Cette webradio';
+  const toast = document.createElement('div');
+  toast.textContent = '🎙️ ' + name + ' — Bientôt disponible';
+  toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#D4A843;color:#0A0A0A;padding:10px 22px;border-radius:30px;font-size:13px;font-weight:700;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.4);pointer-events:none;';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2800);
+}
+
+// ═══════════════════════════
 // PLAYER
 // ═══════════════════════════
-const STREAM_URL = 'http://213.136.96.14:8000/nostalgie2.mp3';
+const STREAM_URL = 'https://stream.zeno.fm/01PLpj-2qtzuv';
 let audio = new Audio();
 audio.preload = 'none';
 let playing = false;
