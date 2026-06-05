@@ -1,0 +1,47 @@
+import type { Metadata } from 'next'
+import './globals.css'
+import Header from '@/components/Header'
+import WebradioTicker from '@/components/WebradioTicker'
+import PlayerBar from '@/components/PlayerBar'
+
+export const metadata: Metadata = {
+  title: 'Nostalgie CI — 101.1 FM · Sérieusement Décalée',
+  description: 'Radio Nostalgie CI — La première radio commerciale privée de Côte d\'Ivoire. Écoutez le direct sur 101.1 FM à Abidjan.',
+  keywords: 'radio, Nostalgie, Côte d\'Ivoire, Abidjan, 101.1 FM, musique',
+  openGraph: {
+    title: 'Nostalgie CI — 101.1 FM',
+    description: 'Sérieusement Décalée. Écoutez la radio en direct.',
+    locale: 'fr_CI',
+    type: 'website',
+  },
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="fr">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
+        {/* Ticker webradios — fixe en haut */}
+        <WebradioTicker />
+
+        {/* Header nav — sous le ticker */}
+        <Header />
+
+        {/* Contenu de la page */}
+        <main>{children}</main>
+
+        {/* Player bar — fixe en bas, persiste sur toutes les pages */}
+        <PlayerBar />
+      </body>
+    </html>
+  )
+}
