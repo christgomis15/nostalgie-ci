@@ -174,3 +174,292 @@ textarea { resize: vertical; min-height: 100px; }
   .form-row { grid-template-columns: 1fr; }
   .page-section { padding: 40px 16px; }
 }
+
+/* ════════════════════════════════════════
+   WEBRADIO TICKER
+════════════════════════════════════════ */
+.wr-ticker {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--ticker-height);
+  background: var(--g1);
+  border-bottom: 1px solid var(--g3);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.wr-label {
+  flex-shrink: 0;
+  padding: 0 16px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--or);
+  border-right: 1px solid var(--g3);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--g1);
+  z-index: 1;
+}
+
+.wr-rfade {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 60px;
+  background: linear-gradient(to left, var(--g1), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.wr-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  will-change: transform;
+}
+
+.wr-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  height: var(--ticker-height);
+  cursor: pointer;
+  border-right: 1px solid var(--g3);
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.wr-item:hover { background: rgba(212, 168, 67, 0.06); }
+.wr-item.active .wi-badge {
+  background: var(--or);
+  color: var(--noir);
+  border-color: var(--or);
+}
+
+.wi-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--blanc);
+}
+.wi-desc {
+  font-size: 10px;
+  color: rgba(245, 240, 232, 0.4);
+}
+
+/* ════════════════════════════════════════
+   HEADER
+════════════════════════════════════════ */
+.site-header {
+  position: fixed;
+  top: var(--ticker-height);
+  left: 0; right: 0;
+  height: var(--header-height);
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--g3);
+  z-index: 99;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--or);
+  letter-spacing: 2px;
+}
+.logo-freq {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(245, 240, 232, 0.4);
+  letter-spacing: 1px;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.nav-link {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(245, 240, 232, 0.6);
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-link:hover { color: var(--blanc); background: rgba(255,255,255,0.05); }
+.nav-link.active { color: var(--or); }
+
+.pill-direct {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: rgba(212, 168, 67, 0.1);
+  border: 1px solid rgba(212, 168, 67, 0.3);
+  border-radius: 20px;
+  color: var(--or);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.pill-direct:hover { background: rgba(212, 168, 67, 0.2); }
+.pill-direct.playing { background: rgba(212, 168, 67, 0.15); border-color: var(--or); }
+
+.pill-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--or);
+}
+.pill-direct.playing .pill-dot {
+  animation: pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+
+/* ════════════════════════════════════════
+   PLAYER BAR
+════════════════════════════════════════ */
+.player-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--player-height);
+  background: var(--g1);
+  border-top: 1px solid var(--g3);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 24px;
+  z-index: 100;
+}
+
+.pb-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 180px;
+}
+.pb-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blanc);
+}
+.pb-desc {
+  font-size: 11px;
+  color: rgba(245, 240, 232, 0.4);
+}
+
+.pb-play {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--or);
+  color: var(--noir);
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.1s;
+  flex-shrink: 0;
+}
+.pb-play:hover { background: var(--or-s); transform: scale(1.05); }
+
+.pb-radios {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.pb-radio-btn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid var(--g3);
+  color: rgba(245, 240, 232, 0.5);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.pb-radio-btn:hover:not(.disabled) {
+  border-color: var(--or);
+  color: var(--or);
+}
+.pb-radio-btn.active {
+  background: rgba(212, 168, 67, 0.15);
+  border-color: var(--or);
+  color: var(--or);
+}
+.pb-radio-btn.disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ════════════════════════════════════════
+   HERO
+════════════════════════════════════════ */
+.hero {
+  min-height: calc(100vh - var(--top-offset) - var(--player-height));
+  display: flex;
+  align-items: center;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 10vw, 120px);
+  font-weight: 900;
+  color: var(--blanc);
+  line-height: 1;
+  margin-bottom: 12px;
+  letter-spacing: -2px;
+}
+
+.hero-slogan {
+  font-size: clamp(16px, 2.5vw, 24px);
+  color: var(--or);
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.hero-villes {
+  font-size: 13px;
+  color: rgba(245, 240, 232, 0.4);
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
