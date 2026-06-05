@@ -8,6 +8,7 @@ export default function Accueil() {
 
   return (
     <section className="hero">
+      <div className="hero-bg" style={{ backgroundImage: "url('/img/hero-bg.jpg')" }} />
       <div className="hero-grad" />
       <div className="page-section hero-c">
         <p className="hero-eye">Première Radio Commerciale Privée de Côte d&apos;Ivoire</p>

@@ -77,9 +77,13 @@ export default function Emissions() {
         <h1 className="section-title">Nos Émissions</h1>
       </div>
       <div className="em-grid">
-        {EMISSIONS.map((em) => (
+        {EMISSIONS.map((em, i) => (
           <div key={em.title} className="em-card">
-            <div className="em-ph">{em.title[0]}</div>
+            <img
+              src={`/img/em-${String(i + 1).padStart(2, '0')}.jpg`}
+              alt={em.title}
+              className="em-img"
+            />
             <div className="em-overlay">
               <p className="em-tag">{em.tag} · {em.schedule}</p>
               <h3 className="em-title-card">{em.title}</h3>
