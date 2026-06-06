@@ -1,19 +1,15 @@
-import { NextRequest } from 'next/server'
-
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 const STREAM_URL = 'http://213.136.96.14:8000/nostalgie2.mp3'
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const upstream = await fetch(STREAM_URL, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; NostalgieCI-Proxy/1.0)',
-        'Icy-MetaData': '1',
+        'User-Agent': 'Mozilla/5.0 (compatible)',
+        'Accept': 'audio/mpeg, audio/*',
       },
-      // @ts-expect-error — Node.js fetch supports duplex streaming
-      duplex: 'half',
     })
 
     if (!upstream.ok || !upstream.body) {
@@ -23,11 +19,9 @@ export async function GET(req: NextRequest) {
     return new Response(upstream.body, {
       status: 200,
       headers: {
-        'Content-Type': upstream.headers.get('Content-Type') || 'audio/mpeg',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Content-Type': 'audio/mpeg',
+        'Cache-Control': 'no-cache, no-store',
         'Access-Control-Allow-Origin': '*',
-        'Transfer-Encoding': 'chunked',
-        'X-Content-Type-Options': 'nosniff',
       },
     })
   } catch (err) {
