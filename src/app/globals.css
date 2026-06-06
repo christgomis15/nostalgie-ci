@@ -718,69 +718,62 @@ textarea { resize: vertical; min-height: 100px; }
 }
 
 /* ════════════════════════════════════════
-   FRÉQUENCES
+   FRÉQUENCES (footer strip)
 ════════════════════════════════════════ */
-.freq-section {
+.freq-footer {
   background: var(--g1);
   border-top: 1px solid var(--g3);
+  padding: 20px 24px;
 }
 
-.freq-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 2px;
-  margin-top: 40px;
+.freq-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
 }
 
-.freq-card {
-  background: var(--g2);
-  padding: 24px 20px;
-  border: 1px solid var(--g3);
-  transition: border-color 0.2s, background 0.2s;
-  position: relative;
-  overflow: hidden;
+.freq-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(212,168,67,0.5);
+  margin-right: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.freq-card:hover {
-  border-color: rgba(212,168,67,0.4);
-  background: rgba(212,168,67,0.04);
+
+.freq-item {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 6px 16px;
+  border-left: 1px solid var(--g3);
 }
-.freq-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px; height: 100%;
-  background: var(--or);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.freq-card:hover::before { opacity: 1; }
+.freq-item:first-of-type { border-left: none; }
 
 .freq-number {
   font-family: 'Playfair Display', serif;
-  font-size: 42px;
-  font-weight: 900;
-  color: var(--or);
-  line-height: 1;
-  letter-spacing: -1px;
-}
-.freq-fm {
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
-  color: rgba(212,168,67,0.6);
-  letter-spacing: 2px;
+  color: var(--or);
+  letter-spacing: -0.5px;
+}
+.freq-fm-tag {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(212,168,67,0.5);
+  letter-spacing: 1px;
   text-transform: uppercase;
-  margin-bottom: 12px;
 }
 .freq-city {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--blanc);
-  margin-bottom: 4px;
-}
-.freq-zone {
-  font-size: 11px;
-  color: rgba(245,240,232,0.35);
-  line-height: 1.6;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(245,240,232,0.45);
+  margin-left: 2px;
 }
 
 /* ── Responsive extras ── */

@@ -65,22 +65,18 @@ export default function Accueil() {
       </section>
 
       {/* ── Fréquences ── */}
-      <section className="freq-section">
-        <div className="page-section">
-          <p className="section-label">Sur toute la Côte d&apos;Ivoire</p>
-          <h2 className="section-title">Nos Fréquences</h2>
-          <div className="freq-grid">
-            {FREQUENCES.map((f) => (
-              <div key={f.freq} className="freq-card">
-                <div className="freq-number">{f.freq}</div>
-                <div className="freq-fm">FM</div>
-                <div className="freq-city">{f.city}</div>
-                <div className="freq-zone">{f.zone}</div>
-              </div>
-            ))}
-          </div>
+      <div className="freq-footer">
+        <div className="freq-footer-inner">
+          <span className="freq-label">Fréquences</span>
+          {FREQUENCES.map((f) => (
+            <div key={f.freq} className="freq-item">
+              <span className="freq-number">{f.freq}</span>
+              <span className="freq-fm-tag">FM</span>
+              <span className="freq-city">{f.city}</span>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
     </>
   )
 }
