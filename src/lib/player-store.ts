@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-const STREAM_URL = 'https://corsproxy.io/?url=http://213.136.96.14:8000/nostalgie2.mp3'
+const STREAM_URL = '/api/stream'
 
 export interface Webradio {
   badge: string
@@ -52,7 +52,6 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
     if (!currentRadio.stream) return
 
-    // First play — create audio element
     if (!audio) {
       set({ isLoading: true, streamError: null })
       const newAudio = createAudio(

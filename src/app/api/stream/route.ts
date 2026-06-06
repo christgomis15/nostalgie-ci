@@ -1,28 +1,37 @@
-export const runtime = 'edge'
+import { NextRequest } from 'next/server'
 
-const UPSTREAM = 'https://new.vobook.ru/http://213.136.96.14:8000/nostalgie2.mp3'
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
-export async function GET() {
+const STREAM_URL = 'http://213.136.96.14:8000/nostalgie2.mp3'
+
+export async function GET(req: NextRequest) {
   try {
-    const upstream = await fetch(UPSTREAM, {
+    const upstream = await fetch(STREAM_URL, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        'Referer': 'https://new.vobook.ru/',
+        'User-Agent': 'Mozilla/5.0 (compatible; NostalgieCI-Proxy/1.0)',
+        'Icy-MetaData': '1',
       },
+      // @ts-expect-error — Node.js fetch supports duplex streaming
+      duplex: 'half',
     })
 
     if (!upstream.ok || !upstream.body) {
-      return new Response(`Upstream error: ${upstream.status} ${upstream.statusText}`, { status: 502 })
+      return new Response(`Flux indisponible (${upstream.status})`, { status: 502 })
     }
 
     return new Response(upstream.body, {
+      status: 200,
       headers: {
-        'Content-Type': 'audio/mpeg',
-        'Cache-Control': 'no-cache, no-store',
+        'Content-Type': upstream.headers.get('Content-Type') || 'audio/mpeg',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Access-Control-Allow-Origin': '*',
+        'Transfer-Encoding': 'chunked',
+        'X-Content-Type-Options': 'nosniff',
       },
     })
   } catch (err) {
-    return new Response(`Proxy error: ${String(err)}`, { status: 500 })
+    console.error('Stream proxy error:', err)
+    return new Response('Erreur proxy stream', { status: 500 })
   }
 }
