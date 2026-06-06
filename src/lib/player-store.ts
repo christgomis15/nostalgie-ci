@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-const STREAM_URL = '/api/stream'
+const STREAM_URL = 'https://corsproxy.io/?url=http://213.136.96.14:8000/nostalgie2.mp3'
 
 export interface Webradio {
   badge: string
