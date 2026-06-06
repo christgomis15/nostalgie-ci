@@ -15,7 +15,7 @@ const NAV_LINKS = [
 
 export default function Header() {
   const pathname = usePathname()
-  const { isPlaying, toggle } = usePlayerStore()
+  const { isPlaying, isLoading, toggle } = usePlayerStore()
 
   return (
     <header className="site-header">
@@ -44,9 +44,10 @@ export default function Header() {
           className={`pill-direct ${isPlaying ? 'playing' : ''}`}
           onClick={toggle}
           aria-label="Écouter le direct"
+          disabled={isLoading}
         >
           <span className="pill-dot" />
-          DIRECT
+          {isLoading ? '...' : 'DIRECT'}
         </button>
       </div>
     </header>

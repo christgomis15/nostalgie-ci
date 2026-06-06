@@ -3,7 +3,7 @@
 import { usePlayerStore, WEBRADIOS } from '@/lib/player-store'
 
 export default function PlayerBar() {
-  const { isPlaying, currentRadio, toggle, switchRadio } = usePlayerStore()
+  const { isPlaying, isLoading, streamError, currentRadio, toggle, switchRadio } = usePlayerStore()
 
   const handleRadioClick = (radio: typeof WEBRADIOS[0]) => {
     if (!radio.stream) return
@@ -21,7 +21,11 @@ export default function PlayerBar() {
         <div className="wi-badge">{currentRadio.badge}</div>
         <div>
           <div className="pb-name">{currentRadio.name}</div>
-          <div className="pb-desc">{currentRadio.desc}</div>
+          <div className="pb-desc">
+            {streamError
+              ? <span style={{ color: '#ff6b6b', fontSize: '10px' }}>{streamError}</span>
+              : currentRadio.desc}
+          </div>
         </div>
       </div>
 
@@ -29,9 +33,10 @@ export default function PlayerBar() {
       <button
         className={`pb-play ${isPlaying ? 'playing' : ''}`}
         onClick={toggle}
-        aria-label={isPlaying ? 'Pause' : 'Lecture'}
+        aria-label={isLoading ? 'Chargement...' : isPlaying ? 'Pause' : 'Lecture'}
+        disabled={isLoading}
       >
-        {isPlaying ? '⏸' : '▶'}
+        {isLoading ? '⏳' : isPlaying ? '⏸' : '▶'}
       </button>
 
       {/* Sélecteur de webradios */}
