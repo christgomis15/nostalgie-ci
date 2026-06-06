@@ -32,8 +32,9 @@ interface PlayerState {
 }
 
 function createAudio(url: string, onEnd: () => void, onError: (msg: string) => void): HTMLAudioElement {
-  const a = new Audio(url)
-  a.preload = 'none'
+  const a = new Audio()
+  a.src = url
+  a.load()
   a.addEventListener('ended', onEnd)
   a.addEventListener('error', () => onError('Flux non disponible. Réessayez dans un instant.'))
   return a
