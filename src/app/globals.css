@@ -719,62 +719,65 @@ textarea { resize: vertical; min-height: 100px; }
 }
 
 /* ════════════════════════════════════════
-   FRÉQUENCES (footer strip)
+   FRÉQUENCES (footer list)
 ════════════════════════════════════════ */
 .freq-footer {
-  background: var(--g1);
-  border-top: 1px solid var(--g3);
-  padding: 20px 24px;
+  background: #0D0D0D;
+  border-top: 1px solid rgba(212,168,67,0.2);
+  padding: 32px 24px;
 }
 
 .freq-footer-inner {
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0;
 }
 
-.freq-label {
-  font-size: 9px;
+.freq-footer-title {
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 2.5px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(212,168,67,0.5);
-  margin-right: 20px;
-  white-space: nowrap;
-  flex-shrink: 0;
+  color: var(--or);
+  margin-bottom: 20px;
 }
 
-.freq-item {
+.freq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.freq-row {
   display: flex;
   align-items: baseline;
-  gap: 5px;
-  padding: 6px 16px;
-  border-left: 1px solid var(--g3);
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-.freq-item:first-of-type { border-left: none; }
+.freq-row:last-child { border-bottom: none; }
 
 .freq-number {
   font-family: 'Playfair Display', serif;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--or);
-  letter-spacing: -0.5px;
+  min-width: 56px;
+  flex-shrink: 0;
 }
+
 .freq-fm-tag {
   font-size: 9px;
   font-weight: 700;
-  color: rgba(212,168,67,0.5);
-  letter-spacing: 1px;
+  color: rgba(212,168,67,0.55);
+  letter-spacing: 1.5px;
   text-transform: uppercase;
+  flex-shrink: 0;
 }
-.freq-city {
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(245,240,232,0.45);
-  margin-left: 2px;
+
+.freq-cities {
+  font-size: 13px;
+  color: rgba(245,240,232,0.75);
+  line-height: 1.4;
 }
 
 /* ── Responsive extras ── */

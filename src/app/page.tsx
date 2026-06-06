@@ -4,41 +4,13 @@ import Link from 'next/link'
 import { usePlayerStore } from '@/lib/player-store'
 
 const FREQUENCES = [
-  {
-    freq: '101.1',
-    city: 'Abidjan',
-    zone: 'Banlieue',
-  },
-  {
-    freq: '106.5',
-    city: 'Bouaké',
-    zone: 'Katiola · Botro · Béoumi · Sakassou · Tiébissou · Prikro',
-  },
-  {
-    freq: '92.8',
-    city: 'Yamoussoukro',
-    zone: 'Toumodi · Dimbokro · Bouaflé · Sinfra · Zuénoula · Oumé · Guibéroua · Bonon',
-  },
-  {
-    freq: '97.3',
-    city: 'San-Pédro',
-    zone: 'Soubré · Sassandra · Taï · Méagui · Grand-Béréby · Buyo · Lakota',
-  },
-  {
-    freq: '98.3',
-    city: 'Daloa',
-    zone: 'et environs',
-  },
-  {
-    freq: '91.7',
-    city: 'Korhogo',
-    zone: 'et environs',
-  },
-  {
-    freq: '87.9',
-    city: 'Abengourou',
-    zone: 'et environs',
-  },
+  { freq: '101.1', villes: 'Abidjan – Banlieue' },
+  { freq: '106.5', villes: 'Bouaké – Katiola – Botro – Béoumi – Sakassou – Tiébissou – Prikro' },
+  { freq: '92.8',  villes: 'Yamoussoukro – Toumodi – Dimbokro – Bouaflé – Sinfra – Zuénoula – Oumé – Guibéroua – Bonon' },
+  { freq: '97.3',  villes: 'San-Pédro – Soubré – Sassandra – Taï – Méagui – Grand-Béréby – Buyo – Lakota' },
+  { freq: '98.3',  villes: 'Daloa et environs' },
+  { freq: '91.7',  villes: 'Korhogo et environs' },
+  { freq: '87.9',  villes: 'Abengourou et environs' },
 ]
 
 export default function Accueil() {
@@ -67,14 +39,16 @@ export default function Accueil() {
       {/* ── Fréquences ── */}
       <div className="freq-footer">
         <div className="freq-footer-inner">
-          <span className="freq-label">Fréquences</span>
-          {FREQUENCES.map((f) => (
-            <div key={f.freq} className="freq-item">
-              <span className="freq-number">{f.freq}</span>
-              <span className="freq-fm-tag">FM</span>
-              <span className="freq-city">{f.city}</span>
-            </div>
-          ))}
+          <p className="freq-footer-title">Fréquences en Côte d&apos;Ivoire</p>
+          <div className="freq-list">
+            {FREQUENCES.map((f) => (
+              <div key={f.freq} className="freq-row">
+                <span className="freq-number">{f.freq}</span>
+                <span className="freq-fm-tag">FM</span>
+                <span className="freq-cities">{f.villes}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
