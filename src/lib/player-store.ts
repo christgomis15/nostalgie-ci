@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-const STREAM_URL = '/api/stream'
+const STREAM_URL = 'https://stream.zeno.fm/01PLpj-2qtzuv'
 
 export interface Webradio {
   badge: string
