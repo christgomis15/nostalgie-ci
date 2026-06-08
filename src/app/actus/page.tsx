@@ -161,10 +161,149 @@ En Côte d'Ivoire, ce renouveau est accueilli avec enthousiasme, le pays ayant t
   },
 ]
 
+const EVENTS: Article[] = [
+  {
+    cat: 'Événement',
+    img: '/img/ac-01.jpg',
+    title: 'Nostalgie Night — Soirée anniversaire 32 ans au Sofitel',
+    excerpt: 'Une soirée inoubliable réunissant auditeurs, partenaires et artistes pour célébrer 32 ans de Nostalgie CI.',
+    date: '10 mai 2026',
+    body: `La Nostalgie Night, grande soirée anniversaire organisée pour célébrer les 32 ans de la radio, s'est tenue au Sofitel Abidjan Hôtel Ivoire dans une atmosphère de fête et d'émotion. Des centaines d'invités — auditeurs fidèles, partenaires commerciaux et artistes — se sont réunis pour partager ce moment exceptionnel.
+
+La soirée a été ponctuée de performances live, de remises de distinctions aux partenaires historiques de la radio et de moments de convivialité autour d'un dîner de gala. L'équipe animatrice de Nostalgie CI était au complet pour animer cette nuit mémorable.
+
+Un diaporama retraçant 32 ans d'histoire de la radio a ému l'assistance, rappelant les grandes heures de la station, ses émissions cultes et les artistes qui ont fait sa renommée. La fête s'est prolongée jusqu'au petit matin, avec des sets DJ exclusifs reprenant les plus grands tubes diffusés sur Nostalgie au fil des années.`,
+  },
+  {
+    cat: 'Partenariat',
+    img: '/img/ac-02.jpg',
+    title: 'Partenariat Nostalgie CI × MTN Côte d\'Ivoire',
+    excerpt: 'Nostalgie CI et MTN CI officialisent un partenariat stratégique pour toucher encore plus d\'auditeurs.',
+    date: '3 mai 2026',
+    body: `Nostalgie CI et MTN Côte d'Ivoire ont officialisé un partenariat stratégique lors d'une cérémonie de signature tenue au siège de la radio à Abidjan. Cet accord marque une étape importante dans le développement de la présence digitale de Nostalgie CI.
+
+Ce partenariat permettra aux abonnés MTN de bénéficier d'un accès privilégié aux contenus digitaux de Nostalgie CI, incluant les podcasts, les replays d'émissions et les événements exclusifs. Une offre de streaming radio sans consommation de data est également prévue dans le cadre de cet accord.
+
+"Ce partenariat illustre notre volonté commune de rapprocher les Ivoiriens de leur radio préférée, où qu'ils se trouvent", a déclaré le Directeur Général de Nostalgie CI lors de la cérémonie. Les deux entités prévoient des activations communes tout au long de l'année.`,
+  },
+  {
+    cat: 'Partenariat',
+    img: '/img/ac-03.jpg',
+    title: 'Nostalgie CI partenaire officiel du FEMUA 2026',
+    excerpt: 'La radio accompagne le Festival des Musiques Urbaines d\'Anoumabo pour sa 17e édition.',
+    date: '20 avril 2026',
+    body: `Nostalgie CI a été désignée partenaire radio officiel du FEMUA (Festival des Musiques Urbaines d'Anoumabo) pour sa 17e édition. Ce partenariat confirme l'engagement de la radio aux côtés des grands événements culturels ivoiriens.
+
+Dans ce cadre, Nostalgie CI assurera une couverture exclusive du festival avec des reportages quotidiens, des interviews des artistes en coulisses et une retransmission en direct des temps forts sur ses ondes. Une émission spéciale FEMUA sera diffusée chaque soir pendant la durée du festival.
+
+Ce partenariat renforce les liens entre Nostalgie CI et l'écosystème musical ivoirien, positionnant la radio comme un acteur incontournable de la promotion de la culture urbaine africaine. Les auditeurs pourront suivre toute l'actualité du FEMUA en temps réel.`,
+  },
+  {
+    cat: 'Événement',
+    img: '/img/ac-04.jpg',
+    title: 'Tournée Nostalgie dans les villes de l\'intérieur',
+    excerpt: 'L\'équipe Nostalgie CI à la rencontre des auditeurs de Bouaké, Yamoussoukro et San-Pédro.',
+    date: '8 avril 2026',
+    body: `Nostalgie CI a lancé sa grande tournée nationale pour aller à la rencontre des auditeurs dans les principales villes de l'intérieur du pays. Cette tournée, baptisée "Nostalgie en route", a débuté par Bouaké avant de faire étape à Yamoussoukro puis San-Pédro.
+
+Dans chaque ville, l'équipe animatrice a organisé des après-midis festives avec des jeux, des distributions de goodies et des concerts surprise. Ces événements ont rassemblé des milliers d'auditeurs ravis de rencontrer leurs animateurs préférés en chair et en os.
+
+"C'est important pour nous d'aller vers nos auditeurs, de les rencontrer là où ils vivent. Nostalgie CI est leur radio et nous voulons qu'ils le ressentent", a expliqué le Directeur des Programmes. La tournée se poursuivra dans les mois à venir avec de nouvelles étapes dans d'autres villes du pays.`,
+  },
+  {
+    cat: 'Partenariat',
+    img: '/img/ac-05.jpg',
+    title: 'Nostalgie CI × CANAL+ : accord de diffusion croisée',
+    excerpt: 'Un accord inédit entre la radio et le bouquet TV pour des contenus exclusifs partagés.',
+    date: '15 mars 2026',
+    body: `Nostalgie CI et CANAL+ Côte d'Ivoire ont conclu un accord de diffusion croisée qui permettra à chaque entité de valoriser les contenus de l'autre sur ses propres plateformes. Cet accord inédit dans le paysage médiatique ivoirien ouvre de nouvelles perspectives pour les deux médias.
+
+Concrètement, des émissions phares de Nostalgie CI seront diffusées sur certaines chaînes du bouquet CANAL+, tandis que des extraits d'émissions CANAL+ seront commentés et partagés sur les ondes de Nostalgie. Des co-productions originales sont également prévues sur des thématiques musicales et culturelles.
+
+Cet accord témoigne de la complémentarité entre la radio et la télévision dans un paysage médiatique en pleine transformation. Les deux parties voient dans ce partenariat une opportunité de toucher un public plus large et de créer des synergies éditoriales inédites.`,
+  },
+  {
+    cat: 'Événement',
+    img: '/img/ac-06.jpg',
+    title: 'Lancement de la webradio Nostalgie Zouglou',
+    excerpt: 'Nostalgie CI enrichit son offre digitale avec une webradio 100% dédiée au zouglou ivoirien.',
+    date: '1 mars 2026',
+    body: `Nostalgie CI a officiellement lancé sa nouvelle webradio "Nostalgie Zouglou", une chaîne 100% dédiée au genre musical emblématique de la Côte d'Ivoire. Ce lancement s'inscrit dans la stratégie de diversification digitale de la radio.
+
+La webradio Nostalgie Zouglou diffuse 24h/24 les meilleurs titres de ce genre musical, des classiques fondateurs aux nouvelles productions, en passant par des émissions thématiques dédiées à l'histoire et à l'évolution du zouglou. Une programmation spéciale avec des interviews d'artistes pionniers est également au programme.
+
+"Le zouglou est l'âme musicale de la Côte d'Ivoire et il méritait sa propre radio. Avec Nostalgie Zouglou, nous rendons hommage à ce genre tout en le faisant connaître aux nouvelles générations", a déclaré le Directeur des Programmes lors du lancement.`,
+  },
+]
+
+const SHARE_URL = 'https://nostalgie-ci.vercel.app/actus'
+
+function ShareButtons({ title }: { title: string }) {
+  const [copied, setCopied] = useState(false)
+  const text = encodeURIComponent(title)
+  const url = encodeURIComponent(SHARE_URL)
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(SHARE_URL)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="share-bar">
+      <span className="share-label">Partager</span>
+      <a
+        className="share-btn share-facebook"
+        href={`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Partager sur Facebook"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Facebook
+      </a>
+      <a
+        className="share-btn share-x"
+        href={`https://twitter.com/intent/tweet?text=${text}&url=${url}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Partager sur X"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        X
+      </a>
+      <a
+        className="share-btn share-whatsapp"
+        href={`https://wa.me/?text=${text}%20${url}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Partager sur WhatsApp"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <button
+        className="share-btn share-copy"
+        onClick={copyLink}
+        aria-label="Copier le lien"
+      >
+        {copied ? (
+          '✓ Copié !'
+        ) : (
+          <>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copier le lien
+          </>
+        )}
+      </button>
+    </div>
+  )
+}
+
 export default function Actus() {
-  const [tab, setTab] = useState<'locale' | 'internationale'>('locale')
+  const [tab, setTab] = useState<'locale' | 'internationale' | 'events'>('locale')
   const [selected, setSelected] = useState<Article | null>(null)
-  const articles = tab === 'locale' ? LOCALE : INTERNATIONALE
+  const articles = tab === 'locale' ? LOCALE : tab === 'internationale' ? INTERNATIONALE : EVENTS
 
   return (
     <>
@@ -172,27 +311,19 @@ export default function Actus() {
         <p className="section-label">L&apos;info qui groove</p>
         <h1 className="section-title">Actualités</h1>
         <div className="atabs">
-          <button
-            className={`atab ${tab === 'locale' ? 'active' : ''}`}
-            onClick={() => setTab('locale')}
-          >
+          <button className={`atab ${tab === 'locale' ? 'active' : ''}`} onClick={() => setTab('locale')}>
             Actu Locale
           </button>
-          <button
-            className={`atab ${tab === 'internationale' ? 'active' : ''}`}
-            onClick={() => setTab('internationale')}
-          >
+          <button className={`atab ${tab === 'internationale' ? 'active' : ''}`} onClick={() => setTab('internationale')}>
             Actu Internationale
+          </button>
+          <button className={`atab ${tab === 'events' ? 'active' : ''}`} onClick={() => setTab('events')}>
+            Events Nostalgie
           </button>
         </div>
         <div className="ac-grid">
           {articles.map((a) => (
-            <div
-              key={a.title}
-              className="ac-card"
-              onClick={() => setSelected(a)}
-              style={{ cursor: 'pointer' }}
-            >
+            <div key={a.title} className="ac-card" onClick={() => setSelected(a)} style={{ cursor: 'pointer' }}>
               <div className="ac-img">
                 <img src={a.img} alt={a.title} />
                 <span className="ac-cat-badge">{a.cat}</span>
@@ -211,13 +342,7 @@ export default function Actus() {
       {selected && (
         <div className="actu-overlay" onClick={() => setSelected(null)}>
           <div className="actu-modal" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="actu-close"
-              onClick={() => setSelected(null)}
-              aria-label="Fermer"
-            >
-              ✕
-            </button>
+            <button className="actu-close" onClick={() => setSelected(null)} aria-label="Fermer">✕</button>
             <div className="actu-modal-img">
               <img src={selected.img} alt={selected.title} />
               <span className="ac-cat-badge">{selected.cat}</span>
@@ -230,6 +355,7 @@ export default function Actus() {
                   <p key={i}>{para}</p>
                 ))}
               </div>
+              <ShareButtons title={selected.title} />
             </div>
           </div>
         </div>

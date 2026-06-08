@@ -874,6 +874,46 @@ textarea { resize: vertical; min-height: 100px; }
 }
 .actu-modal-text p:last-child { margin-bottom: 0; }
 
+.share-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--g3);
+}
+
+.share-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.4);
+  margin-right: 4px;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.share-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+.share-facebook { background: #1877F2; color: #fff; }
+.share-x        { background: #000; color: #fff; border: 1px solid #333; }
+.share-whatsapp { background: #25D366; color: #fff; }
+.share-copy     { background: var(--g3); color: var(--blanc); }
+
 /* ── Responsive extras ── */
 @media (max-width: 768px) {
   .pod-layout { grid-template-columns: 1fr; }
