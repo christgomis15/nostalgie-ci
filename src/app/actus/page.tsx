@@ -171,6 +171,15 @@ En Côte d'Ivoire, ce renouveau est accueilli avec enthousiasme, le pays ayant t
 
 const EVENTS: Article[] = [
   {
+    cat: 'Exclusivité',
+    img: 'https://img.youtube.com/vi/S36YkP4ynLo/maxresdefault.jpg',
+    title: '« Doni Doni » : Asalfo dévoile les coulisses de sa collaboration avec Didi B.',
+    excerpt: 'Invité de l\'Afterwork, le leader de Magic System revient sur les raisons artistiques qui l\'ont conduit à collaborer avec le rappeur ivoirien Didi B.',
+    date: 'Février 2026',
+    body: `Invité de l'Afterwork à l'occasion de la sortie du nouvel album de Magic System, « Doni Doni », Asalfo, leader du groupe, est revenu sur les raisons qui l'ont conduit à collaborer avec le rappeur ivoirien Didi B. Au cours de l'émission, il a partagé les motivations derrière ce choix artistique et les ambitions de cette collaboration.`,
+    video: 'https://www.youtube.com/watch?v=S36YkP4ynLo',
+  },
+  {
     cat: 'Événement',
     img: '/img/ac-01.jpg',
     title: 'Nostalgie Night — Soirée anniversaire 32 ans au Sofitel',
