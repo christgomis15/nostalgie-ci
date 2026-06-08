@@ -9,6 +9,14 @@ interface Article {
   excerpt: string
   date: string
   body: string
+  video?: string    // URL YouTube (https://youtu.be/... ou https://www.youtube.com/watch?v=...)
+  images?: string[] // photos supplémentaires pour la galerie
+}
+
+function toYouTubeEmbed(url: string): string {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
+  if (match) return `https://www.youtube.com/embed/${match[1]}?rel=0`
+  return url
 }
 
 const LOCALE: Article[] = [
@@ -343,10 +351,23 @@ export default function Actus() {
         <div className="actu-overlay" onClick={() => setSelected(null)}>
           <div className="actu-modal" onClick={(e) => e.stopPropagation()}>
             <button className="actu-close" onClick={() => setSelected(null)} aria-label="Fermer">✕</button>
-            <div className="actu-modal-img">
-              <img src={selected.img} alt={selected.title} />
-              <span className="ac-cat-badge">{selected.cat}</span>
-            </div>
+            {/* Vidéo YouTube */}
+            {selected.video ? (
+              <div className="actu-modal-video">
+                <iframe
+                  src={toYouTubeEmbed(selected.video)}
+                  title={selected.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            ) : (
+              <div className="actu-modal-img">
+                <img src={selected.img} alt={selected.title} />
+                <span className="ac-cat-badge">{selected.cat}</span>
+              </div>
+            )}
+
             <div className="actu-modal-body">
               <p className="actu-modal-date">{selected.date}</p>
               <h2 className="actu-modal-title">{selected.title}</h2>
@@ -355,6 +376,16 @@ export default function Actus() {
                   <p key={i}>{para}</p>
                 ))}
               </div>
+
+              {/* Galerie photos supplémentaires */}
+              {selected.images && selected.images.length > 0 && (
+                <div className="actu-modal-gallery">
+                  {selected.images.map((src, i) => (
+                    <img key={i} src={src} alt={`${selected.title} — photo ${i + 1}`} />
+                  ))}
+                </div>
+              )}
+
               <ShareButtons title={selected.title} />
             </div>
           </div>
