@@ -179,79 +179,8 @@ const EVENTS: Article[] = [
     body: `Invité de l'Afterwork à l'occasion de la sortie du nouvel album de Magic System, « Doni Doni », Asalfo, leader du groupe, est revenu sur les raisons qui l'ont conduit à collaborer avec le rappeur ivoirien Didi B. Au cours de l'émission, il a partagé les motivations derrière ce choix artistique et les ambitions de cette collaboration.`,
     video: 'https://www.youtube.com/watch?v=S36YkP4ynLo',
   },
-  {
-    cat: 'Événement',
-    img: '/img/ac-01.jpg',
-    title: 'Nostalgie Night — Soirée anniversaire 32 ans au Sofitel',
-    excerpt: 'Une soirée inoubliable réunissant auditeurs, partenaires et artistes pour célébrer 32 ans de Nostalgie CI.',
-    date: '10 mai 2026',
-    body: `La Nostalgie Night, grande soirée anniversaire organisée pour célébrer les 32 ans de la radio, s'est tenue au Sofitel Abidjan Hôtel Ivoire dans une atmosphère de fête et d'émotion. Des centaines d'invités — auditeurs fidèles, partenaires commerciaux et artistes — se sont réunis pour partager ce moment exceptionnel.
-
-La soirée a été ponctuée de performances live, de remises de distinctions aux partenaires historiques de la radio et de moments de convivialité autour d'un dîner de gala. L'équipe animatrice de Nostalgie CI était au complet pour animer cette nuit mémorable.
-
-Un diaporama retraçant 32 ans d'histoire de la radio a ému l'assistance, rappelant les grandes heures de la station, ses émissions cultes et les artistes qui ont fait sa renommée. La fête s'est prolongée jusqu'au petit matin, avec des sets DJ exclusifs reprenant les plus grands tubes diffusés sur Nostalgie au fil des années.`,
-  },
-  {
-    cat: 'Partenariat',
-    img: '/img/ac-02.jpg',
-    title: 'Partenariat Nostalgie CI × MTN Côte d\'Ivoire',
-    excerpt: 'Nostalgie CI et MTN CI officialisent un partenariat stratégique pour toucher encore plus d\'auditeurs.',
-    date: '3 mai 2026',
-    body: `Nostalgie CI et MTN Côte d'Ivoire ont officialisé un partenariat stratégique lors d'une cérémonie de signature tenue au siège de la radio à Abidjan. Cet accord marque une étape importante dans le développement de la présence digitale de Nostalgie CI.
-
-Ce partenariat permettra aux abonnés MTN de bénéficier d'un accès privilégié aux contenus digitaux de Nostalgie CI, incluant les podcasts, les replays d'émissions et les événements exclusifs. Une offre de streaming radio sans consommation de data est également prévue dans le cadre de cet accord.
-
-"Ce partenariat illustre notre volonté commune de rapprocher les Ivoiriens de leur radio préférée, où qu'ils se trouvent", a déclaré le Directeur Général de Nostalgie CI lors de la cérémonie. Les deux entités prévoient des activations communes tout au long de l'année.`,
-  },
-  {
-    cat: 'Partenariat',
-    img: '/img/ac-03.jpg',
-    title: 'Nostalgie CI partenaire officiel du FEMUA 2026',
-    excerpt: 'La radio accompagne le Festival des Musiques Urbaines d\'Anoumabo pour sa 17e édition.',
-    date: '20 avril 2026',
-    body: `Nostalgie CI a été désignée partenaire radio officiel du FEMUA (Festival des Musiques Urbaines d'Anoumabo) pour sa 17e édition. Ce partenariat confirme l'engagement de la radio aux côtés des grands événements culturels ivoiriens.
-
-Dans ce cadre, Nostalgie CI assurera une couverture exclusive du festival avec des reportages quotidiens, des interviews des artistes en coulisses et une retransmission en direct des temps forts sur ses ondes. Une émission spéciale FEMUA sera diffusée chaque soir pendant la durée du festival.
-
-Ce partenariat renforce les liens entre Nostalgie CI et l'écosystème musical ivoirien, positionnant la radio comme un acteur incontournable de la promotion de la culture urbaine africaine. Les auditeurs pourront suivre toute l'actualité du FEMUA en temps réel.`,
-  },
-  {
-    cat: 'Événement',
-    img: '/img/ac-04.jpg',
-    title: 'Tournée Nostalgie dans les villes de l\'intérieur',
-    excerpt: 'L\'équipe Nostalgie CI à la rencontre des auditeurs de Bouaké, Yamoussoukro et San-Pédro.',
-    date: '8 avril 2026',
-    body: `Nostalgie CI a lancé sa grande tournée nationale pour aller à la rencontre des auditeurs dans les principales villes de l'intérieur du pays. Cette tournée, baptisée "Nostalgie en route", a débuté par Bouaké avant de faire étape à Yamoussoukro puis San-Pédro.
-
-Dans chaque ville, l'équipe animatrice a organisé des après-midis festives avec des jeux, des distributions de goodies et des concerts surprise. Ces événements ont rassemblé des milliers d'auditeurs ravis de rencontrer leurs animateurs préférés en chair et en os.
-
-"C'est important pour nous d'aller vers nos auditeurs, de les rencontrer là où ils vivent. Nostalgie CI est leur radio et nous voulons qu'ils le ressentent", a expliqué le Directeur des Programmes. La tournée se poursuivra dans les mois à venir avec de nouvelles étapes dans d'autres villes du pays.`,
-  },
-  {
-    cat: 'Partenariat',
-    img: '/img/ac-05.jpg',
-    title: 'Nostalgie CI × CANAL+ : accord de diffusion croisée',
-    excerpt: 'Un accord inédit entre la radio et le bouquet TV pour des contenus exclusifs partagés.',
-    date: '15 mars 2026',
-    body: `Nostalgie CI et CANAL+ Côte d'Ivoire ont conclu un accord de diffusion croisée qui permettra à chaque entité de valoriser les contenus de l'autre sur ses propres plateformes. Cet accord inédit dans le paysage médiatique ivoirien ouvre de nouvelles perspectives pour les deux médias.
-
-Concrètement, des émissions phares de Nostalgie CI seront diffusées sur certaines chaînes du bouquet CANAL+, tandis que des extraits d'émissions CANAL+ seront commentés et partagés sur les ondes de Nostalgie. Des co-productions originales sont également prévues sur des thématiques musicales et culturelles.
-
-Cet accord témoigne de la complémentarité entre la radio et la télévision dans un paysage médiatique en pleine transformation. Les deux parties voient dans ce partenariat une opportunité de toucher un public plus large et de créer des synergies éditoriales inédites.`,
-  },
-  {
-    cat: 'Événement',
-    img: '/img/ac-06.jpg',
-    title: 'Lancement de la webradio Nostalgie Zouglou',
-    excerpt: 'Nostalgie CI enrichit son offre digitale avec une webradio 100% dédiée au zouglou ivoirien.',
-    date: '1 mars 2026',
-    body: `Nostalgie CI a officiellement lancé sa nouvelle webradio "Nostalgie Zouglou", une chaîne 100% dédiée au genre musical emblématique de la Côte d'Ivoire. Ce lancement s'inscrit dans la stratégie de diversification digitale de la radio.
-
-La webradio Nostalgie Zouglou diffuse 24h/24 les meilleurs titres de ce genre musical, des classiques fondateurs aux nouvelles productions, en passant par des émissions thématiques dédiées à l'histoire et à l'évolution du zouglou. Une programmation spéciale avec des interviews d'artistes pionniers est également au programme.
-
-"Le zouglou est l'âme musicale de la Côte d'Ivoire et il méritait sa propre radio. Avec Nostalgie Zouglou, nous rendons hommage à ce genre tout en le faisant connaître aux nouvelles générations", a déclaré le Directeur des Programmes lors du lancement.`,
-  },
 ]
+
 
 const SHARE_URL = 'https://nostalgie-ci.vercel.app/actus'
 
