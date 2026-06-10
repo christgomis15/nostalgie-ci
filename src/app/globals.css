@@ -719,6 +719,165 @@ textarea { resize: vertical; min-height: 100px; }
 }
 
 /* ════════════════════════════════════════
+   PAGE INTRO — COUPE DU MONDE 2026
+════════════════════════════════════════ */
+@keyframes introBgReveal {
+  from { opacity: 0; transform: scale(1.08); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes introSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes introGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(212,168,67,0.4), 0 0 60px rgba(212,168,67,0.15); }
+  50%       { box-shadow: 0 0 32px rgba(212,168,67,0.7), 0 0 80px rgba(212,168,67,0.3); }
+}
+@keyframes progressRun {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.intro-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.intro-wrap.intro-leaving {
+  animation: none;
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  opacity: 0;
+  transform: scale(1.04);
+}
+
+.intro-bg-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  animation: introBgReveal 1.6s ease forwards;
+}
+
+.intro-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0.72) 0%,
+    rgba(0,0,0,0.35) 50%,
+    rgba(0,0,0,0.55) 100%
+  );
+}
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px;
+  max-width: 720px;
+}
+
+.intro-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--or);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: introSlideUp 0.7s ease 0.6s forwards;
+}
+
+.intro-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 9vw, 96px);
+  font-weight: 700;
+  line-height: 1.0;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: introSlideUp 0.8s ease 0.9s forwards;
+  background: linear-gradient(90deg, #fff 0%, #f5f0e8 40%, var(--or) 60%, #fff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: introSlideUp 0.8s ease 0.9s forwards, shimmer 3s linear 2s infinite;
+}
+
+.intro-badge {
+  display: inline-block;
+  background: #1a7a1a;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: introSlideUp 0.7s ease 1.3s forwards;
+}
+
+.intro-dates {
+  font-size: clamp(16px, 3vw, 22px);
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 3px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: introSlideUp 0.7s ease 1.6s forwards;
+}
+
+.intro-enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--or);
+  color: #000;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  animation: introSlideUp 0.7s ease 2s forwards, introGlow 2.5s ease 2.5s infinite;
+  transition: transform 0.2s;
+}
+.intro-enter:hover { transform: scale(1.04); }
+
+.intro-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  z-index: 3;
+}
+.intro-progress-fill {
+  height: 100%;
+  background: var(--or);
+  width: 0%;
+  animation: progressRun 14s linear forwards;
+}
+
+/* ════════════════════════════════════════
    FRÉQUENCES (footer list)
 ════════════════════════════════════════ */
 .freq-footer {
