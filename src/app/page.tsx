@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { usePlayerStore } from '@/lib/player-store'
 
 const FREQUENCES = [
@@ -16,59 +15,9 @@ const FREQUENCES = [
 
 export default function Accueil() {
   const { isPlaying, toggle } = usePlayerStore()
-  const [showIntro, setShowIntro] = useState(true)
-  const [leaving, setLeaving]   = useState(false)
-
-  const enterSite = () => {
-    setLeaving(true)
-    setTimeout(() => setShowIntro(false), 900)
-  }
-
-  useEffect(() => {
-    const t = setTimeout(enterSite, 14000)
-    return () => clearTimeout(t)
-  }, [])
 
   return (
     <>
-      {/* ══════════════════════════════════════
-          PAGE INTRO — Coupe du Monde 2026
-      ══════════════════════════════════════ */}
-      {showIntro && (
-        <div className={`intro-wrap ${leaving ? 'intro-leaving' : ''}`}>
-          {/* Image de fond */}
-          <div
-            className="intro-bg-img"
-            style={{ backgroundImage: "url('/img/wc2026.jpg')" }}
-          />
-          <div className="intro-veil" />
-
-          {/* Contenu animé */}
-          <div className="intro-content">
-            <p className="intro-eyebrow">NOSTALGIE CI · DIFFUSEUR OFFICIEL</p>
-            <h1 className="intro-title">
-              À&nbsp;LA&nbsp;CONQUÊTE<br />DU&nbsp;MONDE
-            </h1>
-            <div className="intro-badge">COUPE DU MONDE DE LA FIFA 2026™</div>
-            <p className="intro-dates">DU 11 JUIN &gt; 19 JUILLET</p>
-
-            <button className="intro-enter" onClick={enterSite}>
-              <span>ENTRER SUR LE SITE</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" strokeWidth="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </button>
-          </div>
-
-          {/* Barre de progression */}
-          <div className="intro-progress-bar">
-            <div className="intro-progress-fill" />
-          </div>
-        </div>
-      )}
-
-      {/* ── Hero ── */}
       <section className="hero">
         <div className="hero-bg" style={{ backgroundImage: "url('/img/hero-bg.jpg')" }} />
         <div className="hero-grad" />
@@ -86,7 +35,6 @@ export default function Accueil() {
         </div>
       </section>
 
-      {/* ── Fréquences ── */}
       <div className="freq-footer">
         <div className="freq-footer-inner">
           <p className="freq-footer-title">Fréquences en Côte d&apos;Ivoire</p>

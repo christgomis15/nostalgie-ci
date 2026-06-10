@@ -719,6 +719,19 @@ textarea { resize: vertical; min-height: 100px; }
 }
 
 /* ════════════════════════════════════════
+   MODE INTRO — masquer le shell du site
+════════════════════════════════════════ */
+html.intro-mode body {
+  padding: 0 !important;
+  overflow: hidden;
+}
+html.intro-mode .site-header,
+html.intro-mode .player-bar,
+html.intro-mode .wr-ticker {
+  display: none !important;
+}
+
+/* ════════════════════════════════════════
    PAGE INTRO — COUPE DU MONDE 2026
 ════════════════════════════════════════ */
 @keyframes introBgReveal {
@@ -726,12 +739,12 @@ textarea { resize: vertical; min-height: 100px; }
   to   { opacity: 1; transform: scale(1); }
 }
 @keyframes introSlideUp {
-  from { opacity: 0; transform: translateY(40px); }
+  from { opacity: 0; transform: translateY(36px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes introGlow {
   0%, 100% { box-shadow: 0 0 20px rgba(212,168,67,0.4), 0 0 60px rgba(212,168,67,0.15); }
-  50%       { box-shadow: 0 0 32px rgba(212,168,67,0.7), 0 0 80px rgba(212,168,67,0.3); }
+  50%       { box-shadow: 0 0 36px rgba(212,168,67,0.75), 0 0 90px rgba(212,168,67,0.3); }
 }
 @keyframes progressRun {
   from { width: 0%; }
@@ -741,40 +754,41 @@ textarea { resize: vertical; min-height: 100px; }
   0%   { background-position: -200% center; }
   100% { background-position: 200% center; }
 }
+@keyframes introFadeOut {
+  to { opacity: 0; transform: scale(1.04); }
+}
 
 .intro-wrap {
   position: fixed;
   inset: 0;
-  z-index: 999;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background: #000;
 }
 .intro-wrap.intro-leaving {
-  animation: none;
-  transition: opacity 0.9s ease, transform 0.9s ease;
-  opacity: 0;
-  transform: scale(1.04);
+  animation: introFadeOut 0.9s ease forwards;
 }
 
 .intro-bg-img {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center;
-  animation: introBgReveal 1.6s ease forwards;
+  background-position: center top;
+  animation: introBgReveal 1.8s ease forwards;
 }
 
 .intro-veil {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to right,
-    rgba(0,0,0,0.72) 0%,
-    rgba(0,0,0,0.35) 50%,
-    rgba(0,0,0,0.55) 100%
+    135deg,
+    rgba(0,0,0,0.78) 0%,
+    rgba(0,0,0,0.42) 45%,
+    rgba(0,0,0,0.60) 100%
   );
 }
 
@@ -783,60 +797,74 @@ textarea { resize: vertical; min-height: 100px; }
   z-index: 2;
   text-align: center;
   padding: 0 24px;
-  max-width: 720px;
+  max-width: 760px;
+  width: 100%;
 }
 
 .intro-eyebrow {
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 4px;
+  letter-spacing: 5px;
   text-transform: uppercase;
   color: var(--or);
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   opacity: 0;
-  animation: introSlideUp 0.7s ease 0.6s forwards;
+  animation: introSlideUp 0.7s ease 0.5s forwards;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.intro-eyebrow::before,
+.intro-eyebrow::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--or);
+  display: block;
 }
 
 .intro-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(42px, 9vw, 96px);
-  font-weight: 700;
+  font-size: clamp(40px, 9vw, 100px);
+  font-weight: 900;
   line-height: 1.0;
-  color: #fff;
   text-transform: uppercase;
   letter-spacing: -1px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   opacity: 0;
-  animation: introSlideUp 0.8s ease 0.9s forwards;
-  background: linear-gradient(90deg, #fff 0%, #f5f0e8 40%, var(--or) 60%, #fff 100%);
-  background-size: 200% auto;
+  background: linear-gradient(90deg, #fff 0%, #f5f0e8 35%, var(--or) 55%, #fff 100%);
+  background-size: 220% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: introSlideUp 0.8s ease 0.9s forwards, shimmer 3s linear 2s infinite;
+  animation: introSlideUp 0.8s ease 0.85s forwards, shimmer 3.5s linear 2.2s infinite;
 }
 
 .intro-badge {
-  display: inline-block;
-  background: #1a7a1a;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(26, 122, 26, 0.90);
   color: #fff;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
-  padding: 8px 20px;
-  border-radius: 4px;
-  margin-bottom: 16px;
+  padding: 7px 18px;
+  border-radius: 3px;
+  margin-bottom: 14px;
   opacity: 0;
   animation: introSlideUp 0.7s ease 1.3s forwards;
+  border: 1px solid rgba(255,255,255,0.18);
 }
 
 .intro-dates {
-  font-size: clamp(16px, 3vw, 22px);
+  font-size: clamp(15px, 2.8vw, 21px);
   font-weight: 700;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255,255,255,0.82);
   letter-spacing: 3px;
-  margin-bottom: 48px;
+  margin-bottom: 52px;
   opacity: 0;
   animation: introSlideUp 0.7s ease 1.6s forwards;
 }
@@ -847,19 +875,49 @@ textarea { resize: vertical; min-height: 100px; }
   gap: 12px;
   background: var(--or);
   color: #000;
-  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  padding: 16px 36px;
+  padding: 16px 40px;
   border-radius: 4px;
   border: none;
   cursor: pointer;
   opacity: 0;
-  animation: introSlideUp 0.7s ease 2s forwards, introGlow 2.5s ease 2.5s infinite;
-  transition: transform 0.2s;
+  animation: introSlideUp 0.7s ease 2s forwards, introGlow 2.8s ease 2.5s infinite;
+  transition: transform 0.2s, background 0.2s;
 }
-.intro-enter:hover { transform: scale(1.04); }
+.intro-enter:hover { transform: scale(1.05); background: var(--or-s); }
+
+.intro-nostalgie-stamp {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  opacity: 0;
+  animation: introSlideUp 0.7s ease 2.4s forwards;
+}
+.intro-stamp-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--or);
+  text-transform: uppercase;
+}
+.intro-stamp-sub {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+}
 
 .intro-progress-bar {
   position: absolute;
@@ -867,12 +925,12 @@ textarea { resize: vertical; min-height: 100px; }
   left: 0;
   right: 0;
   height: 3px;
-  background: rgba(255,255,255,0.1);
-  z-index: 3;
+  background: rgba(255,255,255,0.08);
+  z-index: 4;
 }
 .intro-progress-fill {
   height: 100%;
-  background: var(--or);
+  background: linear-gradient(to right, var(--or-s), var(--or));
   width: 0%;
   animation: progressRun 14s linear forwards;
 }
