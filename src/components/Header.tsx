@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { usePlayerStore } from '@/lib/player-store'
+import liveConfig from '@/data/live-config'
 
 const NAV_LINKS = [
   { href: '/',          label: 'Accueil'   },
@@ -11,6 +12,7 @@ const NAV_LINKS = [
   { href: '/podcasts',  label: 'Podcasts'  },
   { href: '/dedicaces', label: 'Dédicaces' },
   { href: '/contact',   label: 'Contact'   },
+  { href: '/live',      label: 'Live'      },
 ]
 
 export default function Header() {
@@ -32,8 +34,11 @@ export default function Header() {
             <Link
               key={href}
               href={href}
-              className={`nav-link ${pathname === href ? 'active' : ''}`}
+              className={`nav-link ${pathname === href ? 'active' : ''} ${href === '/live' ? 'nav-live' : ''}`}
             >
+              {href === '/live' && liveConfig.isLive && (
+                <span className="nav-live-dot" />
+              )}
               {label}
             </Link>
           ))}
