@@ -15,16 +15,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Champs obligatoires manquants' }, { status: 400 })
     }
 
-    // Google Apps Script nécessite text/plain pour éviter les problèmes CORS/redirect
+    // Google Apps Script renvoie un redirect 302 — on ne le suit pas,
+    // le doPost est exécuté avant que la réponse soit envoyée
     const res = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(body),
-      redirect: 'follow',
+      redirect: 'manual',
     })
 
-    if (!res.ok) {
-      throw new Error(`Apps Script responded ${res.status}`)
+    // 200 = succès direct, 302 = redirect Apps Script (données bien reçues)
+    if (res.status !== 200 && res.status !== 302 && res.status !== 301) {
+      console.error('[dedicaces] Statut inattendu:', res.status)
+      throw new Error(`Statut ${res.status}`)
     }
 
     return NextResponse.json({ success: true })
