@@ -677,6 +677,15 @@ textarea { resize: vertical; min-height: 100px; }
 .ded-confirm h2 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--or); margin-bottom: 8px; }
 .ded-confirm p { color: rgba(245,240,232,0.6); font-size: 16px; }
 
+.ded-error {
+  color: #E74C3C;
+  font-size: 13px;
+  padding: 10px 14px;
+  background: rgba(231,76,60,0.08);
+  border-left: 3px solid #E74C3C;
+  margin-bottom: 8px;
+}
+
 /* ════════════════════════════════════════
    CONTACT
 ════════════════════════════════════════ */
