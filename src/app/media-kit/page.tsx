@@ -248,50 +248,6 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* ══════════════ TARIFS ══════════════ */}
-        <section className="mk2-section">
-          <div className="mk2-section-label">TARIFS</div>
-          <h2 className="mk2-section-title">Grille tarifaire — à compléter</h2>
-          <p className="mk2-section-desc">Le service commercial renseigne les tarifs ci-dessous. Imprimez la page (Ctrl+P) pour conserver vos notes.</p>
-
-          <div className="mk2-tarifs">
-            {ESPACES.map(e => (
-              <div key={e.num} className="mk2-tarif-row">
-                <div className="mk2-tarif-num" style={{ background: e.color }}>{e.num}</div>
-                <div className="mk2-tarif-nom">{e.titre}</div>
-                <div className="mk2-tarif-presence">{e.presence}</div>
-                <div className="mk2-tarif-inputs">
-                  <div className="mk2-tarif-field">
-                    <label>1 semaine</label>
-                    <div className="mk2-tarif-input-wrap">
-                      <input type="text" placeholder="—" className="mk2-input" />
-                      <span>FCFA</span>
-                    </div>
-                  </div>
-                  <div className="mk2-tarif-field">
-                    <label>1 mois</label>
-                    <div className="mk2-tarif-input-wrap">
-                      <input type="text" placeholder="—" className="mk2-input" />
-                      <span>FCFA</span>
-                    </div>
-                  </div>
-                  <div className="mk2-tarif-field">
-                    <label>3 mois</label>
-                    <div className="mk2-tarif-input-wrap">
-                      <input type="text" placeholder="—" className="mk2-input" />
-                      <span>FCFA</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mk2-print-note">
-            💡 Ces champs sont modifiables dans votre navigateur. Utilisez <strong>Ctrl+P</strong> pour imprimer ou enregistrer en PDF.
-          </div>
-        </section>
-
         {/* ══════════════ CTA RÉSERVATION ══════════════ */}
         <section className="mk2-section mk2-cta-section">
           <div className="mk2-cta-box">
