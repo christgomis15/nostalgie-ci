@@ -277,7 +277,7 @@ export default function MediaKit() {
             </div>
             <div className="mk2-contact-info">
               <p>Pour toute demande commerciale :</p>
-              <p className="mk2-contact-email">nostalgiecotedivoire@gmail.com</p>
+              <p className="mk2-contact-email">assistant.commercial@nostalgie.ci</p>
               <p className="mk2-contact-url">nostalgie-ci.vercel.app</p>
             </div>
           </div>
