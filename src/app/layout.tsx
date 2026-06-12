@@ -3,6 +3,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import WebradioTicker from '@/components/WebradioTicker'
 import PlayerBar from '@/components/PlayerBar'
+import { Analytics } from '@vercel/analytics/next'
 
 export const metadata: Metadata = {
   title: 'Nostalgie CI — 101.1 FM · Sérieusement Décalée',
@@ -41,6 +42,7 @@ export default function RootLayout({
 
         {/* Player bar — fixe en bas, persiste sur toutes les pages */}
         <PlayerBar />
+        <Analytics />
       </body>
     </html>
   )
