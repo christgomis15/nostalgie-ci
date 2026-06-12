@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 
 export default function Contact() {
-  const [tab, setTab] = useState<'commercial' | 'partenariat'>('commercial')
+  const [tab, setTab] = useState<'commercial' | 'partenariat' | 'publicite'>('commercial')
 
   return (
     <section className="page-section">
@@ -15,6 +16,9 @@ export default function Contact() {
         </button>
         <button className={`ctab ${tab === 'partenariat' ? 'active' : ''}`} onClick={() => setTab('partenariat')}>
           Demande de Partenariat
+        </button>
+        <button className={`ctab ${tab === 'publicite' ? 'active' : ''}`} onClick={() => setTab('publicite')}>
+          Publicité sur le site
         </button>
       </div>
 
@@ -32,6 +36,34 @@ export default function Contact() {
             </p>
           </div>
           <CommercialForm />
+        </div>
+      )}
+
+      {tab === 'publicite' && (
+        <div className="ct-pub-panel">
+          <div className="ct-pub-left">
+            <h3>Espaces publicitaires web</h3>
+            <p>Faites connaître votre marque auprès de nos auditeurs directement sur le site de Nostalgie CI.</p>
+            <div className="ci-line"><span className="ci-ic">📍</span><span>9 emplacements disponibles</span></div>
+            <div className="ci-line"><span className="ci-ic">📅</span><span>Durées : 1 semaine, 1 mois, 3 mois, 6 mois</span></div>
+            <div className="ci-line"><span className="ci-ic">✉️</span><span>assistant.comercial@nostalgie.ci</span></div>
+            <div className="ci-line"><span className="ci-ic">🕐</span><span>Réponse sous 24h ouvrées</span></div>
+            <p style={{ marginTop: '12px', fontSize: '12px', color: 'rgba(245,240,232,0.4)' }}>
+              Paiement hors ligne après confirmation. Aucun engagement sans devis signé.
+            </p>
+          </div>
+          <div className="ct-pub-right">
+            <h3>Réservez votre espace</h3>
+            <p>Choisissez vos emplacements, sélectionnez votre durée et obtenez le coût total instantanément.</p>
+            <Link href="/reserver" className="btn btn-or" style={{ display: 'inline-block', marginTop: '16px' }}>
+              Accéder au formulaire de réservation →
+            </Link>
+            <p style={{ marginTop: '24px', fontSize: '12px', color: 'rgba(245,240,232,0.4)' }}>
+              Vous pouvez aussi consulter le{' '}
+              <Link href="/media-kit" style={{ color: 'var(--or)' }}>Kit Média</Link>{' '}
+              pour visualiser tous les emplacements disponibles.
+            </p>
+          </div>
         </div>
       )}
 

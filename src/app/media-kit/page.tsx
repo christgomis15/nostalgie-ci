@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export const metadata = {
   title: 'Kit Média — Nostalgie CI 101.1 FM',
   description: 'Espaces publicitaires disponibles sur nostalgie-ci.vercel.app',
@@ -287,6 +289,26 @@ export default function MediaKit() {
 
           <div className="mk2-print-note">
             💡 Ces champs sont modifiables dans votre navigateur. Utilisez <strong>Ctrl+P</strong> pour imprimer ou enregistrer en PDF.
+          </div>
+        </section>
+
+        {/* ══════════════ CTA RÉSERVATION ══════════════ */}
+        <section className="mk2-section mk2-cta-section">
+          <div className="mk2-cta-box">
+            <div className="mk2-cta-left">
+              <div className="mk2-section-label">PRÊT À DÉMARRER ?</div>
+              <h2 className="mk2-cta-title">Réservez votre espace en ligne</h2>
+              <p className="mk2-cta-desc">
+                Choisissez vos emplacements, sélectionnez votre durée et obtenez le coût total instantanément.
+                Notre équipe vous confirme la disponibilité sous 24h.
+              </p>
+            </div>
+            <div className="mk2-cta-right">
+              <Link href="/reserver" className="mk2-cta-btn">
+                Réserver maintenant →
+              </Link>
+              <p className="mk2-cta-note">Paiement hors ligne · Aucun engagement sans devis signé</p>
+            </div>
           </div>
         </section>
 
