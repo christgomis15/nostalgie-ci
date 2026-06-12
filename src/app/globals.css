@@ -1343,6 +1343,162 @@ html.intro-mode .wr-ticker {
   animation: cb-blink 1.2s ease-in-out infinite;
 }
 
+/* ════════════════════════════════════════
+   KIT MÉDIA
+════════════════════════════════════════ */
+.mk-page { background: var(--noir); min-height: 100vh; }
+
+.mk-header {
+  background: linear-gradient(135deg, #0D0D0D 0%, #1a1400 100%);
+  border-bottom: 3px solid var(--or);
+  padding: 40px 0;
+}
+.mk-header-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;
+}
+.mk-eyebrow {
+  font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--or); margin-bottom: 8px;
+}
+.mk-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 48px); font-weight: 900; color: var(--blanc); margin-bottom: 6px;
+}
+.mk-subtitle { font-size: 15px; color: rgba(245,240,232,0.55); }
+
+.mk-stats { display: flex; gap: 32px; }
+.mk-stat { text-align: center; }
+.mk-stat-n {
+  display: block; font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 700; color: var(--or);
+}
+.mk-stat-l { font-size: 11px; color: rgba(245,240,232,0.45); letter-spacing: 1px; }
+
+.mk-body { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+.mk-section { margin-bottom: 60px; }
+.mk-section-title {
+  font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700;
+  color: var(--blanc); margin-bottom: 8px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--g3);
+}
+.mk-section-sub { font-size: 13px; color: rgba(245,240,232,0.45); margin-bottom: 24px; }
+
+/* Maquette */
+.mk-mockup {
+  background: #111; border: 1px solid var(--g3);
+  border-radius: 8px; padding: 12px; margin-bottom: 24px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.mk-mock-ticker {
+  height: 32px; border-radius: 3px; display: flex; align-items: center; justify-content: center;
+}
+.mk-mock-header {
+  background: var(--g1); height: 50px; border-radius: 3px;
+  display: flex; align-items: center; padding: 0 16px; gap: 24px;
+  font-size: 12px; font-weight: 700; color: var(--blanc);
+}
+.mk-mock-pill {
+  margin-left: auto; background: var(--or); color: #000;
+  font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 20px;
+}
+.mk-mock-ad {
+  border-radius: 3px; display: flex; align-items: center; justify-content: center;
+  padding: 8px; text-align: center;
+}
+.mk-mock-hero {
+  background: #1a1a1a; padding: 20px; border-radius: 3px; min-height: 130px;
+}
+.mk-mock-player {
+  background: var(--g1); height: 56px; border-radius: 3px;
+  display: flex; align-items: center; padding: 0 16px; gap: 16px;
+}
+
+/* Légende */
+.mk-legend {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.mk-legend-item {
+  display: flex; align-items: center; gap: 7px;
+  background: var(--g1); padding: 6px 12px; border-radius: 3px;
+  font-size: 12px;
+}
+.mk-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.mk-legend-id { font-weight: 800; color: var(--or); }
+.mk-legend-name { color: rgba(245,240,232,0.7); }
+
+/* Tableau */
+.mk-table-wrap { overflow-x: auto; }
+.mk-table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+.mk-table th {
+  background: var(--g2); color: rgba(245,240,232,0.5);
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--g3);
+}
+.mk-table td {
+  padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: rgba(245,240,232,0.8); vertical-align: top;
+}
+.mk-table tr:hover td { background: rgba(255,255,255,0.02); }
+.mk-ref {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 50%;
+  font-size: 11px; font-weight: 800; color: #fff;
+}
+.mk-td-mono { font-family: monospace; font-size: 12px; color: var(--or); }
+
+/* Grille tarifaire */
+.mk-input {
+  background: var(--g2); border: 1px solid var(--g3); color: var(--blanc);
+  padding: 6px 8px; font-size: 13px; font-family: 'DM Sans', sans-serif;
+  width: 110px; border-radius: 3px; outline: none;
+}
+.mk-input:focus { border-color: var(--or); }
+.mk-input-wide { width: 160px; }
+.mk-select {
+  background: var(--g2); border: 1px solid var(--g3); color: var(--blanc);
+  padding: 6px 8px; font-size: 12px; font-family: 'DM Sans', sans-serif;
+  border-radius: 3px; outline: none; cursor: pointer;
+}
+.mk-price-cell { display: flex; align-items: center; gap: 6px; }
+.mk-currency { font-size: 10px; color: rgba(245,240,232,0.35); white-space: nowrap; }
+.mk-disclaimer {
+  margin-top: 16px; padding: 14px 18px;
+  background: rgba(212,168,67,0.08); border-left: 3px solid var(--or);
+  font-size: 12px; color: rgba(245,240,232,0.55); line-height: 1.6;
+}
+
+/* Packages */
+.mk-packages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.mk-pack {
+  background: var(--g1); border: 1px solid var(--g3); padding: 24px;
+  border-radius: 6px;
+}
+.mk-pack-featured { border-color: var(--or); background: rgba(212,168,67,0.06); }
+.mk-pack-badge {
+  display: inline-block; background: var(--g3); color: var(--blanc);
+  font-size: 9px; font-weight: 800; letter-spacing: 2px;
+  padding: 4px 10px; border-radius: 3px; margin-bottom: 12px;
+}
+.mk-pack h3 {
+  font-family: 'Playfair Display', serif; font-size: 20px;
+  font-weight: 700; margin-bottom: 16px; color: var(--blanc);
+}
+.mk-pack ul { list-style: none; margin-bottom: 20px; }
+.mk-pack ul li { font-size: 13px; color: rgba(245,240,232,0.65); padding: 4px 0; }
+.mk-pack-price {
+  font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700;
+  color: var(--or);
+}
+
+/* Contact */
+.mk-contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 24px; }
+.mk-contact-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--or); margin-bottom: 6px; }
+.mk-contact-value { font-size: 14px; color: var(--blanc); line-height: 1.6; }
+
 /* ── Responsive extras ── */
 @media (max-width: 768px) {
   .pod-layout { grid-template-columns: 1fr; }
