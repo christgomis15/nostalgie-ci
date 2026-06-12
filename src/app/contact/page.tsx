@@ -73,7 +73,7 @@ export default function Contact() {
             <h3>Service Marketing</h3>
             <p>Nous accompagnons vos événements avec une couverture médiatique complète.</p>
             <div className="ci-line"><span className="ci-ic">📞</span><span>+225 20 21 85 50</span></div>
-            <div className="ci-line"><span className="ci-ic">✉️</span><span>abdair.ndoye@nostalgie.ci</span></div>
+            <div className="ci-line"><span className="ci-ic">✉️</span><span>marketing@nostalgie.ci</span></div>
             <div className="ci-line"><span className="ci-ic">📍</span><span>Abidjan Plateau · Avenue Chardy</span></div>
             <div className="ci-line"><span className="ci-ic">🕐</span><span>Lun–Ven · 08h–17h</span></div>
             <p className="ct-services-title">Nos services</p>
