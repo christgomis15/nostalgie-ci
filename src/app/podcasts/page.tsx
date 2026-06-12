@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import ChatBot from '@/components/ChatBot'
 
 interface Podcast {
   show: string
@@ -36,36 +35,32 @@ export default function Podcasts() {
       <section className="page-section">
         <p className="section-label">À la demande</p>
         <h1 className="section-title">Podcasts</h1>
-        <div className="pod-layout">
-          <div className="pod-list">
-            {PODCASTS.map((p) => (
-              <div key={p.title} className="pod-item">
-                <div className="pod-thumb">
-                  <img src={p.img} alt={p.show} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }} />
-                </div>
-                <div className="pod-info">
-                  <p className="pod-show">{p.show}</p>
-                  <p className="pod-title">{p.title}</p>
-                  {(p.duration || p.age) && (
-                    <p className="pod-meta">{[p.duration, p.age].filter(Boolean).join(' · ')}</p>
-                  )}
-                </div>
-                <button
-                  className="pod-btn"
-                  aria-label="Écouter"
-                  onClick={() => p.spotify && setSelected(p)}
-                  style={{ opacity: p.spotify ? 1 : 0.35, cursor: p.spotify ? 'pointer' : 'default' }}
-                >
-                  ▶
-                </button>
+        <div className="pod-list">
+          {PODCASTS.map((p) => (
+            <div key={p.title} className="pod-item">
+              <div className="pod-thumb">
+                <img src={p.img} alt={p.show} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }} />
               </div>
-            ))}
-          </div>
-          <ChatBot />
+              <div className="pod-info">
+                <p className="pod-show">{p.show}</p>
+                <p className="pod-title">{p.title}</p>
+                {(p.duration || p.age) && (
+                  <p className="pod-meta">{[p.duration, p.age].filter(Boolean).join(' · ')}</p>
+                )}
+              </div>
+              <button
+                className="pod-btn"
+                aria-label="Écouter"
+                onClick={() => p.spotify && setSelected(p)}
+                style={{ opacity: p.spotify ? 1 : 0.35, cursor: p.spotify ? 'pointer' : 'default' }}
+              >
+                ▶
+              </button>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ── Modal player Spotify ── */}
       {selected && (
         <div className="actu-overlay" onClick={() => setSelected(null)}>
           <div className="pod-modal" onClick={(e) => e.stopPropagation()}>
