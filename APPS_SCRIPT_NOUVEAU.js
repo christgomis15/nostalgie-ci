@@ -110,7 +110,7 @@ function handleContactCommercial(data) {
   ]);
 
   MailApp.sendEmail({
-    to: 'commercial@nostalgie.ci',
+    to: 'assistant.commercial@nostalgie.ci',
     subject: '💼 Demande commerciale — ' + data.entreprise,
     htmlBody: '<div style="font-family:Arial,sans-serif;max-width:600px">'
       + '<h2 style="color:#A07830">Nouvelle demande commerciale (site web)</h2>'
@@ -164,7 +164,7 @@ function handlePartenariat(data) {
   ]);
 
   MailApp.sendEmail({
-    to: 'marketing@nostalgie.ci',
+    to: 'abdair.ndoye@nostalgie.ci',
     subject: '🤝 Demande de partenariat — ' + data.evenement + ' (' + data.organisation + ')',
     htmlBody: '<div style="font-family:Arial,sans-serif;max-width:600px">'
       + '<h2 style="color:#A07830">Nouvelle demande de partenariat (site web)</h2>'

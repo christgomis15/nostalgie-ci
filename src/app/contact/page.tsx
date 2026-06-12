@@ -28,7 +28,7 @@ export default function Contact() {
             <h3>Service Commercial</h3>
             <p>Notre équipe commerciale est à votre disposition pour toute demande de publicité ou sponsoring.</p>
             <div className="ci-line"><span className="ci-ic">📞</span><span>+225 20 21 10 53</span></div>
-            <div className="ci-line"><span className="ci-ic">✉️</span><span>commercial@nostalgie.ci</span></div>
+            <div className="ci-line"><span className="ci-ic">✉️</span><span>assistant.commercial@nostalgie.ci</span></div>
             <div className="ci-line"><span className="ci-ic">📍</span><span>Abidjan Plateau · Avenue Chardy</span></div>
             <div className="ci-line"><span className="ci-ic">🕐</span><span>Lun–Ven · 08h–17h</span></div>
             <p style={{ marginTop: '8px', fontSize: '12px', color: 'rgba(245,240,232,0.35)' }}>
@@ -73,7 +73,7 @@ export default function Contact() {
             <h3>Service Marketing</h3>
             <p>Nous accompagnons vos événements avec une couverture médiatique complète.</p>
             <div className="ci-line"><span className="ci-ic">📞</span><span>+225 20 21 85 50</span></div>
-            <div className="ci-line"><span className="ci-ic">✉️</span><span>marketing@nostalgie.ci</span></div>
+            <div className="ci-line"><span className="ci-ic">✉️</span><span>abdair.ndoye@nostalgie.ci</span></div>
             <div className="ci-line"><span className="ci-ic">📍</span><span>Abidjan Plateau · Avenue Chardy</span></div>
             <div className="ci-line"><span className="ci-ic">🕐</span><span>Lun–Ven · 08h–17h</span></div>
             <p className="ct-services-title">Nos services</p>
