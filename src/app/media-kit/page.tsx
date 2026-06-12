@@ -1,352 +1,307 @@
-import Link from 'next/link'
-
 export const metadata = {
   title: 'Kit Média — Nostalgie CI 101.1 FM',
-  description: 'Espaces publicitaires et offres de sponsoring — Nostalgie CI',
+  description: 'Espaces publicitaires disponibles sur nostalgie-ci.vercel.app',
   robots: 'noindex',
 }
 
-const FORMATS = [
+const ESPACES = [
   {
-    id: 'A',
+    num: 1,
     color: '#E74C3C',
-    nom: 'Bannière Leaderboard',
-    dimensions: '728 × 90 px',
-    position: 'Sous le menu de navigation — toutes les pages',
-    visibilite: 'Toutes les pages du site',
-    format: 'Image JPG/PNG ou GIF animé',
+    titre: 'Bandeau sous le menu',
+    desc: 'Votre publicité s\'affiche juste sous le menu de navigation. Chaque visiteur la voit en arrivant sur n\'importe quelle page du site.',
+    presence: 'Toutes les pages',
+    icone: '👁️',
   },
   {
-    id: 'B',
+    num: 2,
     color: '#E67E22',
-    nom: 'Bannière Hero',
-    dimensions: 'Pleine largeur × 80 px',
-    position: 'Bandeau sur la page d\'accueil, au-dessus du titre',
-    visibilite: 'Page d\'accueil uniquement',
-    format: 'Image ou texte + logo',
+    titre: 'Bandeau page d\'accueil',
+    desc: 'Un grand espace visuel sur la page d\'accueil, la première chose que voit un visiteur. Idéal pour un lancement de produit.',
+    presence: 'Page d\'accueil',
+    icone: '🏠',
   },
   {
-    id: 'C',
+    num: 3,
     color: '#2ECC71',
-    nom: 'Sponsoring Player Audio',
-    dimensions: 'Logo 120 × 40 px',
-    position: 'Dans la barre player audio (bas de page) — toutes les pages',
-    visibilite: 'Toutes les pages — visible en permanence',
-    format: 'Logo PNG fond transparent',
+    titre: 'Logo dans le lecteur radio',
+    desc: 'Votre logo apparaît dans la barre du lecteur audio, fixée en bas de l\'écran. Visible en permanence, même quand le visiteur navigue d\'une page à l\'autre.',
+    presence: 'Tout le site en permanence',
+    icone: '🎵',
   },
   {
-    id: 'D',
+    num: 4,
     color: '#3498DB',
-    nom: 'Sponsoring Ticker',
-    dimensions: 'Texte + logo 100 × 30 px',
-    position: 'Dans le bandeau ticker en haut de page',
-    visibilite: 'Toutes les pages — visible en permanence',
-    format: 'Texte court + logo',
+    titre: 'Message dans le fil d\'info',
+    desc: 'Votre message défile dans le bandeau animé tout en haut du site, à côté des noms des webradios. Un format discret mais toujours visible.',
+    presence: 'Tout le site en permanence',
+    icone: '📢',
   },
   {
-    id: 'E',
+    num: 5,
     color: '#9B59B6',
-    nom: 'Carré Medium Rectangle',
-    dimensions: '300 × 250 px',
-    position: 'Encart dans les pages Actus, Podcasts, Contact',
-    visibilite: 'Pages de contenu',
-    format: 'Image JPG/PNG ou GIF animé',
+    titre: 'Encart dans les articles',
+    desc: 'Un espace carré inséré dans les pages Actus et Podcasts, au milieu du contenu. Le visiteur le voit naturellement en lisant.',
+    presence: 'Pages Actus & Podcasts',
+    icone: '📰',
   },
   {
-    id: 'F',
+    num: 6,
     color: '#1ABC9C',
-    nom: 'Sponsoring Émission',
-    dimensions: 'Logo 200 × 60 px',
-    position: 'Sur la carte d\'une émission spécifique',
-    visibilite: 'Page Émissions',
-    format: 'Logo PNG + texte "Présenté par"',
+    titre: 'Parrainage d\'émission',
+    desc: 'Votre marque est associée à une émission spécifique (ex : "Le Crazy Morning présenté par [Votre Marque]"). Fort impact de notoriété.',
+    presence: 'Page Émissions',
+    icone: '🎙️',
   },
   {
-    id: 'G',
+    num: 7,
     color: '#F39C12',
-    nom: 'Sponsoring Live',
-    dimensions: 'Logo 200 × 60 px + bannière 728×90',
-    position: 'Page Live pendant les retransmissions',
-    visibilite: 'Page /live pendant les lives',
-    format: 'Logo + bannière',
+    titre: 'Sponsor des retransmissions Live',
+    desc: 'Pendant les lives (matchs, événements), votre logo s\'affiche à côté de la vidéo. Audience maximale lors des grands événements.',
+    presence: 'Page Live uniquement',
+    icone: '📺',
   },
   {
-    id: 'H',
+    num: 8,
     color: '#E91E63',
-    nom: 'Habillage de page (Skin)',
-    dimensions: 'Fond pleine page',
-    position: 'Arrière-plan du site entier — premium',
-    visibilite: 'Toutes les pages',
-    format: 'Visuel large format 1920 × 1080 px',
+    titre: 'Habillage complet du site',
+    desc: 'Le fond de tout le site prend les couleurs de votre marque. L\'expérience la plus immersive — votre univers enveloppe l\'intégralité du site.',
+    presence: 'Tout le site',
+    icone: '🎨',
   },
   {
-    id: 'I',
+    num: 9,
     color: '#FF5722',
-    nom: 'Interstitiel / Intro',
-    dimensions: 'Plein écran',
-    position: 'Page d\'intro (actuellement Coupe du Monde)',
-    visibilite: '1ère visite — avant l\'accueil',
-    format: 'Image ou vidéo courte plein écran',
+    titre: 'Écran d\'entrée plein écran',
+    desc: 'Avant d\'accéder au site, le visiteur voit votre publicité en plein écran pendant quelques secondes. Le format le plus impactant.',
+    presence: 'Première visite',
+    icone: '⚡',
   },
 ]
 
 export default function MediaKit() {
   return (
-    <div className="mk-page">
-      {/* ── En-tête ── */}
-      <div className="mk-header">
-        <div className="mk-header-inner">
-          <div>
-            <p className="mk-eyebrow">Kit Média · Confidentiel</p>
-            <h1 className="mk-title">Nostalgie CI — 101.1 FM</h1>
-            <p className="mk-subtitle">Espaces publicitaires & Offres de Sponsoring</p>
-          </div>
-          <div className="mk-stats">
-            <div className="mk-stat">
-              <span className="mk-stat-n">6</span>
-              <span className="mk-stat-l">Villes couvertes</span>
+    <div className="mk2-page">
+
+      {/* ══════════════ COUVERTURE ══════════════ */}
+      <div className="mk2-cover">
+        <div className="mk2-cover-inner">
+          <div className="mk2-cover-logo">NOSTALGIE</div>
+          <div className="mk2-cover-freq">101.1 FM · Côte d'Ivoire</div>
+          <h1 className="mk2-cover-title">Kit Média</h1>
+          <p className="mk2-cover-sub">Faites connaître votre marque à nos auditeurs sur le web</p>
+          <div className="mk2-cover-stats">
+            <div className="mk2-cover-stat">
+              <span>6</span> villes couvertes
             </div>
-            <div className="mk-stat">
-              <span className="mk-stat-n">101.1</span>
-              <span className="mk-stat-l">FM Abidjan</span>
+            <div className="mk2-cover-stat-sep">·</div>
+            <div className="mk2-cover-stat">
+              Radio <span>N°1</span> de Côte d'Ivoire
             </div>
-            <div className="mk-stat">
-              <span className="mk-stat-n">N°1</span>
-              <span className="mk-stat-l">Radio privée CI</span>
+            <div className="mk2-cover-stat-sep">·</div>
+            <div className="mk2-cover-stat">
+              Site disponible <span>24h/24</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mk-body">
+      <div className="mk2-body">
 
-        {/* ── Maquette visuelle ── */}
-        <section className="mk-section">
-          <h2 className="mk-section-title">Cartographie des espaces</h2>
-          <p className="mk-section-sub">Représentation schématique du site — chaque couleur correspond à un espace disponible</p>
+        {/* ══════════════ GRANDE MAQUETTE ANNOTÉE ══════════════ */}
+        <section className="mk2-section">
+          <div className="mk2-section-label">OÙ APPARAÎT VOTRE MARQUE ?</div>
+          <h2 className="mk2-section-title">Visualisez votre publicité sur le site</h2>
+          <p className="mk2-section-desc">
+            Chaque numéro ci-dessous correspond à un espace disponible. Retrouvez le détail de chaque espace dans les fiches plus bas.
+          </p>
 
-          <div className="mk-mockup">
-            {/* Ticker */}
-            <div className="mk-mock-ticker" style={{ background: '#3498DB22', border: '2px dashed #3498DB' }}>
-              <span style={{ color: '#3498DB', fontWeight: 700, fontSize: 11 }}>D — TICKER SPONSOR</span>
-            </div>
-            {/* Header */}
-            <div className="mk-mock-header">
-              <span>NOSTALGIE 101.1 FM</span>
-              <span style={{ fontSize: 11, opacity: 0.4 }}>Accueil · Émissions · Actus · Podcasts · Live</span>
-              <span className="mk-mock-pill">DIRECT</span>
-            </div>
-            {/* Leaderboard */}
-            <div className="mk-mock-ad" style={{ background: '#E74C3C22', border: '2px dashed #E74C3C', height: 44 }}>
-              <span style={{ color: '#E74C3C', fontWeight: 700, fontSize: 11 }}>A — BANNIÈRE LEADERBOARD (728×90)</span>
-            </div>
-            {/* Hero */}
-            <div className="mk-mock-hero">
-              <div className="mk-mock-ad" style={{ background: '#E67E2222', border: '2px dashed #E67E22', height: 36, marginBottom: 8 }}>
-                <span style={{ color: '#E67E22', fontWeight: 700, fontSize: 11 }}>B — BANNIÈRE HERO</span>
+          <div className="mk2-annotated">
+
+            {/* ── Maquette du site ── */}
+            <div className="mk2-site">
+
+              {/* Ticker — espace 4 */}
+              <div className="mk2-s-ticker">
+                <div className="mk2-s-ticker-content">Nostalgie Live · Nouveautés · Zouglou · Coupé Décalé · Afrobeats</div>
+                <div className="mk2-callout" style={{ background: '#3498DB' }}>4</div>
               </div>
-              <div style={{ opacity: 0.3 }}>
-                <div style={{ height: 14, background: '#D4A843', width: 200, marginBottom: 8, borderRadius: 2 }} />
-                <div style={{ height: 28, background: '#F5F0E8', width: 340, marginBottom: 12, borderRadius: 2 }} />
-                <div style={{ height: 12, background: '#F5F0E8', width: 260, marginBottom: 20, borderRadius: 2 }} />
-                <div style={{ display: 'flex', gap: 10 }}>
-                  <div style={{ height: 36, width: 140, background: '#D4A843', borderRadius: 4 }} />
-                  <div style={{ height: 36, width: 120, background: 'transparent', border: '1px solid #D4A843', borderRadius: 4 }} />
+
+              {/* Header */}
+              <div className="mk2-s-header">
+                <div className="mk2-s-logo">NOSTALGIE <span>101.1 FM</span></div>
+                <div className="mk2-s-nav">Accueil · Émissions · Actus · Podcasts · Live</div>
+                <div className="mk2-s-pill">● DIRECT</div>
+              </div>
+
+              {/* Leaderboard — espace 1 */}
+              <div className="mk2-s-ad mk2-s-leaderboard" style={{ borderColor: '#E74C3C', background: 'rgba(231,76,60,0.08)' }}>
+                <span style={{ color: '#E74C3C' }}>Votre publicité ici</span>
+                <div className="mk2-callout" style={{ background: '#E74C3C' }}>1</div>
+              </div>
+
+              {/* Hero */}
+              <div className="mk2-s-hero">
+                {/* Hero banner — espace 2 */}
+                <div className="mk2-s-ad mk2-s-hero-banner" style={{ borderColor: '#E67E22', background: 'rgba(230,126,34,0.08)' }}>
+                  <span style={{ color: '#E67E22' }}>Votre publicité ici</span>
+                  <div className="mk2-callout" style={{ background: '#E67E22' }}>2</div>
+                </div>
+                <div className="mk2-s-hero-content">
+                  <div className="mk2-s-eyebrow">Première Radio Commerciale Privée de Côte d'Ivoire</div>
+                  <div className="mk2-s-h1">NOSTALGIE</div>
+                  <div className="mk2-s-slogan">Sérieusement Décalée.</div>
+                  <div className="mk2-s-btns">
+                    <div className="mk2-s-btn-or">▶ Écouter</div>
+                    <div className="mk2-s-btn-out">Podcasts</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Content row */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 8 }}>
-              <div style={{ background: '#1E1E1E', padding: 16, borderRadius: 4 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
-                  {[...Array(4)].map((_, i) => (
-                    <div key={i} style={{ background: '#2A2A2A', height: 80, borderRadius: 3, position: 'relative', overflow: 'hidden' }}>
-                      {i === 2 && (
-                        <div style={{ position: 'absolute', inset: 0, background: '#1ABC9C22', border: '2px dashed #1ABC9C', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <span style={{ color: '#1ABC9C', fontWeight: 700, fontSize: 10 }}>F — SPONSORING ÉMISSION</span>
+
+              {/* Content zone */}
+              <div className="mk2-s-content">
+                <div className="mk2-s-articles">
+                  {/* Émission card avec sponsoring */}
+                  {[1,2,3,4].map(i => (
+                    <div key={i} className="mk2-s-card" style={{ position: 'relative' }}>
+                      {i === 3 && (
+                        <div className="mk2-s-ad mk2-s-em-sponsor" style={{ borderColor: '#1ABC9C', background: 'rgba(26,188,156,0.15)' }}>
+                          <span style={{ color: '#1ABC9C', fontSize: 9 }}>Présenté par votre marque</span>
+                          <div className="mk2-callout mk2-callout-sm" style={{ background: '#1ABC9C' }}>6</div>
                         </div>
                       )}
                     </div>
                   ))}
                 </div>
-              </div>
-              <div className="mk-mock-ad" style={{ background: '#9B59B622', border: '2px dashed #9B59B6', height: 'auto', minHeight: 170 }}>
-                <span style={{ color: '#9B59B6', fontWeight: 700, fontSize: 11 }}>E — CARRÉ 300×250</span>
-              </div>
-            </div>
-            {/* Habillage overlay indicator */}
-            <div className="mk-mock-ad" style={{ background: '#E91E6322', border: '2px dashed #E91E63', height: 36, marginTop: 8 }}>
-              <span style={{ color: '#E91E63', fontWeight: 700, fontSize: 11 }}>H — HABILLAGE PAGE (fond plein écran)</span>
-            </div>
-            {/* Player bar */}
-            <div className="mk-mock-player">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, flex: 1 }}>
-                <div style={{ width: 36, height: 36, background: '#2A2A2A', borderRadius: '50%' }} />
-                <div>
-                  <div style={{ height: 10, width: 100, background: '#3A3A3A', borderRadius: 2, marginBottom: 5 }} />
-                  <div style={{ height: 8, width: 70, background: '#2A2A2A', borderRadius: 2 }} />
+                {/* Encart sidebar — espace 5 */}
+                <div className="mk2-s-sidebar">
+                  <div className="mk2-s-ad mk2-s-rect" style={{ borderColor: '#9B59B6', background: 'rgba(155,89,182,0.08)' }}>
+                    <span style={{ color: '#9B59B6' }}>Votre pub ici</span>
+                    <div className="mk2-callout" style={{ background: '#9B59B6' }}>5</div>
+                  </div>
                 </div>
               </div>
-              <div className="mk-mock-ad" style={{ background: '#2ECC7122', border: '2px dashed #2ECC71', height: 36, width: 180, margin: 0, flexShrink: 0 }}>
-                <span style={{ color: '#2ECC71', fontWeight: 700, fontSize: 10 }}>C — LOGO SPONSOR PLAYER</span>
+
+              {/* Habillage overlay — espace 8 */}
+              <div className="mk2-s-ad mk2-s-habillage" style={{ borderColor: '#E91E63', background: 'rgba(233,30,99,0.06)' }}>
+                <span style={{ color: '#E91E63' }}>Fond du site aux couleurs de votre marque</span>
+                <div className="mk2-callout" style={{ background: '#E91E63' }}>8</div>
+              </div>
+
+              {/* Player bar — espace 3 */}
+              <div className="mk2-s-player">
+                <div className="mk2-s-player-info">
+                  <div className="mk2-s-player-dot" />
+                  <div>
+                    <div className="mk2-s-player-name">Nostalgie Live</div>
+                    <div className="mk2-s-player-freq">101.1 FM · Direct</div>
+                  </div>
+                </div>
+                <div className="mk2-s-ad mk2-s-player-logo" style={{ borderColor: '#2ECC71', background: 'rgba(46,204,113,0.1)' }}>
+                  <span style={{ color: '#2ECC71', fontSize: 10 }}>Votre logo ici</span>
+                  <div className="mk2-callout mk2-callout-sm" style={{ background: '#2ECC71' }}>3</div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Légende */}
-          <div className="mk-legend">
-            {FORMATS.map(f => (
-              <div key={f.id} className="mk-legend-item">
-                <span className="mk-legend-dot" style={{ background: f.color }} />
-                <span className="mk-legend-id">{f.id}</span>
-                <span className="mk-legend-name">{f.nom}</span>
+            {/* ── Espaces hors maquette (Live + Intro) ── */}
+            <div className="mk2-extra-spaces">
+              <div className="mk2-extra-card" style={{ borderColor: '#F39C12' }}>
+                <div className="mk2-callout mk2-callout-lg" style={{ background: '#F39C12' }}>7</div>
+                <div className="mk2-extra-title">Pendant les lives</div>
+                <div className="mk2-extra-desc">Votre logo s'affiche à côté de la vidéo lors des retransmissions en direct</div>
+                <div className="mk2-extra-icon">📺</div>
+              </div>
+              <div className="mk2-extra-card" style={{ borderColor: '#FF5722' }}>
+                <div className="mk2-callout mk2-callout-lg" style={{ background: '#FF5722' }}>9</div>
+                <div className="mk2-extra-title">Écran d'entrée</div>
+                <div className="mk2-extra-desc">Votre publicité en plein écran avant que le visiteur accède au site</div>
+                <div className="mk2-extra-icon">⚡</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ══════════════ FICHES ESPACES ══════════════ */}
+        <section className="mk2-section">
+          <div className="mk2-section-label">LES 9 ESPACES EN DÉTAIL</div>
+          <h2 className="mk2-section-title">Choisissez votre emplacement</h2>
+
+          <div className="mk2-cards">
+            {ESPACES.map(e => (
+              <div key={e.num} className="mk2-card">
+                <div className="mk2-card-top">
+                  <div className="mk2-card-num" style={{ background: e.color }}>{e.num}</div>
+                  <div className="mk2-card-icon">{e.icone}</div>
+                </div>
+                <h3 className="mk2-card-title">{e.titre}</h3>
+                <p className="mk2-card-desc">{e.desc}</p>
+                <div className="mk2-card-presence">
+                  <span className="mk2-card-presence-label">Visibilité :</span>
+                  <span style={{ color: e.color }}>{e.presence}</span>
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ── Tableau des formats ── */}
-        <section className="mk-section">
-          <h2 className="mk-section-title">Détail des formats</h2>
-          <div className="mk-table-wrap">
-            <table className="mk-table">
-              <thead>
-                <tr>
-                  <th>Ref</th>
-                  <th>Espace</th>
-                  <th>Dimensions</th>
-                  <th>Emplacement</th>
-                  <th>Visibilité</th>
-                  <th>Format accepté</th>
-                </tr>
-              </thead>
-              <tbody>
-                {FORMATS.map(f => (
-                  <tr key={f.id}>
-                    <td>
-                      <span className="mk-ref" style={{ background: f.color }}>{f.id}</span>
-                    </td>
-                    <td><strong>{f.nom}</strong></td>
-                    <td className="mk-td-mono">{f.dimensions}</td>
-                    <td>{f.position}</td>
-                    <td>{f.visibilite}</td>
-                    <td>{f.format}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* ══════════════ TARIFS ══════════════ */}
+        <section className="mk2-section">
+          <div className="mk2-section-label">TARIFS</div>
+          <h2 className="mk2-section-title">Grille tarifaire — à compléter</h2>
+          <p className="mk2-section-desc">Le service commercial renseigne les tarifs ci-dessous. Imprimez la page (Ctrl+P) pour conserver vos notes.</p>
+
+          <div className="mk2-tarifs">
+            {ESPACES.map(e => (
+              <div key={e.num} className="mk2-tarif-row">
+                <div className="mk2-tarif-num" style={{ background: e.color }}>{e.num}</div>
+                <div className="mk2-tarif-nom">{e.titre}</div>
+                <div className="mk2-tarif-presence">{e.presence}</div>
+                <div className="mk2-tarif-inputs">
+                  <div className="mk2-tarif-field">
+                    <label>1 semaine</label>
+                    <div className="mk2-tarif-input-wrap">
+                      <input type="text" placeholder="—" className="mk2-input" />
+                      <span>FCFA</span>
+                    </div>
+                  </div>
+                  <div className="mk2-tarif-field">
+                    <label>1 mois</label>
+                    <div className="mk2-tarif-input-wrap">
+                      <input type="text" placeholder="—" className="mk2-input" />
+                      <span>FCFA</span>
+                    </div>
+                  </div>
+                  <div className="mk2-tarif-field">
+                    <label>3 mois</label>
+                    <div className="mk2-tarif-input-wrap">
+                      <input type="text" placeholder="—" className="mk2-input" />
+                      <span>FCFA</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mk2-print-note">
+            💡 Ces champs sont modifiables dans votre navigateur. Utilisez <strong>Ctrl+P</strong> pour imprimer ou enregistrer en PDF.
           </div>
         </section>
 
-        {/* ── Grille tarifaire ── */}
-        <section className="mk-section">
-          <h2 className="mk-section-title">Grille tarifaire</h2>
-          <p className="mk-section-sub">À compléter par le service commercial — montants en FCFA HT/mois</p>
-          <div className="mk-table-wrap">
-            <table className="mk-table">
-              <thead>
-                <tr>
-                  <th>Ref</th>
-                  <th>Espace</th>
-                  <th>Durée</th>
-                  <th>Tarif indicatif</th>
-                  <th>Tarif négocié</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {FORMATS.map(f => (
-                  <tr key={f.id}>
-                    <td><span className="mk-ref" style={{ background: f.color }}>{f.id}</span></td>
-                    <td><strong>{f.nom}</strong></td>
-                    <td>
-                      <select className="mk-select">
-                        <option>1 semaine</option>
-                        <option>1 mois</option>
-                        <option>3 mois</option>
-                        <option>6 mois</option>
-                        <option>1 an</option>
-                      </select>
-                    </td>
-                    <td className="mk-price-cell">
-                      <input type="text" placeholder="Ex: 150 000" className="mk-input" />
-                      <span className="mk-currency">FCFA</span>
-                    </td>
-                    <td className="mk-price-cell">
-                      <input type="text" placeholder="—" className="mk-input" />
-                      <span className="mk-currency">FCFA</span>
-                    </td>
-                    <td>
-                      <input type="text" placeholder="Remarques..." className="mk-input mk-input-wide" />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="mk-disclaimer">
-            ⚠️ Cette page est à usage interne. Les tarifs saisis ici ne sont pas enregistrés automatiquement —
-            faites une capture d&apos;écran ou imprimez la page (Ctrl+P) pour conserver vos notes.
-          </p>
-        </section>
-
-        {/* ── Offres packagées ── */}
-        <section className="mk-section">
-          <h2 className="mk-section-title">Suggestions de packages</h2>
-          <div className="mk-packages">
-            <div className="mk-pack">
-              <div className="mk-pack-badge">STARTER</div>
-              <h3>Visibilité Web</h3>
-              <ul>
-                <li>✓ Bannière Leaderboard (A)</li>
-                <li>✓ Carré 300×250 (E)</li>
-              </ul>
-              <div className="mk-pack-price">À définir</div>
-            </div>
-            <div className="mk-pack mk-pack-featured">
-              <div className="mk-pack-badge" style={{ background: '#D4A843', color: '#000' }}>PREMIUM</div>
-              <h3>Présence Totale</h3>
-              <ul>
-                <li>✓ Bannière Leaderboard (A)</li>
-                <li>✓ Sponsoring Player (C)</li>
-                <li>✓ Sponsoring Ticker (D)</li>
-                <li>✓ Carré 300×250 (E)</li>
-              </ul>
-              <div className="mk-pack-price">À définir</div>
-            </div>
-            <div className="mk-pack">
-              <div className="mk-pack-badge" style={{ background: '#1ABC9C' }}>LIVE</div>
-              <h3>Sponsoring Live</h3>
-              <ul>
-                <li>✓ Logo pendant les lives (G)</li>
-                <li>✓ Mention "Présenté par"</li>
-                <li>✓ Bannière Hero (B)</li>
-              </ul>
-              <div className="mk-pack-price">À définir</div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── Contact ── */}
-        <section className="mk-section mk-contact">
-          <h2 className="mk-section-title">Contact Commercial</h2>
-          <div className="mk-contact-grid">
+        {/* ══════════════ CONTACT ══════════════ */}
+        <section className="mk2-contact">
+          <div className="mk2-contact-inner">
             <div>
-              <p className="mk-contact-label">Radio</p>
-              <p className="mk-contact-value">Nostalgie CI — 101.1 FM</p>
-              <p className="mk-contact-value">Abidjan, Côte d&apos;Ivoire</p>
+              <div className="mk2-contact-logo">NOSTALGIE</div>
+              <div className="mk2-contact-freq">101.1 FM · Côte d'Ivoire</div>
             </div>
-            <div>
-              <p className="mk-contact-label">Site internet</p>
-              <p className="mk-contact-value">nostalgie-ci.vercel.app</p>
+            <div className="mk2-contact-info">
+              <p>Pour toute demande commerciale :</p>
+              <p className="mk2-contact-email">nostalgiecotedivoire@gmail.com</p>
+              <p className="mk2-contact-url">nostalgie-ci.vercel.app</p>
             </div>
-            <div>
-              <p className="mk-contact-label">Email</p>
-              <p className="mk-contact-value">nostalgiecotedivoire@gmail.com</p>
-            </div>
-          </div>
-          <div style={{ marginTop: 24 }}>
-            <Link href="/" className="btn btn-outline" style={{ marginRight: 12 }}>← Retour au site</Link>
           </div>
         </section>
 

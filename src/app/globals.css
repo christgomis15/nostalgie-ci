@@ -1344,8 +1344,235 @@ html.intro-mode .wr-ticker {
 }
 
 /* ════════════════════════════════════════
-   KIT MÉDIA
+   KIT MÉDIA v2 — visuel non-technique
 ════════════════════════════════════════ */
+.mk2-page { background: var(--noir); }
+
+/* Couverture */
+.mk2-cover {
+  background: linear-gradient(160deg, #0D0D0D 0%, #1a1200 60%, #0D0D0D 100%);
+  border-bottom: 4px solid var(--or);
+  padding: 64px 24px;
+  text-align: center;
+}
+.mk2-cover-inner { max-width: 760px; margin: 0 auto; }
+.mk2-cover-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px; font-weight: 900; letter-spacing: 8px;
+  color: var(--or); margin-bottom: 4px;
+}
+.mk2-cover-freq { font-size: 11px; color: rgba(245,240,232,0.4); letter-spacing: 3px; margin-bottom: 32px; }
+.mk2-cover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 10vw, 96px); font-weight: 900;
+  color: var(--blanc); line-height: 1; margin-bottom: 16px;
+}
+.mk2-cover-sub { font-size: 18px; color: rgba(245,240,232,0.6); margin-bottom: 40px; }
+.mk2-cover-stats {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 16px; font-size: 14px; color: rgba(245,240,232,0.5);
+}
+.mk2-cover-stat span { color: var(--or); font-weight: 700; font-size: 18px; }
+.mk2-cover-stat-sep { color: var(--or); opacity: 0.3; }
+
+/* Corps */
+.mk2-body { max-width: 1100px; margin: 0 auto; padding: 56px 24px; }
+.mk2-section { margin-bottom: 80px; }
+.mk2-section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 4px;
+  color: var(--or); margin-bottom: 10px;
+}
+.mk2-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 4vw, 36px); font-weight: 700;
+  color: var(--blanc); margin-bottom: 10px;
+}
+.mk2-section-desc { font-size: 14px; color: rgba(245,240,232,0.5); margin-bottom: 32px; line-height: 1.7; }
+
+/* Numéro callout */
+.mk2-callout {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; color: #fff;
+  position: absolute; top: -10px; right: -10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  flex-shrink: 0; z-index: 2;
+}
+.mk2-callout-sm { width: 20px; height: 20px; font-size: 10px; top: -8px; right: -8px; }
+.mk2-callout-lg {
+  width: 44px; height: 44px; font-size: 18px; font-weight: 900;
+  position: static; margin-bottom: 12px; box-shadow: none;
+  border-radius: 50%;
+}
+
+/* ── Maquette annotée ── */
+.mk2-annotated { display: flex; flex-direction: column; gap: 16px; }
+.mk2-site {
+  background: #111; border: 1px solid #222;
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+.mk2-s-ad {
+  border: 2px dashed; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; font-size: 12px; font-weight: 700;
+  padding: 8px; text-align: center; gap: 8px;
+}
+
+/* Ticker */
+.mk2-s-ticker {
+  background: #0D0D0D; height: 36px; display: flex;
+  align-items: center; padding: 0 16px; gap: 12px;
+  font-size: 11px; color: rgba(245,240,232,0.3);
+  position: relative; overflow: hidden;
+}
+.mk2-s-ticker-content { overflow: hidden; white-space: nowrap; flex: 1; }
+
+/* Header */
+.mk2-s-header {
+  background: #151515; height: 54px; display: flex;
+  align-items: center; padding: 0 20px; gap: 20px;
+  border-bottom: 1px solid #222;
+}
+.mk2-s-logo { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 900; color: var(--blanc); }
+.mk2-s-logo span { font-size: 10px; color: var(--or); margin-left: 6px; }
+.mk2-s-nav { font-size: 11px; color: rgba(245,240,232,0.3); flex: 1; }
+.mk2-s-pill { background: rgba(212,168,67,0.15); color: var(--or); font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+
+/* Leaderboard */
+.mk2-s-leaderboard { height: 48px; margin: 8px; }
+
+/* Hero */
+.mk2-s-hero { background: #0a0a0a; padding: 20px; min-height: 160px; position: relative; }
+.mk2-s-hero-banner { height: 40px; margin-bottom: 16px; }
+.mk2-s-hero-content { padding: 0 0 0 8px; }
+.mk2-s-eyebrow { font-size: 9px; color: var(--or); letter-spacing: 2px; margin-bottom: 8px; }
+.mk2-s-h1 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--blanc); line-height: 1; margin-bottom: 6px; }
+.mk2-s-slogan { font-size: 13px; color: var(--or); font-style: italic; margin-bottom: 14px; }
+.mk2-s-btns { display: flex; gap: 10px; }
+.mk2-s-btn-or { background: var(--or); color: #000; font-size: 11px; font-weight: 700; padding: 8px 18px; border-radius: 3px; }
+.mk2-s-btn-out { border: 1px solid var(--or); color: var(--or); font-size: 11px; font-weight: 700; padding: 8px 16px; border-radius: 3px; }
+
+/* Content */
+.mk2-s-content { display: grid; grid-template-columns: 1fr 200px; gap: 8px; padding: 12px; }
+.mk2-s-articles { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.mk2-s-card { background: #1E1E1E; height: 80px; border-radius: 4px; position: relative; overflow: hidden; }
+.mk2-s-em-sponsor { position: absolute; inset: 0; border-radius: 0; height: auto; }
+.mk2-s-sidebar { }
+.mk2-s-rect { height: 100%; min-height: 170px; }
+
+/* Habillage */
+.mk2-s-habillage { margin: 0 8px 8px; height: 40px; }
+
+/* Player */
+.mk2-s-player {
+  background: #151515; border-top: 1px solid #222;
+  display: flex; align-items: center; padding: 0 16px;
+  height: 60px; gap: 16px;
+}
+.mk2-s-player-info { display: flex; align-items: center; gap: 12px; flex: 1; }
+.mk2-s-player-dot { width: 8px; height: 8px; background: #E74C3C; border-radius: 50%; animation: cb-blink 1.2s ease-in-out infinite; }
+.mk2-s-player-name { font-size: 12px; font-weight: 600; color: var(--blanc); }
+.mk2-s-player-freq { font-size: 10px; color: rgba(245,240,232,0.35); }
+.mk2-s-player-logo { height: 40px; width: 160px; padding: 4px 8px; flex-shrink: 0; }
+
+/* Espaces hors maquette */
+.mk2-extra-spaces { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.mk2-extra-card {
+  background: #111; border: 2px dashed; border-radius: 12px;
+  padding: 28px; text-align: center;
+}
+.mk2-extra-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--blanc); margin-bottom: 8px; }
+.mk2-extra-desc { font-size: 13px; color: rgba(245,240,232,0.5); line-height: 1.6; margin-bottom: 16px; }
+.mk2-extra-icon { font-size: 36px; }
+
+/* Fiches espaces */
+.mk2-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.mk2-card {
+  background: var(--g1); border: 1px solid var(--g3);
+  border-radius: 10px; padding: 24px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.mk2-card:hover { transform: translateY(-3px); }
+.mk2-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.mk2-card-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 900; color: #fff;
+  flex-shrink: 0;
+}
+.mk2-card-icon { font-size: 28px; }
+.mk2-card-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--blanc); margin-bottom: 10px; line-height: 1.3; }
+.mk2-card-desc { font-size: 13px; color: rgba(245,240,232,0.6); line-height: 1.7; margin-bottom: 16px; }
+.mk2-card-presence { font-size: 11px; }
+.mk2-card-presence-label { color: rgba(245,240,232,0.35); margin-right: 6px; }
+
+/* Grille tarifaire */
+.mk2-tarifs { display: flex; flex-direction: column; gap: 4px; margin-bottom: 20px; }
+.mk2-tarif-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 180px auto;
+  align-items: center;
+  gap: 16px;
+  background: var(--g1);
+  padding: 14px 18px;
+  border-radius: 6px;
+}
+.mk2-tarif-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 900; color: #fff; flex-shrink: 0;
+}
+.mk2-tarif-nom { font-size: 14px; font-weight: 600; color: var(--blanc); }
+.mk2-tarif-presence { font-size: 11px; color: rgba(245,240,232,0.35); }
+.mk2-tarif-inputs { display: flex; gap: 12px; }
+.mk2-tarif-field { display: flex; flex-direction: column; gap: 4px; }
+.mk2-tarif-field label { font-size: 9px; letter-spacing: 1px; color: rgba(245,240,232,0.35); text-transform: uppercase; }
+.mk2-tarif-input-wrap { display: flex; align-items: center; gap: 5px; }
+.mk2-tarif-input-wrap span { font-size: 9px; color: rgba(245,240,232,0.3); white-space: nowrap; }
+.mk2-input {
+  background: var(--g2); border: 1px solid var(--g3);
+  color: var(--blanc); padding: 6px 8px; font-size: 13px;
+  font-family: 'DM Sans', sans-serif; width: 90px;
+  border-radius: 3px; outline: none;
+}
+.mk2-input:focus { border-color: var(--or); }
+.mk2-print-note {
+  padding: 14px 20px; background: rgba(212,168,67,0.08);
+  border-left: 3px solid var(--or); font-size: 13px;
+  color: rgba(245,240,232,0.6); border-radius: 0 4px 4px 0;
+}
+
+/* Contact final */
+.mk2-contact {
+  background: linear-gradient(135deg, #151515 0%, #1a1200 100%);
+  border-top: 3px solid var(--or); padding: 40px 24px;
+}
+.mk2-contact-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;
+}
+.mk2-contact-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--or); }
+.mk2-contact-freq { font-size: 11px; color: rgba(245,240,232,0.4); letter-spacing: 2px; margin-top: 4px; }
+.mk2-contact-info { text-align: right; }
+.mk2-contact-info p { font-size: 13px; color: rgba(245,240,232,0.5); margin-bottom: 6px; }
+.mk2-contact-email { color: var(--or) !important; font-weight: 600; font-size: 15px !important; }
+.mk2-contact-url { color: rgba(245,240,232,0.7) !important; }
+
+@media (max-width: 768px) {
+  .mk2-tarif-row { grid-template-columns: 40px 1fr; }
+  .mk2-tarif-presence { display: none; }
+  .mk2-tarif-inputs { flex-wrap: wrap; grid-column: 1 / -1; }
+  .mk2-extra-spaces { grid-template-columns: 1fr; }
+  .mk2-s-content { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════
+   KIT MÉDIA
 .mk-page { background: var(--noir); min-height: 100vh; }
 
 .mk-header {
