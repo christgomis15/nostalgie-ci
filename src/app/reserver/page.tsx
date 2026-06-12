@@ -12,6 +12,7 @@ export default function Reserver() {
   const [email, setEmail] = useState('')
   const [telephone, setTelephone] = useState('')
   const [dateDebut, setDateDebut] = useState('')
+  const [hp, setHp] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
 
   const total = useMemo(() =>
@@ -50,6 +51,7 @@ export default function Reserver() {
           espaces: espacesDetail.map(e => e.nom),
           espacesDetail,
           total: total.toLocaleString('fr-FR') + ' FCFA',
+          website: hp,
         }),
       })
       if (!res.ok) throw new Error()
@@ -100,6 +102,7 @@ export default function Reserver() {
       </div>
 
       <form onSubmit={submit}>
+        <input type="text" name="website" className="hp-field" tabIndex={-1} autoComplete="off" value={hp} onChange={e => setHp(e.target.value)} aria-hidden="true" />
         <div className="rsv-layout">
 
           {/* Gauche : grille d'espaces */}

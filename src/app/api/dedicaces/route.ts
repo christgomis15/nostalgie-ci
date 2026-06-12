@@ -10,6 +10,11 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
 
+    // Honeypot : un humain ne voit pas ce champ ; s'il est rempli, c'est un robot
+    if (body.website) {
+      return NextResponse.json({ success: true })
+    }
+
     const { prenom, ville, pour, message, emission } = body
     if (!prenom || !ville || !pour || !message || !emission) {
       return NextResponse.json({ error: 'Champs obligatoires manquants' }, { status: 400 })

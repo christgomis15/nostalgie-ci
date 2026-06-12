@@ -97,6 +97,7 @@ function CommercialForm() {
   const [prestation, setPrestation] = useState('')
   const [budget, setBudget] = useState('')
   const [message, setMessage] = useState('')
+  const [hp, setHp] = useState('')
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -108,6 +109,7 @@ function CommercialForm() {
         body: JSON.stringify({
           type: 'contact_commercial',
           nom, entreprise, telephone, email, prestation, budget, message,
+          website: hp,
         }),
       })
       if (!res.ok) throw new Error()
@@ -121,6 +123,7 @@ function CommercialForm() {
   const dis = status === 'loading'
   return (
     <form className="ct-form" onSubmit={submit}>
+      <input type="text" name="website" className="hp-field" tabIndex={-1} autoComplete="off" value={hp} onChange={e => setHp(e.target.value)} aria-hidden="true" />
       <h3 className="cf-title">Demande Commerciale</h3>
       <p className="cf-sub">Publicité, sponsoring, jingles... Décrivez votre besoin.</p>
       <div className="form-row">
@@ -177,6 +180,7 @@ function PartenaireForm() {
   const [dateEvenement, setDateEvenement] = useState('')
   const [lieu, setLieu] = useState('')
   const [description, setDescription] = useState('')
+  const [hp, setHp] = useState('')
   const SERVICES = ['Annonces antenne', 'Animation live', 'Présence terrain', 'Couverture digitale', 'Interview en direct', 'Jeu concours']
   const toggle = (s: string) => setChecks(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s])
 
@@ -191,6 +195,7 @@ function PartenaireForm() {
           type: 'partenariat',
           nom, organisation, telephone, email, evenement, typeEvenement,
           dateEvenement, lieu, partenariats: checks, description,
+          website: hp,
         }),
       })
       if (!res.ok) throw new Error()
@@ -204,6 +209,7 @@ function PartenaireForm() {
   const dis = status === 'loading'
   return (
     <form className="ct-form" onSubmit={submit}>
+      <input type="text" name="website" className="hp-field" tabIndex={-1} autoComplete="off" value={hp} onChange={e => setHp(e.target.value)} aria-hidden="true" />
       <h3 className="cf-title">Demande de Partenariat</h3>
       <p className="cf-sub">Pour vos événements, concerts, festivals et activations de marque.</p>
       <div className="form-row">

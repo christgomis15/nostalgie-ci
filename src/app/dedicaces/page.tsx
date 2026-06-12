@@ -23,6 +23,7 @@ type FormState = {
 export default function Dedicaces() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [hp, setHp] = useState('')
   const [form, setForm] = useState<FormState>({
     prenom: '', ville: '', pour: '', chanson: '', message: '', emission: '',
   })
@@ -40,7 +41,7 @@ export default function Dedicaces() {
       const res = await fetch('/api/dedicaces', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, website: hp }),
       })
 
       const data = await res.json()
@@ -85,6 +86,7 @@ export default function Dedicaces() {
       <h1 className="section-title">Envoyer une Dédicace</h1>
 
       <form className="ded-form" onSubmit={handleSubmit}>
+        <input type="text" name="website" className="hp-field" tabIndex={-1} autoComplete="off" value={hp} onChange={e => setHp(e.target.value)} aria-hidden="true" />
         <div className="form-row">
           <div className="form-group">
             <label>Votre prénom</label>

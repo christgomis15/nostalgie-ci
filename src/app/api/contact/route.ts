@@ -5,6 +5,10 @@ const WEBHOOK_URL = process.env.GOOGLE_SHEET_WEBHOOK_URL!
 export async function POST(req: Request) {
   try {
     const body = await req.json()
+    // Honeypot : un humain ne voit pas ce champ ; s'il est rempli, c'est un robot
+    if (body.website) {
+      return NextResponse.json({ success: true })
+    }
     const res = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
