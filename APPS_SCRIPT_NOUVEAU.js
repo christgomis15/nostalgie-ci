@@ -9,6 +9,12 @@ function doPost(e) {
   if (data.type === 'reservation') {
     return handleReservation(data);
   }
+  if (data.type === 'contact_commercial') {
+    return handleContactCommercial(data);
+  }
+  if (data.type === 'partenariat') {
+    return handlePartenariat(data);
+  }
   return handleDedicace(data);
 }
 
@@ -73,6 +79,122 @@ function handleReservation(data) {
   return ContentService
     .createTextOutput(JSON.stringify({ success: true }))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  CONTACT COMMERCIAL → feuille "Demandes commerciales" + email
+// ────────────────────────────────────────────────────────────────────
+function handleContactCommercial(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  var sheet = ss.getSheetByName('Demandes commerciales');
+  if (!sheet) {
+    sheet = ss.insertSheet('Demandes commerciales');
+    sheet.appendRow([
+      'Date', 'Nom', 'Entreprise', 'Téléphone', 'Email',
+      'Prestation', 'Budget', 'Message', 'Statut'
+    ]);
+    sheet.getRange(1, 1, 1, 9).setFontWeight('bold');
+  }
+
+  sheet.appendRow([
+    new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' }),
+    data.nom,
+    data.entreprise,
+    data.telephone,
+    data.email,
+    data.prestation || '—',
+    data.budget || '—',
+    data.message || '—',
+    'En attente'
+  ]);
+
+  MailApp.sendEmail({
+    to: 'commercial@nostalgie.ci',
+    subject: '💼 Demande commerciale — ' + data.entreprise,
+    htmlBody: '<div style="font-family:Arial,sans-serif;max-width:600px">'
+      + '<h2 style="color:#A07830">Nouvelle demande commerciale (site web)</h2>'
+      + '<table style="border-collapse:collapse;width:100%">'
+      + ligneEmail('Nom', data.nom)
+      + ligneEmail('Entreprise', data.entreprise)
+      + ligneEmail('Téléphone', data.telephone)
+      + ligneEmail('Email', data.email)
+      + ligneEmail('Prestation', data.prestation || '—')
+      + ligneEmail('Budget estimé', data.budget || '—')
+      + ligneEmail('Message', data.message || '—')
+      + '</table>'
+      + '<p style="color:#999;font-size:12px;margin-top:16px">Envoyé depuis le formulaire Contact de nostalgie-ci.vercel.app</p>'
+      + '</div>'
+  });
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  PARTENARIAT → feuille "Partenariats" + email marketing
+// ────────────────────────────────────────────────────────────────────
+function handlePartenariat(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  var sheet = ss.getSheetByName('Partenariats');
+  if (!sheet) {
+    sheet = ss.insertSheet('Partenariats');
+    sheet.appendRow([
+      'Date', 'Contact', 'Organisation', 'Téléphone', 'Email',
+      'Événement', 'Type', 'Date événement', 'Lieu', 'Partenariats souhaités', 'Description', 'Statut'
+    ]);
+    sheet.getRange(1, 1, 1, 12).setFontWeight('bold');
+  }
+
+  sheet.appendRow([
+    new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' }),
+    data.nom,
+    data.organisation,
+    data.telephone,
+    data.email,
+    data.evenement,
+    data.typeEvenement || '—',
+    data.dateEvenement || '—',
+    data.lieu || '—',
+    (data.partenariats || []).join(' | ') || '—',
+    data.description || '—',
+    'En attente'
+  ]);
+
+  MailApp.sendEmail({
+    to: 'marketing@nostalgie.ci',
+    subject: '🤝 Demande de partenariat — ' + data.evenement + ' (' + data.organisation + ')',
+    htmlBody: '<div style="font-family:Arial,sans-serif;max-width:600px">'
+      + '<h2 style="color:#A07830">Nouvelle demande de partenariat (site web)</h2>'
+      + '<table style="border-collapse:collapse;width:100%">'
+      + ligneEmail('Contact', data.nom)
+      + ligneEmail('Organisation', data.organisation)
+      + ligneEmail('Téléphone', data.telephone)
+      + ligneEmail('Email', data.email)
+      + ligneEmail('Événement', data.evenement)
+      + ligneEmail('Type', data.typeEvenement || '—')
+      + ligneEmail('Date prévue', data.dateEvenement || '—')
+      + ligneEmail('Lieu', data.lieu || '—')
+      + ligneEmail('Partenariats souhaités', (data.partenariats || []).join(', ') || '—')
+      + ligneEmail('Description', data.description || '—')
+      + '</table>'
+      + '<p style="color:#999;font-size:12px;margin-top:16px">Envoyé depuis le formulaire Contact de nostalgie-ci.vercel.app</p>'
+      + '</div>'
+  });
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// Ligne de tableau pour les emails simples
+function ligneEmail(label, valeur) {
+  return '<tr>'
+    + '<td style="padding:6px 12px;color:#999;border-bottom:1px solid #eee;width:160px">' + label + '</td>'
+    + '<td style="padding:6px 12px;border-bottom:1px solid #eee">' + valeur + '</td>'
+    + '</tr>';
 }
 
 // ────────────────────────────────────────────────────────────────────

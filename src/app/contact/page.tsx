@@ -89,24 +89,52 @@ export default function Contact() {
 }
 
 function CommercialForm() {
-  const [sent, setSent] = useState(false)
-  if (sent) return <div className="ct-form-success">Message envoyé ! Nous vous répondrons sous 24h ouvrées.</div>
+  const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
+  const [nom, setNom] = useState('')
+  const [entreprise, setEntreprise] = useState('')
+  const [telephone, setTelephone] = useState('')
+  const [email, setEmail] = useState('')
+  const [prestation, setPrestation] = useState('')
+  const [budget, setBudget] = useState('')
+  const [message, setMessage] = useState('')
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'contact_commercial',
+          nom, entreprise, telephone, email, prestation, budget, message,
+        }),
+      })
+      if (!res.ok) throw new Error()
+      setStatus('sent')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  if (status === 'sent') return <div className="ct-form-success">Message envoyé ! Nous vous répondrons sous 24h ouvrées.</div>
+  const dis = status === 'loading'
   return (
-    <form className="ct-form" onSubmit={e => { e.preventDefault(); setSent(true) }}>
+    <form className="ct-form" onSubmit={submit}>
       <h3 className="cf-title">Demande Commerciale</h3>
       <p className="cf-sub">Publicité, sponsoring, jingles... Décrivez votre besoin.</p>
       <div className="form-row">
-        <div className="form-group"><label>Nom & Prénom</label><input type="text" placeholder="Jean Konan" required /></div>
-        <div className="form-group"><label>Entreprise / Marque</label><input type="text" placeholder="Ma Marque SARL" required /></div>
+        <div className="form-group"><label>Nom & Prénom</label><input type="text" placeholder="Jean Konan" value={nom} onChange={e => setNom(e.target.value)} disabled={dis} required /></div>
+        <div className="form-group"><label>Entreprise / Marque</label><input type="text" placeholder="Ma Marque SARL" value={entreprise} onChange={e => setEntreprise(e.target.value)} disabled={dis} required /></div>
       </div>
       <div className="form-row">
-        <div className="form-group"><label>Téléphone</label><input type="tel" placeholder="+225 07 XX XX XX XX" required /></div>
-        <div className="form-group"><label>Email</label><input type="email" placeholder="contact@mamarque.ci" required /></div>
+        <div className="form-group"><label>Téléphone</label><input type="tel" placeholder="+225 07 XX XX XX XX" value={telephone} onChange={e => setTelephone(e.target.value)} disabled={dis} required /></div>
+        <div className="form-group"><label>Email</label><input type="email" placeholder="contact@mamarque.ci" value={email} onChange={e => setEmail(e.target.value)} disabled={dis} required /></div>
       </div>
       <div className="form-row">
         <div className="form-group">
           <label>Type de prestation</label>
-          <select>
+          <select value={prestation} onChange={e => setPrestation(e.target.value)} disabled={dis}>
             <option value="">Sélectionner...</option>
             <option>Spot publicitaire</option>
             <option>Sponsoring d&apos;émission</option>
@@ -120,7 +148,7 @@ function CommercialForm() {
         </div>
         <div className="form-group">
           <label>Budget estimé</label>
-          <select>
+          <select value={budget} onChange={e => setBudget(e.target.value)} disabled={dis}>
             <option value="">Sélectionner...</option>
             <option>Moins de 500 000 FCFA</option>
             <option>500 000 – 1 000 000 FCFA</option>
@@ -130,36 +158,67 @@ function CommercialForm() {
           </select>
         </div>
       </div>
-      <div className="form-group"><label>Votre message</label><textarea rows={3} placeholder="Décrivez votre projet..." /></div>
-      <button type="submit" className="btn btn-or">Envoyer la demande</button>
+      <div className="form-group"><label>Votre message</label><textarea rows={3} placeholder="Décrivez votre projet..." value={message} onChange={e => setMessage(e.target.value)} disabled={dis} /></div>
+      {status === 'error' && <p className="ded-error">Erreur lors de l&apos;envoi. Réessayez ou appelez le +225 20 21 10 53.</p>}
+      <button type="submit" className="btn btn-or" disabled={dis}>{dis ? 'Envoi en cours...' : 'Envoyer la demande'}</button>
     </form>
   )
 }
 
 function PartenaireForm() {
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
   const [checks, setChecks] = useState<string[]>([])
+  const [nom, setNom] = useState('')
+  const [organisation, setOrganisation] = useState('')
+  const [telephone, setTelephone] = useState('')
+  const [email, setEmail] = useState('')
+  const [evenement, setEvenement] = useState('')
+  const [typeEvenement, setTypeEvenement] = useState('')
+  const [dateEvenement, setDateEvenement] = useState('')
+  const [lieu, setLieu] = useState('')
+  const [description, setDescription] = useState('')
   const SERVICES = ['Annonces antenne', 'Animation live', 'Présence terrain', 'Couverture digitale', 'Interview en direct', 'Jeu concours']
   const toggle = (s: string) => setChecks(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s])
 
-  if (sent) return <div className="ct-form-success">Demande envoyée ! Notre équipe marketing vous contactera rapidement.</div>
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'partenariat',
+          nom, organisation, telephone, email, evenement, typeEvenement,
+          dateEvenement, lieu, partenariats: checks, description,
+        }),
+      })
+      if (!res.ok) throw new Error()
+      setStatus('sent')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  if (status === 'sent') return <div className="ct-form-success">Demande envoyée ! Notre équipe marketing vous contactera rapidement.</div>
+  const dis = status === 'loading'
   return (
-    <form className="ct-form" onSubmit={e => { e.preventDefault(); setSent(true) }}>
+    <form className="ct-form" onSubmit={submit}>
       <h3 className="cf-title">Demande de Partenariat</h3>
       <p className="cf-sub">Pour vos événements, concerts, festivals et activations de marque.</p>
       <div className="form-row">
-        <div className="form-group"><label>Nom du contact</label><input type="text" placeholder="Nom complet" required /></div>
-        <div className="form-group"><label>Organisation</label><input type="text" placeholder="Nom de l&apos;organisation" required /></div>
+        <div className="form-group"><label>Nom du contact</label><input type="text" placeholder="Nom complet" value={nom} onChange={e => setNom(e.target.value)} disabled={dis} required /></div>
+        <div className="form-group"><label>Organisation</label><input type="text" placeholder="Nom de l&apos;organisation" value={organisation} onChange={e => setOrganisation(e.target.value)} disabled={dis} required /></div>
       </div>
       <div className="form-row">
-        <div className="form-group"><label>Téléphone</label><input type="tel" placeholder="+225 07 XX XX XX XX" required /></div>
-        <div className="form-group"><label>Email</label><input type="email" placeholder="email@organisation.ci" required /></div>
+        <div className="form-group"><label>Téléphone</label><input type="tel" placeholder="+225 07 XX XX XX XX" value={telephone} onChange={e => setTelephone(e.target.value)} disabled={dis} required /></div>
+        <div className="form-group"><label>Email</label><input type="email" placeholder="email@organisation.ci" value={email} onChange={e => setEmail(e.target.value)} disabled={dis} required /></div>
       </div>
       <div className="form-row">
-        <div className="form-group"><label>Nom de l&apos;événement</label><input type="text" placeholder="Ex: Abidjan Music Fest" required /></div>
+        <div className="form-group"><label>Nom de l&apos;événement</label><input type="text" placeholder="Ex: Abidjan Music Fest" value={evenement} onChange={e => setEvenement(e.target.value)} disabled={dis} required /></div>
         <div className="form-group">
           <label>Type d&apos;événement</label>
-          <select>
+          <select value={typeEvenement} onChange={e => setTypeEvenement(e.target.value)} disabled={dis}>
             <option value="">Sélectionner...</option>
             <option>Concert / Festival</option>
             <option>Conférence</option>
@@ -173,22 +232,23 @@ function PartenaireForm() {
         </div>
       </div>
       <div className="form-row">
-        <div className="form-group"><label>Date prévue</label><input type="date" /></div>
-        <div className="form-group"><label>Lieu</label><input type="text" placeholder="Ex: Palais de la Culture, Abidjan" /></div>
+        <div className="form-group"><label>Date prévue</label><input type="date" value={dateEvenement} onChange={e => setDateEvenement(e.target.value)} disabled={dis} /></div>
+        <div className="form-group"><label>Lieu</label><input type="text" placeholder="Ex: Palais de la Culture, Abidjan" value={lieu} onChange={e => setLieu(e.target.value)} disabled={dis} /></div>
       </div>
       <div className="form-group">
         <label>Partenariats souhaités</label>
         <div className="chk-group">
           {SERVICES.map(s => (
             <label key={s} className="chk-item">
-              <input type="checkbox" checked={checks.includes(s)} onChange={() => toggle(s)} />
+              <input type="checkbox" checked={checks.includes(s)} onChange={() => toggle(s)} disabled={dis} />
               <span>{s}</span>
             </label>
           ))}
         </div>
       </div>
-      <div className="form-group"><label>Description du projet</label><textarea rows={3} placeholder="Décrivez votre projet et vos attentes..." /></div>
-      <button type="submit" className="btn btn-or">Envoyer la demande</button>
+      <div className="form-group"><label>Description du projet</label><textarea rows={3} placeholder="Décrivez votre projet et vos attentes..." value={description} onChange={e => setDescription(e.target.value)} disabled={dis} /></div>
+      {status === 'error' && <p className="ded-error">Erreur lors de l&apos;envoi. Réessayez ou appelez le +225 20 21 85 50.</p>}
+      <button type="submit" className="btn btn-or" disabled={dis}>{dis ? 'Envoi en cours...' : 'Envoyer la demande'}</button>
     </form>
   )
 }
