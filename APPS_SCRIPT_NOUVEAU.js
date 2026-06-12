@@ -65,7 +65,7 @@ function handleReservation(data) {
 
   // Envoyer l'email à l'assistant commercial
   MailApp.sendEmail({
-    to: 'assistant.comercial@nostalgie.ci',
+    to: 'assistant.commercial@nostalgie.ci',
     subject: '🔔 Réservation pub — ' + data.societe + ' — ' + data.total,
     htmlBody: buildEmailHtml(data)
   });
@@ -118,7 +118,7 @@ function buildEmailHtml(data) {
 
     // Pied de page
     + '<div style="padding:16px 28px;background:#0a0a0a;text-align:center;font-size:11px;color:#555">'
-    + 'Nostalgie CI · 101.1 FM · assistant.comercial@nostalgie.ci'
+    + 'Nostalgie CI · 101.1 FM · assistant.commercial@nostalgie.ci'
     + '</div>'
     + '</div>';
 }
@@ -139,7 +139,7 @@ function testEmail() {
   MailApp.sendEmail({
     to: 'nostalgiecotedivoire@gmail.com',
     subject: 'Test email — Nostalgie CI Réservations',
-    body: 'Le système d\'envoi d\'emails fonctionne correctement.\nLes réservations publicitaires seront transmises à assistant.comercial@nostalgie.ci'
+    body: 'Le système d\'envoi d\'emails fonctionne correctement.\nLes réservations publicitaires seront transmises à assistant.commercial@nostalgie.ci'
   });
   Logger.log('Email de test envoyé avec succès');
 }
