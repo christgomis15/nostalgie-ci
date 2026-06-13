@@ -1,0 +1,61 @@
+// ═══════════════════════════════════════════════════════════════════
+//  Contenu Podcasts & Replay
+//  Pour ajouter un épisode : copier un bloc { } et renseigner les champs.
+//  youtubeId = la partie après "v=" dans l'URL YouTube
+//  Ex : https://www.youtube.com/watch?v=gDnPEIdCZrk → youtubeId: 'gDnPEIdCZrk'
+// ═══════════════════════════════════════════════════════════════════
+
+export interface ContentItem {
+  id: number
+  youtubeId: string
+  titre: string
+  emission: string
+  date: string
+  duree?: string
+  description?: string
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  PODCASTS — contenus exclusifs web, non diffusés sur la radio
+// ────────────────────────────────────────────────────────────────────
+export const PODCASTS: ContentItem[] = [
+  {
+    id: 1,
+    youtubeId: 'gDnPEIdCZrk',
+    titre: 'Exemple de podcast exclusif',
+    emission: 'Nostalgie CI',
+    date: '13 juin 2026',
+    duree: '12 min',
+    description: 'Premier podcast exclusif web de Nostalgie CI.',
+  },
+]
+
+// ────────────────────────────────────────────────────────────────────
+//  REPLAY AUDIO — émissions passées ou séquences, avec image fixe
+// ────────────────────────────────────────────────────────────────────
+export const REPLAYS_AUDIO: ContentItem[] = [
+  {
+    id: 1,
+    youtubeId: 'gDnPEIdCZrk',
+    titre: 'Le Crazy Morning — intégrale du 13 juin',
+    emission: 'Le Crazy Morning',
+    date: '13 juin 2026',
+    duree: '4h00',
+    description: 'Replay complet de l\'émission matinale du vendredi 13 juin 2026.',
+  },
+]
+
+// ────────────────────────────────────────────────────────────────────
+//  REPLAY VIDÉO — émissions filmées ou séquences vidéo
+// ────────────────────────────────────────────────────────────────────
+export const REPLAYS_VIDEO: ContentItem[] = [
+  {
+    id: 1,
+    youtubeId: 'gDnPEIdCZrk',
+    titre: 'Nostalgie Live — test retransmission',
+    emission: 'Nostalgie Live',
+    date: '13 juin 2026',
+    duree: '1h30',
+    description: 'Première retransmission vidéo en direct depuis les studios de Nostalgie CI.',
+  },
+]

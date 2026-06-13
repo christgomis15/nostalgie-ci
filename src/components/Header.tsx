@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { href: '/',          label: 'Accueil'   },
   { href: '/emissions', label: 'Émissions' },
   { href: '/actus',     label: 'Actus'     },
-  { href: '/podcasts',  label: 'Podcasts'  },
+  { href: '/podcasts',  label: 'Podcasts & Replay' },
   { href: '/dedicaces', label: 'Dédicaces' },
   { href: '/contact',   label: 'Contact'   },
   { href: '/live',      label: 'Live'      },
