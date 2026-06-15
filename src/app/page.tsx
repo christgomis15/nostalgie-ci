@@ -106,6 +106,8 @@ export default function Accueil() {
         </div>
       </section>
 
+      <NewsletterWidget />
+
       <div className="freq-footer">
         <div className="freq-footer-inner">
           <p className="freq-footer-title">Fréquences en Côte d&apos;Ivoire</p>
@@ -120,8 +122,6 @@ export default function Accueil() {
           </div>
         </div>
       </div>
-
-      <NewsletterWidget />
     </>
   )
 }
