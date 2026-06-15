@@ -5,15 +5,6 @@ import { useEffect, useState, useCallback } from 'react'
 import { usePlayerStore } from '@/lib/player-store'
 import NewsletterWidget from '@/components/NewsletterWidget'
 
-const FREQUENCES = [
-  { freq: '101.1', villes: 'Abidjan – Banlieue' },
-  { freq: '106.5', villes: 'Bouaké – Katiola – Botro – Béoumi – Sakassou – Tiébissou – Prikro' },
-  { freq: '92.8',  villes: 'Yamoussoukro – Toumodi – Dimbokro – Bouaflé – Sinfra – Zuénoula – Oumé – Guibéroua – Bonon' },
-  { freq: '97.3',  villes: 'San-Pédro – Soubré – Sassandra – Taï – Méagui – Grand-Béréby – Buyo – Lakota' },
-  { freq: '98.3',  villes: 'Daloa et environs' },
-  { freq: '91.7',  villes: 'Korhogo et environs' },
-  { freq: '87.9',  villes: 'Abengourou et environs' },
-]
 
 const INTRO_DURATION = 20000
 
@@ -107,21 +98,6 @@ export default function Accueil() {
       </section>
 
       <NewsletterWidget />
-
-      <div className="freq-footer">
-        <div className="freq-footer-inner">
-          <p className="freq-footer-title">Fréquences en Côte d&apos;Ivoire</p>
-          <div className="freq-list">
-            {FREQUENCES.map((f) => (
-              <div key={f.freq} className="freq-row">
-                <span className="freq-number">{f.freq}</span>
-                <span className="freq-fm-tag">FM</span>
-                <span className="freq-cities">{f.villes}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
     </>
   )
 }

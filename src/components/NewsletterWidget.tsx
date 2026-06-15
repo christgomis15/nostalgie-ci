@@ -1,11 +1,21 @@
 'use client'
 import { useState } from 'react'
 
+const FREQUENCES = [
+  { freq: '101.1', ville: 'Abidjan' },
+  { freq: '106.5', ville: 'Bouaké' },
+  { freq: '92.8',  ville: 'Yamoussoukro' },
+  { freq: '97.3',  ville: 'San-Pédro' },
+  { freq: '98.3',  ville: 'Daloa' },
+  { freq: '91.7',  ville: 'Korhogo' },
+  { freq: '87.9',  ville: 'Abengourou' },
+]
+
 export default function NewsletterWidget() {
-  const [email, setEmail]     = useState('')
-  const [prenom, setPrenom]   = useState('')
+  const [email, setEmail]       = useState('')
+  const [prenom, setPrenom]     = useState('')
   const [honeypot, setHoneypot] = useState('')
-  const [status, setStatus]   = useState<'idle' | 'loading' | 'ok' | 'err'>('idle')
+  const [status, setStatus]     = useState<'idle' | 'loading' | 'ok' | 'err'>('idle')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -25,13 +35,18 @@ export default function NewsletterWidget() {
 
   return (
     <section className="nl-section">
+
+      {/* ── Formulaire ── */}
       <div className="nl-inner">
-        <div className="nl-deco-line" />
-        <span className="nl-badge">Newsletter</span>
-        <h2 className="nl-title">Restez dans le&nbsp;rythme</h2>
+        <span className="nl-badge">Newsletter · Chaque vendredi</span>
+
+        <h2 className="nl-title">
+          Rejoignez la communauté<br />
+          <em>Nostalgie CI</em>
+        </h2>
+
         <p className="nl-sub">
-          Programmes, top charts, coulisses et exclusivités —<br />
-          chaque vendredi dans votre boîte mail.
+          Programmes, top charts, coulisses et exclusivités dans votre boîte mail.
         </p>
 
         {status === 'ok' ? (
@@ -44,7 +59,6 @@ export default function NewsletterWidget() {
           </div>
         ) : (
           <form className="nl-form" onSubmit={handleSubmit}>
-            {/* Honeypot anti-spam */}
             <input
               type="text"
               name="website"
@@ -54,11 +68,11 @@ export default function NewsletterWidget() {
               tabIndex={-1}
               autoComplete="off"
             />
-            <div className="nl-fields">
+            <div className="nl-row">
               <input
                 className="nl-input"
                 type="text"
-                placeholder="Votre prénom"
+                placeholder="Prénom"
                 value={prenom}
                 onChange={e => setPrenom(e.target.value)}
                 autoComplete="given-name"
@@ -66,24 +80,46 @@ export default function NewsletterWidget() {
               <input
                 className="nl-input nl-input-email"
                 type="email"
-                placeholder="Votre adresse email"
+                placeholder="Adresse email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
                 autoComplete="email"
               />
               <button className="nl-btn" type="submit" disabled={status === 'loading'}>
-                {status === 'loading' ? 'Inscription…' : "S'abonner"}
+                {status === 'loading' ? 'Envoi…' : "S'abonner"}
               </button>
             </div>
             {status === 'err' && (
-              <p className="nl-error">Une erreur est survenue. Réessayez dans un instant.</p>
+              <p className="nl-error">Une erreur est survenue. Réessayez.</p>
             )}
           </form>
         )}
 
-        <p className="nl-mention">Désinscription en 1 clic · Aucun spam · Données protégées</p>
+        <p className="nl-mention">Désinscription en 1 clic · Aucun spam</p>
       </div>
+
+      {/* ── Séparateur ── */}
+      <div className="nl-divider">
+        <div className="nl-divider-line" />
+        <div className="nl-divider-dot" />
+        <div className="nl-divider-line" />
+      </div>
+
+      {/* ── Fréquences ── */}
+      <div className="nl-freq">
+        <p className="nl-freq-label">Nos fréquences en Côte d&apos;Ivoire</p>
+        <div className="nl-freq-badges">
+          {FREQUENCES.map((f) => (
+            <div key={f.freq} className="nl-freq-badge">
+              <span className="nl-freq-num">{f.freq}</span>
+              <span className="nl-freq-fm">FM</span>
+              <span className="nl-freq-ville">{f.ville}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </section>
   )
 }
