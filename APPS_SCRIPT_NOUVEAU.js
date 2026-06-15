@@ -6,6 +6,9 @@
 
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);
+  if (data.type === 'newsletter') {
+    return handleNewsletter(data);
+  }
   if (data.type === 'reservation') {
     return handleReservation(data);
   }
@@ -16,6 +19,41 @@ function doPost(e) {
     return handlePartenariat(data);
   }
   return handleDedicace(data);
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  NEWSLETTER → feuille "Abonnés Newsletter"
+// ────────────────────────────────────────────────────────────────────
+function handleNewsletter(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  var sheet = ss.getSheetByName('Abonnés Newsletter');
+  if (!sheet) {
+    sheet = ss.insertSheet('Abonnés Newsletter');
+    sheet.appendRow(['Date inscription', 'Prénom', 'Email', 'Statut']);
+    sheet.getRange(1, 1, 1, 4).setFontWeight('bold');
+  }
+
+  // Vérifier si l'email est déjà inscrit
+  var emails = sheet.getRange(2, 3, Math.max(sheet.getLastRow() - 1, 1), 1).getValues();
+  for (var i = 0; i < emails.length; i++) {
+    if (emails[i][0] === data.email) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: true, already: true }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
+  sheet.appendRow([
+    new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' }),
+    data.prenom || '—',
+    data.email,
+    'Actif'
+  ]);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // ────────────────────────────────────────────────────────────────────

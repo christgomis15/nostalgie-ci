@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useState, useCallback } from 'react'
 import { usePlayerStore } from '@/lib/player-store'
+import NewsletterWidget from '@/components/NewsletterWidget'
 
 const FREQUENCES = [
   { freq: '101.1', villes: 'Abidjan – Banlieue' },
@@ -119,6 +120,8 @@ export default function Accueil() {
           </div>
         </div>
       </div>
+
+      <NewsletterWidget />
     </>
   )
 }
