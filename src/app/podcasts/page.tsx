@@ -1,14 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { PODCASTS, REPLAYS_AUDIO, REPLAYS_VIDEO, type ContentItem } from '@/data/replay-content'
+import { REPLAYS_AUDIO, REPLAYS_VIDEO, type ContentItem } from '@/data/replay-content'
 
-type Tab = 'podcasts' | 'audio' | 'video'
+type Tab = 'audio' | 'video'
 
 const TABS: { key: Tab; label: string; icon: string; vide: string }[] = [
-  { key: 'podcasts', label: 'Podcasts',     icon: '🎙️', vide: 'Aucun podcast disponible pour le moment.' },
-  { key: 'audio',    label: 'Replay Audio', icon: '🎧', vide: 'Aucun replay audio disponible pour le moment.' },
-  { key: 'video',    label: 'Replay Vidéo', icon: '📺', vide: 'Aucun replay vidéo disponible pour le moment.' },
+  { key: 'audio', label: 'Replay Audio', icon: '🎧', vide: 'Aucun replay audio disponible pour le moment.' },
+  { key: 'video', label: 'Replay Vidéo', icon: '📺', vide: 'Aucun replay vidéo disponible pour le moment.' },
 ]
 
 const EMISSIONS_FILTER = [
@@ -24,11 +23,11 @@ function ytThumb(id: string) {
 }
 
 export default function PodcastsReplay() {
-  const [tab, setTab] = useState<Tab>('podcasts')
+  const [tab, setTab] = useState<Tab>('audio')
   const [emFilter, setEmFilter] = useState('Tous')
   const [modal, setModal] = useState<ContentItem | null>(null)
 
-  const allItems = tab === 'podcasts' ? PODCASTS : tab === 'audio' ? REPLAYS_AUDIO : REPLAYS_VIDEO
+  const allItems = tab === 'audio' ? REPLAYS_AUDIO : REPLAYS_VIDEO
   const items = emFilter === 'Tous' ? allItems : allItems.filter(i => i.emission === emFilter)
   const currentTab = TABS.find(t => t.key === tab)!
 
