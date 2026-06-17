@@ -671,6 +671,23 @@ textarea { resize: vertical; min-height: 100px; }
 /* ════════════════════════════════════════
    DÉDICACES
 ════════════════════════════════════════ */
+.ded-info {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: rgba(212,168,67,0.08);
+  border: 1px solid rgba(212,168,67,0.25);
+  border-radius: 8px;
+  padding: 16px 20px;
+  max-width: 640px;
+  margin-bottom: 28px;
+}
+.ded-info-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.ded-info strong { color: var(--or); font-size: 14px; display: block; margin-bottom: 8px; }
+.ded-info-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.ded-info-list li { font-size: 13px; color: rgba(245,240,232,0.75); }
+.ded-info-em { color: var(--blanc); font-weight: 600; }
+
 .ded-form { max-width: 640px; }
 .ded-confirm { text-align: center; padding: 60px 24px; }
 .ded-confirm-icon { font-size: 48px; margin-bottom: 16px; }

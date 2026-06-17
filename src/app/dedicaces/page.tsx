@@ -3,12 +3,8 @@
 import { useState } from 'react'
 
 const EMISSIONS_LIST = [
-  'Le Crazy Morning (Lun–Ven · 06h–10h)',
-  'Hits & Co (Lun–Ven · 12h–15h)',
-  'Brand New (Lun–Ven · 15h–16h)',
-  "L'Afterwork (Lun–Jeu · 17h–19h)",
-  'La Peufra (Samedis · 14h–16h)',
-  'Kaboré Fait Son Show (Sam–Dim · 18h–19h)',
+  'Le Crazy Morning (Lun–Ven · dédicaces à partir de 09h)',
+  'Hits & Co (Lun–Ven · dédicaces à partir de 14h30)',
 ]
 
 type FormState = {
@@ -84,6 +80,17 @@ export default function Dedicaces() {
     <section className="page-section">
       <p className="section-label">Faites plaisir</p>
       <h1 className="section-title">Envoyer une Dédicace</h1>
+
+      <div className="ded-info">
+        <span className="ded-info-icon">🎙️</span>
+        <div>
+          <strong>Créneaux dédicaces sur le 101.1 FM</strong>
+          <ul className="ded-info-list">
+            <li><span className="ded-info-em">Le Crazy Morning</span> — à partir de <strong>09h00</strong> (Lun–Ven)</li>
+            <li><span className="ded-info-em">Hits &amp; Co</span> — à partir de <strong>14h30</strong> (Lun–Ven)</li>
+          </ul>
+        </div>
+      </div>
 
       <form className="ded-form" onSubmit={handleSubmit}>
         <input type="text" name="website" className="hp-field" tabIndex={-1} autoComplete="off" value={hp} onChange={e => setHp(e.target.value)} aria-hidden="true" />
