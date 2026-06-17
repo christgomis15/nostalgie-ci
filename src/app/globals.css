@@ -2197,6 +2197,19 @@ html.intro-mode .wr-ticker {
 .pr-tab.active { background: var(--or); color: #000; border-color: var(--or); }
 .pr-tab-icon { font-size: 16px; }
 
+/* Filtres par émission */
+.pr-em-filters {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px;
+}
+.pr-em-filter {
+  padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--g3); background: transparent;
+  color: rgba(245,240,232,0.5); cursor: pointer; transition: all 0.18s;
+  letter-spacing: 0.3px;
+}
+.pr-em-filter:hover { border-color: var(--or); color: var(--blanc); }
+.pr-em-filter.active { background: rgba(212,168,67,0.15); border-color: var(--or); color: var(--or); }
+
 /* Grille de cartes */
 .pr-grid {
   display: grid;

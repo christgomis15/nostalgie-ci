@@ -11,16 +11,31 @@ const TABS: { key: Tab; label: string; icon: string; vide: string }[] = [
   { key: 'video',    label: 'Replay Vidéo', icon: '📺', vide: 'Aucun replay vidéo disponible pour le moment.' },
 ]
 
+const EMISSIONS_FILTER = [
+  'Tous',
+  'Le Crazy Morning',
+  'Hits & Co',
+  "L'Afterwork",
+  'Les Canulars de Kaboré',
+]
+
 function ytThumb(id: string) {
   return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`
 }
 
 export default function PodcastsReplay() {
   const [tab, setTab] = useState<Tab>('podcasts')
+  const [emFilter, setEmFilter] = useState('Tous')
   const [modal, setModal] = useState<ContentItem | null>(null)
 
-  const items = tab === 'podcasts' ? PODCASTS : tab === 'audio' ? REPLAYS_AUDIO : REPLAYS_VIDEO
+  const allItems = tab === 'podcasts' ? PODCASTS : tab === 'audio' ? REPLAYS_AUDIO : REPLAYS_VIDEO
+  const items = emFilter === 'Tous' ? allItems : allItems.filter(i => i.emission === emFilter)
   const currentTab = TABS.find(t => t.key === tab)!
+
+  function switchTab(t: Tab) {
+    setTab(t)
+    setEmFilter('Tous')
+  }
 
   return (
     <>
@@ -34,10 +49,23 @@ export default function PodcastsReplay() {
             <button
               key={t.key}
               className={`pr-tab ${tab === t.key ? 'active' : ''}`}
-              onClick={() => setTab(t.key)}
+              onClick={() => switchTab(t.key)}
             >
               <span className="pr-tab-icon">{t.icon}</span>
               {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Filtre par émission */}
+        <div className="pr-em-filters">
+          {EMISSIONS_FILTER.map(em => (
+            <button
+              key={em}
+              className={`pr-em-filter ${emFilter === em ? 'active' : ''}`}
+              onClick={() => setEmFilter(em)}
+            >
+              {em}
             </button>
           ))}
         </div>
