@@ -36,12 +36,10 @@ export const PODCASTS: ContentItem[] = [
 export const REPLAYS_AUDIO: ContentItem[] = [
   {
     id: 1,
-    youtubeId: 'gDnPEIdCZrk',
-    titre: 'Le Crazy Morning — intégrale du 13 juin',
+    youtubeId: 'C4_u4sEPHaQ',
+    titre: 'Parlons français',
     emission: 'Le Crazy Morning',
-    date: '13 juin 2026',
-    duree: '4h00',
-    description: 'Replay complet de l\'émission matinale du vendredi 13 juin 2026.',
+    date: '17 juin 2026',
   },
 ]
 
