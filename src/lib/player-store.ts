@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
 const STREAM_URL = 'https://nostalgie.orange.ci/nostalgie2.mp3'
+const PREROLL_URL = '/preroll%20streaming.mp3'
 
 export interface Webradio {
   badge: string
@@ -24,6 +25,7 @@ export const WEBRADIOS: Webradio[] = [
 interface PlayerState {
   isPlaying: boolean
   isLoading: boolean
+  isPreroll: boolean
   streamError: string | null
   currentRadio: Webradio
   audio: HTMLAudioElement | null
@@ -43,37 +45,69 @@ function createAudio(url: string, onEnd: () => void, onError: (msg: string) => v
 export const usePlayerStore = create<PlayerState>((set, get) => ({
   isPlaying: false,
   isLoading: false,
+  isPreroll: false,
   streamError: null,
   currentRadio: WEBRADIOS[0],
   audio: null,
 
   toggle: () => {
-    const { isPlaying, audio, currentRadio } = get()
+    const { isPlaying, audio, currentRadio, isPreroll } = get()
 
     if (!currentRadio.stream) return
+    if (isPreroll) return // preroll en cours, on ne coupe pas
 
-    if (!audio) {
-      set({ isLoading: true, streamError: null })
+    // Pause / reprise si le flux est déjà chargé
+    if (audio) {
+      if (isPlaying) {
+        audio.pause()
+        set({ isPlaying: false })
+      } else {
+        set({ isLoading: true, streamError: null })
+        audio.play()
+          .then(() => set({ isPlaying: true, isLoading: false }))
+          .catch(() => set({ isPlaying: false, isLoading: false, streamError: 'Impossible de démarrer le flux.' }))
+      }
+      return
+    }
+
+    // Premier démarrage
+    const stream = currentRadio.stream
+    const launchStream = () => {
       const newAudio = createAudio(
-        currentRadio.stream,
+        stream,
         () => set({ isPlaying: false }),
         (msg) => set({ isPlaying: false, isLoading: false, streamError: msg }),
       )
       newAudio.play()
-        .then(() => set({ audio: newAudio, isPlaying: true, isLoading: false }))
-        .catch(() => set({ audio: null, isPlaying: false, isLoading: false, streamError: 'Impossible de démarrer le flux.' }))
+        .then(() => set({ audio: newAudio, isPlaying: true, isLoading: false, isPreroll: false }))
+        .catch(() => set({ audio: null, isPlaying: false, isLoading: false, isPreroll: false, streamError: 'Impossible de démarrer le flux.' }))
+    }
+
+    const prerollDone = typeof window !== 'undefined' && sessionStorage.getItem('preroll-done') === '1'
+
+    if (prerollDone) {
+      set({ isLoading: true, streamError: null })
+      launchStream()
       return
     }
 
-    if (isPlaying) {
-      audio.pause()
-      set({ isPlaying: false })
-    } else {
-      set({ isLoading: true, streamError: null })
-      audio.play()
-        .then(() => set({ isPlaying: true, isLoading: false }))
-        .catch(() => set({ isPlaying: false, isLoading: false, streamError: 'Impossible de démarrer le flux.' }))
-    }
+    // Lecture du preroll puis enchaînement sur le flux
+    set({ isLoading: true, streamError: null, isPreroll: true })
+    const preroll = new Audio(PREROLL_URL)
+    preroll.addEventListener('ended', () => {
+      sessionStorage.setItem('preroll-done', '1')
+      launchStream()
+    })
+    preroll.addEventListener('error', () => {
+      set({ isPreroll: false })
+      launchStream()
+    })
+    preroll.play()
+      .then(() => set({ isPlaying: true, isLoading: false }))
+      .catch(() => {
+        set({ isPreroll: false, isLoading: false })
+        launchStream()
+      })
   },
 
   switchRadio: (radio: Webradio) => {

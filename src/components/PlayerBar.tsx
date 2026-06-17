@@ -3,7 +3,7 @@
 import { usePlayerStore, WEBRADIOS } from '@/lib/player-store'
 
 export default function PlayerBar() {
-  const { isPlaying, isLoading, streamError, currentRadio, toggle, switchRadio } = usePlayerStore()
+  const { isPlaying, isLoading, isPreroll, streamError, currentRadio, toggle, switchRadio } = usePlayerStore()
 
   const handleRadioClick = (radio: typeof WEBRADIOS[0]) => {
     if (!radio.stream) return
@@ -24,6 +24,8 @@ export default function PlayerBar() {
           <div className="pb-desc">
             {streamError
               ? <span style={{ color: '#ff6b6b', fontSize: '10px' }}>{streamError}</span>
+              : isPreroll
+              ? <span style={{ color: '#D4A843', fontSize: '10px' }}>Message en cours…</span>
               : currentRadio.desc}
           </div>
         </div>
