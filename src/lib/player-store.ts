@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
 const STREAM_URL = 'https://nostalgie.orange.ci/nostalgie2.mp3'
-const PREROLL_URL = '/preroll%20streaming.mp3'
+const PREROLL_URL = '/PREEROLL%20STREAMING.mp3'
 
 export interface Webradio {
   badge: string
