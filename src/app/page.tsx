@@ -92,7 +92,7 @@ export default function Accueil() {
             <button className="btn btn-or" onClick={toggle}>
               {isPlaying ? '⏸ En cours...' : '▶ Écouter en Direct'}
             </button>
-            <Link href="/podcasts" className="btn btn-outline">Nos Podcasts</Link>
+            <Link href="/podcasts" className="btn btn-outline">Podcasts &amp; Replays</Link>
           </div>
         </div>
       </section>

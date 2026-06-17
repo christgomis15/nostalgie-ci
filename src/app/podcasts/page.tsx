@@ -26,7 +26,7 @@ export default function PodcastsReplay() {
     <>
       <section className="page-section">
         <p className="section-label">À la demande</p>
-        <h1 className="section-title">Podcasts & Replay</h1>
+        <h1 className="section-title">Podcasts &amp; Replays</h1>
 
         {/* Onglets */}
         <div className="pr-tabs">
