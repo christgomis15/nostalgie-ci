@@ -49,6 +49,13 @@ export const REPLAYS_AUDIO: ContentItem[] = [
 export const REPLAYS_VIDEO: ContentItem[] = [
   {
     id: 1,
+    youtubeId: 'ZCAx0vm0d7g',
+    titre: 'TRK revient sur l\'incident survenu pendant sa prestation au Burkina Faso',
+    emission: 'Le Crazy Morning',
+    date: '17 juin 2026',
+  },
+  {
+    id: 2,
     youtubeId: 'J-BiKCfjYRs',
     titre: 'Côte d\'Ivoire : quel numéro 9 pour démarrer face à l\'Équateur ?',
     emission: 'Nostafoot',
