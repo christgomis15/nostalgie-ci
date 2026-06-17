@@ -1,0 +1,95 @@
+========================================================
+  NOSTALGIE CI — CHECKLIST NEWSLETTER HEBDOMADAIRE
+  À préparer chaque semaine avant le vendredi
+========================================================
+
+TEXTES À FOURNIR (7 éléments)
+──────────────────────────────
+[ ] 1. À LA UNE
+      - Titre accrocheur (ex: "CIV 1-0 Ecuador : les Éléphants...")
+      - Texte court 2-3 lignes (ton dynamique, style Nostalgie)
+      - Rubrique/Tag (ex: WC2026, Musique, Actu CI...)
+
+[ ] 2. ACCROCHE ÉMISSION SEMAINE
+      - Crazy Morning : quoi de spécial cette semaine ?
+        (invité ? défi ? thème particulier ?)
+
+[ ] 3. TOP 5 DE LA SEMAINE
+      - 5 artistes + titres de chansons
+        (ex: Ariel Sheney — "Mon Choix")
+      - Genre pour chacun (Afrobeats, Coupé-Décalé, Zouglou...)
+
+[ ] 4. COULISSES — PORTRAIT DE L'ANIMATEUR/TRICE
+      - Prénom + Nom de l'animateur(trice) mis en avant
+      - 3-4 lignes : anecdote, coulisse, moment de vie
+
+[ ] 5. JEU / CONCOURS
+      - Question ou défi de la semaine
+      - Ce qu'on gagne (lot)
+      - Nom du partenaire (si applicable)
+
+[ ] 6. PARTENAIRE DE LA SEMAINE
+      - Nom du partenaire/sponsor
+      - Message court (1-2 lignes maximum)
+      - Lien vers leur site (si disponible)
+
+[ ] 7. AGENDA — 2 ÉVÉNEMENTS
+      - Événement 1 : Date + Nom + Lieu + Description 1 ligne
+      - Événement 2 : Date + Nom + Lieu + Description 1 ligne
+
+
+PHOTOS À FOURNIR (4 images)
+────────────────────────────
+[ ] 1. PHOTO À LA UNE
+      Format : horizontale / paysage (ex: score match, affiche événement)
+      Usage  : grande image en haut de l'article principal
+      Taille idéale : 544 × 200 px (ou plus grand, même ratio)
+
+[ ] 2. PORTRAIT ANIMATEUR/TRICE (Coulisses)
+      Format : portrait / carré de préférence
+      Usage  : photo ronde dans la section coulisses
+      Taille idéale : 200 × 200 px minimum
+
+[ ] 3. VIGNETTE PODCAST/ÉMISSION (Audio)
+      Format : paysage
+      Usage  : miniature de la carte podcast audio
+      Taille idéale : 260 × 110 px
+
+[ ] 4. VIGNETTE VIDÉO / REPLAY
+      Format : paysage
+      Usage  : miniature de la carte replay vidéo
+      Taille idéale : 260 × 110 px
+
+  ⚠️  Si vous n'avez pas de photo pour une rubrique,
+      dites-le à Claude qui utilisera la semaine précédente
+      ou proposera une alternative.
+
+
+PARTENAIRE / SPONSOR (optionnel)
+─────────────────────────────────
+[ ] Logo du partenaire (format paysage de préférence)
+    → Copier dans public/img/ + indiquer le nom du fichier
+
+
+PROCÉDURE COMPLÈTE CHAQUE VENDREDI
+────────────────────────────────────
+1. Envoyez textes + photos à Claude dans la conversation
+2. Claude remplit newsletter-[date].html
+3. Copier les images dans public/img/ avec les noms indiqués
+4. Dans VS Code terminal :
+      git add .
+      git commit -m "feat: newsletter [date]"
+      git push
+5. Attendre 2-3 minutes (déploiement Vercel)
+6. Ouvrir newsletter-[date].html avec le Bloc-notes
+7. Ctrl+A → Ctrl+C
+8. Dans Brevo → Campagnes → Nouvelle campagne (ou dupliquer)
+   → Modifier le design → Ctrl+A → Ctrl+V → Enregistrer
+9. Programmer l'envoi (vendredi, heure choisie)
+
+========================================================
+  CONTACTS UTILES
+  Brevo       : https://app.brevo.com
+  Site live   : https://nostalgie-ci.vercel.app
+  GitHub      : github.com/christgomis15/nostalgie-ci
+========================================================
