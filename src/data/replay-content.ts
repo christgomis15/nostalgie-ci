@@ -51,11 +51,9 @@ export const REPLAYS_AUDIO: ContentItem[] = [
 export const REPLAYS_VIDEO: ContentItem[] = [
   {
     id: 1,
-    youtubeId: 'gDnPEIdCZrk',
-    titre: 'Nostalgie Live — test retransmission',
-    emission: 'Nostalgie Live',
-    date: '13 juin 2026',
-    duree: '1h30',
-    description: 'Première retransmission vidéo en direct depuis les studios de Nostalgie CI.',
+    youtubeId: 'J-BiKCfjYRs',
+    titre: 'Côte d\'Ivoire : quel numéro 9 pour démarrer face à l\'Équateur ?',
+    emission: 'Nostafoot',
+    date: '09 juin 2026',
   },
 ]
