@@ -3,7 +3,8 @@ import { useEffect, useState, useRef } from 'react'
 
 type Mode = 'android' | 'android-manual' | 'ios-safari' | 'ios-other' | null
 
-const STORAGE_KEY = 'pwa-dismissed-v2'
+const STORAGE_KEY = 'pwa-dismissed-v3'
+const DISMISS_MS = 7 * 24 * 60 * 60 * 1000
 
 export default function PWAInstallBanner() {
   const [prompt, setPrompt] = useState<any>(null)
@@ -13,7 +14,8 @@ export default function PWAInstallBanner() {
 
   useEffect(() => {
     if (window.matchMedia('(display-mode: standalone)').matches) return
-    if (localStorage.getItem(STORAGE_KEY) === '1') return
+    const dismissed = localStorage.getItem(STORAGE_KEY)
+    if (dismissed && Date.now() - parseInt(dismissed) < DISMISS_MS) return
 
     const ua = navigator.userAgent
     const isIOS = /iphone|ipad|ipod/i.test(ua)
@@ -58,7 +60,7 @@ export default function PWAInstallBanner() {
 
   function dismiss() {
     setVisible(false)
-    localStorage.setItem(STORAGE_KEY, '1')
+    localStorage.setItem(STORAGE_KEY, Date.now().toString())
   }
 
   if (!visible || !mode) return null
