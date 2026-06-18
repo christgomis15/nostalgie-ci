@@ -25,9 +25,8 @@ export default function PWAInstallBanner() {
       return
     }
 
-    if (!isAndroid) return // desktop : pas de bannière
+    if (!isAndroid) return
 
-    // Fallback si beforeinstallprompt ne se déclenche pas (cooldown Chrome après désinstall)
     fallbackTimer.current = setTimeout(() => {
       setMode('android-manual')
       setVisible(true)
@@ -62,14 +61,33 @@ export default function PWAInstallBanner() {
 
   if (!visible || !mode) return null
 
+  // Bannière iOS : instructions étape par étape
+  if (mode === 'ios') {
+    return (
+      <div className="pwa-banner pwa-banner-ios">
+        <button className="pwa-banner-close" onClick={dismiss} aria-label="Fermer">✕</button>
+        <div className="pwa-ios-title">
+          <div className="pwa-banner-icon">N</div>
+          <strong>Installer Nostalgie CI</strong>
+        </div>
+        <p className="pwa-ios-subtitle">Ouvrez ce site dans <strong>Safari</strong> puis :</p>
+        <ol className="pwa-ios-steps">
+          <li><span className="pwa-ios-step-icon">⎋</span> Appuyez sur le bouton <strong>Partager</strong></li>
+          <li><span className="pwa-ios-step-icon">＋</span> Choisissez <strong>«&nbsp;Sur l&apos;écran d&apos;accueil&nbsp;»</strong></li>
+          <li><span className="pwa-ios-step-icon">✓</span> Confirmez en haut à droite</li>
+        </ol>
+      </div>
+    )
+  }
+
+  // Bannière Android
   return (
     <div className="pwa-banner">
       <div className="pwa-banner-icon">N</div>
       <div className="pwa-banner-text">
         <strong>Nostalgie CI</strong>
         {mode === 'android' && <span>Installez l&apos;app sur votre téléphone</span>}
-        {mode === 'android-manual' && <span>Menu ⋮ → &laquo;&nbsp;Ajouter à l&apos;écran d&apos;accueil&nbsp;&raquo;</span>}
-        {mode === 'ios' && <span>Partager → &laquo;&nbsp;Sur l&apos;écran d&apos;accueil&nbsp;&raquo;</span>}
+        {mode === 'android-manual' && <span>Menu <strong>⋮</strong> → <strong>Ajouter à l&apos;écran d&apos;accueil</strong></span>}
       </div>
       {mode === 'android' && (
         <button className="pwa-banner-btn" onClick={install}>Installer</button>

@@ -545,6 +545,65 @@ textarea { resize: vertical; min-height: 100px; }
 }
 .pwa-banner-close:hover { color: var(--blanc); }
 
+/* Bannière iOS — version étendue avec étapes */
+.pwa-banner-ios {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px 16px 20px;
+  position: relative;
+}
+.pwa-banner-ios .pwa-banner-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+.pwa-ios-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pwa-ios-title strong {
+  color: var(--blanc);
+  font-size: 0.95rem;
+}
+.pwa-ios-subtitle {
+  color: #AAA;
+  font-size: 0.82rem;
+  margin: 0;
+}
+.pwa-ios-subtitle strong { color: var(--blanc); }
+.pwa-ios-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.pwa-ios-steps li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.83rem;
+  color: #CCC;
+}
+.pwa-ios-steps li strong { color: var(--blanc); }
+.pwa-ios-step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(212,168,67,0.12);
+  border: 1px solid rgba(212,168,67,0.3);
+  border-radius: 8px;
+  color: var(--or);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
 /* ════════════════════════════════════════
    PLAYER BAR
 ════════════════════════════════════════ */
