@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState, useRef } from 'react'
 
-type Mode = 'android' | 'android-manual' | 'ios' | null
+type Mode = 'android' | 'android-manual' | 'ios-safari' | 'ios-other' | null
 
 const STORAGE_KEY = 'pwa-dismissed-v2'
 
@@ -18,9 +18,11 @@ export default function PWAInstallBanner() {
     const ua = navigator.userAgent
     const isIOS = /iphone|ipad|ipod/i.test(ua)
     const isAndroid = /android/i.test(ua)
+    // Safari iOS : pas de CriOS (Chrome) ni FxiOS (Firefox)
+    const isSafari = isIOS && !/CriOS|FxiOS|OPiOS|mercury/i.test(ua)
 
     if (isIOS) {
-      setMode('ios')
+      setMode(isSafari ? 'ios-safari' : 'ios-other')
       setTimeout(() => setVisible(true), 3000)
       return
     }
@@ -61,8 +63,8 @@ export default function PWAInstallBanner() {
 
   if (!visible || !mode) return null
 
-  // Bannière iOS : instructions étape par étape
-  if (mode === 'ios') {
+  // Sur iOS Safari : instructions étape par étape
+  if (mode === 'ios-safari') {
     return (
       <div className="pwa-banner pwa-banner-ios">
         <button className="pwa-banner-close" onClick={dismiss} aria-label="Fermer">✕</button>
@@ -70,17 +72,55 @@ export default function PWAInstallBanner() {
           <div className="pwa-banner-icon">N</div>
           <strong>Installer Nostalgie CI</strong>
         </div>
-        <p className="pwa-ios-subtitle">Ouvrez ce site dans <strong>Safari</strong> puis :</p>
         <ol className="pwa-ios-steps">
-          <li><span className="pwa-ios-step-icon">⎋</span> Appuyez sur le bouton <strong>Partager</strong></li>
-          <li><span className="pwa-ios-step-icon">＋</span> Choisissez <strong>«&nbsp;Sur l&apos;écran d&apos;accueil&nbsp;»</strong></li>
-          <li><span className="pwa-ios-step-icon">✓</span> Confirmez en haut à droite</li>
+          <li>
+            <span className="pwa-ios-step-icon">1</span>
+            Appuyez sur <strong>Partager</strong> <span style={{fontSize:'1.1em'}}>⎋</span> en bas de Safari
+          </li>
+          <li>
+            <span className="pwa-ios-step-icon">2</span>
+            Faites défiler et choisissez <strong>«&nbsp;Sur l&apos;écran d&apos;accueil&nbsp;»</strong>
+          </li>
+          <li>
+            <span className="pwa-ios-step-icon">3</span>
+            Appuyez sur <strong>Ajouter</strong> en haut à droite
+          </li>
         </ol>
       </div>
     )
   }
 
-  // Bannière Android
+  // Sur Chrome iOS / autre navigateur iOS : redirection vers Safari
+  if (mode === 'ios-other') {
+    return (
+      <div className="pwa-banner pwa-banner-ios">
+        <button className="pwa-banner-close" onClick={dismiss} aria-label="Fermer">✕</button>
+        <div className="pwa-ios-title">
+          <div className="pwa-banner-icon">N</div>
+          <strong>Installer Nostalgie CI</strong>
+        </div>
+        <p className="pwa-ios-subtitle">
+          L&apos;installation nécessite <strong>Safari</strong>
+        </p>
+        <ol className="pwa-ios-steps">
+          <li>
+            <span className="pwa-ios-step-icon">1</span>
+            Copiez ce lien : <strong>nostalgie-ci.vercel.app</strong>
+          </li>
+          <li>
+            <span className="pwa-ios-step-icon">2</span>
+            Ouvrez <strong>Safari</strong> et collez le lien
+          </li>
+          <li>
+            <span className="pwa-ios-step-icon">3</span>
+            Partager <span style={{fontSize:'1.1em'}}>⎋</span> → <strong>Sur l&apos;écran d&apos;accueil</strong>
+          </li>
+        </ol>
+      </div>
+    )
+  }
+
+  // Android
   return (
     <div className="pwa-banner">
       <div className="pwa-banner-icon">N</div>
