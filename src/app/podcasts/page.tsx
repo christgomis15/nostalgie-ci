@@ -57,18 +57,20 @@ export default function PodcastsReplay() {
           ))}
         </div>
 
-        {/* Filtre par émission */}
-        <div className="pr-em-filters">
-          {EMISSIONS_FILTER.map(em => (
-            <button
-              key={em}
-              className={`pr-em-filter ${emFilter === em ? 'active' : ''}`}
-              onClick={() => setEmFilter(em)}
-            >
-              {em}
-            </button>
-          ))}
-        </div>
+        {/* Filtre par émission — uniquement pour les replays */}
+        {tab !== 'podcasts' && (
+          <div className="pr-em-filters">
+            {EMISSIONS_FILTER.map(em => (
+              <button
+                key={em}
+                className={`pr-em-filter ${emFilter === em ? 'active' : ''}`}
+                onClick={() => setEmFilter(em)}
+              >
+                {em}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Grille de contenu */}
         {items.length === 0 ? (
