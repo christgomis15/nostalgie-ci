@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { PODCASTS, REPLAYS_AUDIO, REPLAYS_VIDEO, type ContentItem } from '@/data/replay-content'
+import { usePlayerStore } from '@/lib/player-store'
 
 type Tab = 'podcasts' | 'audio' | 'video'
 
@@ -27,6 +28,8 @@ export default function PodcastsReplay() {
   const [tab, setTab] = useState<Tab>('podcasts')
   const [emFilter, setEmFilter] = useState('Tous')
   const [modal, setModal] = useState<ContentItem | null>(null)
+  const [radioWasPlaying, setRadioWasPlaying] = useState(false)
+  const { isPlaying, toggle } = usePlayerStore()
 
   const allItems = tab === 'podcasts' ? PODCASTS : tab === 'audio' ? REPLAYS_AUDIO : REPLAYS_VIDEO
   const items = emFilter === 'Tous' ? allItems : allItems.filter(i => i.emission === emFilter)
@@ -35,6 +38,22 @@ export default function PodcastsReplay() {
   function switchTab(t: Tab) {
     setTab(t)
     setEmFilter('Tous')
+  }
+
+  function openModal(item: ContentItem) {
+    if (isPlaying) {
+      toggle()
+      setRadioWasPlaying(true)
+    }
+    setModal(item)
+  }
+
+  function closeModal() {
+    closeModal()
+    if (radioWasPlaying) {
+      toggle()
+      setRadioWasPlaying(false)
+    }
   }
 
   return (
@@ -81,7 +100,7 @@ export default function PodcastsReplay() {
               <div
                 key={item.id}
                 className="pr-card"
-                onClick={() => setModal(item)}
+                onClick={() => openModal(item)}
               >
                 {/* Miniature YouTube */}
                 <div className="pr-thumb">
@@ -114,9 +133,9 @@ export default function PodcastsReplay() {
 
       {/* Modal lecteur YouTube */}
       {modal && (
-        <div className="actu-overlay" onClick={() => setModal(null)}>
+        <div className="actu-overlay" onClick={() => closeModal()}>
           <div className="pr-modal" onClick={e => e.stopPropagation()}>
-            <button className="actu-close" onClick={() => setModal(null)} aria-label="Fermer">✕</button>
+            <button className="actu-close" onClick={() => closeModal()} aria-label="Fermer">✕</button>
             <div className="pr-modal-meta">
               <span className="pr-emission">{modal.emission}</span>
               <span className="pr-modal-sep">·</span>
