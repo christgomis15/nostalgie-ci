@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { PODCASTS, REPLAYS_AUDIO, REPLAYS_VIDEO, type ContentItem } from '@/data/replay-content'
 import { usePlayerStore } from '@/lib/player-store'
 
@@ -30,6 +30,7 @@ export default function PodcastsReplay() {
   const [modal, setModal] = useState<ContentItem | null>(null)
   const [radioWasPlaying, setRadioWasPlaying] = useState(false)
   const { isPlaying, toggle } = usePlayerStore()
+  const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const allItems = tab === 'podcasts' ? PODCASTS : tab === 'audio' ? REPLAYS_AUDIO : REPLAYS_VIDEO
   const items = emFilter === 'Tous' ? allItems : allItems.filter(i => i.emission === emFilter)
@@ -49,7 +50,8 @@ export default function PodcastsReplay() {
   }
 
   function closeModal() {
-    closeModal()
+    if (iframeRef.current) iframeRef.current.src = ''
+    setModal(null)
     if (radioWasPlaying) {
       toggle()
       setRadioWasPlaying(false)
@@ -146,6 +148,7 @@ export default function PodcastsReplay() {
             {modal.description && <p className="pr-modal-desc">{modal.description}</p>}
             <div className="pr-player">
               <iframe
+                ref={iframeRef}
                 src={`https://www.youtube.com/embed/${modal.youtubeId}?autoplay=1`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
