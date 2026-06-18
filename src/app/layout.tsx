@@ -1,20 +1,31 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import Header from '@/components/Header'
 import WebradioTicker from '@/components/WebradioTicker'
 import PlayerBar from '@/components/PlayerBar'
+import PWARegister from '@/components/PWARegister'
 import { Analytics } from '@vercel/analytics/next'
 
 export const metadata: Metadata = {
   title: 'Nostalgie CI — 101.1 FM · Sérieusement Décalée',
   description: 'Radio Nostalgie CI — La première radio commerciale privée de Côte d\'Ivoire. Écoutez le direct sur 101.1 FM à Abidjan.',
   keywords: 'radio, Nostalgie, Côte d\'Ivoire, Abidjan, 101.1 FM, musique',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Nostalgie CI',
+  },
   openGraph: {
     title: 'Nostalgie CI — 101.1 FM',
     description: 'Sérieusement Décalée. Écoutez la radio en direct.',
     locale: 'fr_CI',
     type: 'website',
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: '#D4A843',
 }
 
 export default function RootLayout({
@@ -42,6 +53,7 @@ export default function RootLayout({
 
         {/* Player bar — fixe en bas, persiste sur toutes les pages */}
         <PlayerBar />
+        <PWARegister />
         <Analytics />
       </body>
     </html>
