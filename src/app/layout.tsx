@@ -5,6 +5,7 @@ import WebradioTicker from '@/components/WebradioTicker'
 import PlayerBar from '@/components/PlayerBar'
 import PWARegister from '@/components/PWARegister'
 import PWAInstallBanner from '@/components/PWAInstallBanner'
+import PWASplash from '@/components/PWASplash'
 import { Analytics } from '@vercel/analytics/next'
 
 export const metadata: Metadata = {
@@ -54,6 +55,7 @@ export default function RootLayout({
 
         {/* Player bar — fixe en bas, persiste sur toutes les pages */}
         <PlayerBar />
+        <PWASplash />
         <PWAInstallBanner />
         <PWARegister />
         <Analytics />

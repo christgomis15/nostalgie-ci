@@ -468,6 +468,53 @@ textarea { resize: vertical; min-height: 100px; }
 }
 
 /* ════════════════════════════════════════
+   PWA SPLASH SCREEN
+════════════════════════════════════════ */
+.pwa-splash {
+  position: fixed;
+  inset: 0;
+  background: #0A0A0A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+.pwa-splash-hide {
+  opacity: 0;
+  pointer-events: none;
+}
+.pwa-splash-card {
+  background: #F5F0E8;
+  border-radius: 20px;
+  padding: 28px 36px;
+  box-shadow: 0 8px 48px rgba(212, 168, 67, 0.2);
+}
+.pwa-splash-logo {
+  width: 240px;
+  height: auto;
+  display: block;
+}
+.pwa-splash-freq {
+  color: var(--or);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0;
+}
+.pwa-splash-tagline {
+  color: rgba(245, 240, 232, 0.35);
+  font-size: 0.85rem;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ════════════════════════════════════════
    PWA INSTALL BANNER
 ════════════════════════════════════════ */
 .pwa-banner {
