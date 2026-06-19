@@ -14,24 +14,28 @@ const SECTIONS = [
     icon: '📰',
     label: 'Actus',
     desc: "L'actualité de Côte d'Ivoire et du monde",
+    img: '/img/ac-01.jpg',
   },
   {
     href: '/emissions',
     icon: '🎙️',
     label: 'Émissions',
     desc: '11 émissions du lundi au dimanche',
+    img: '/img/em-03.jpg',
   },
   {
     href: '/podcasts',
     icon: '🎧',
     label: 'Podcasts & Replay',
     desc: 'Replays audio et vidéo de vos émissions préférées',
+    img: '/img/em-05.jpg',
   },
   {
     href: '/dedicaces',
     icon: '💌',
     label: 'Dédicaces',
     desc: "Envoyez un message à vos proches sur l'antenne",
+    img: '/img/coulisses-animatrice.jpg',
   },
 ]
 
@@ -149,22 +153,19 @@ export default function Accueil() {
 
       {/* ── APERÇU DU SITE ── */}
       <section className="hm-sections">
-        <div className="page-section">
-          <div className="hm-sections-head">
-            <span className="hm-sections-line" />
-            <h2 className="hm-sections-title">Sur le site</h2>
-            <span className="hm-sections-line" />
-          </div>
-          <div className="hm-sections-grid">
-            {SECTIONS.map(({ href, icon, label, desc }) => (
-              <Link key={href} href={href} className="hm-card">
+        <div className="hm-sections-grid">
+          {SECTIONS.map(({ href, icon, label, desc, img }) => (
+            <Link key={href} href={href} className="hm-card">
+              <div className="hm-card-bg" style={{ backgroundImage: `url(${img})` }} />
+              <div className="hm-card-overlay" />
+              <div className="hm-card-content">
                 <span className="hm-card-icon">{icon}</span>
                 <strong className="hm-card-label">{label}</strong>
                 <p className="hm-card-desc">{desc}</p>
-                <span className="hm-card-arrow">→</span>
-              </Link>
-            ))}
-          </div>
+                <span className="hm-card-arrow">Découvrir →</span>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
