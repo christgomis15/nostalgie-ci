@@ -253,9 +253,17 @@ export default function Actus() {
 
   return (
     <>
-      <section className="page-section">
-        <p className="section-label">L&apos;info qui groove</p>
-        <h1 className="section-title">Actualités</h1>
+      {/* ── Bandeau photo ── */}
+      <div className="ac-banner">
+        <div className="ac-banner-bg" style={{ backgroundImage: "url('/img/ac-06.jpg')" }} />
+        <div className="ac-banner-overlay" />
+        <div className="ac-banner-content page-section">
+          <p className="section-label">L&apos;info qui groove</p>
+          <h1 className="section-title">Actualités</h1>
+        </div>
+      </div>
+
+      <section className="page-section" style={{ paddingTop: '40px' }}>
         <div className="atabs">
           <button className={`atab ${tab === 'locale' ? 'active' : ''}`} onClick={() => setTab('locale')}>
             Actu Locale
