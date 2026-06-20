@@ -170,10 +170,100 @@ textarea { resize: vertical; min-height: 100px; }
   transform: translateX(-50%) translateY(0);
 }
 
-/* ── Responsive ── */
+/* ── Responsive général ── */
 @media (max-width: 768px) {
   .form-row { grid-template-columns: 1fr; }
   .page-section { padding: 40px 16px; }
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE — PAGE D'ACCUEIL
+════════════════════════════════════════ */
+
+/* Tablette (≤ 900px) */
+@media (max-width: 900px) {
+  .hero-title {
+    font-size: clamp(44px, 11vw, 80px);
+    letter-spacing: -1px;
+  }
+}
+
+/* Mobile (≤ 768px) */
+@media (max-width: 768px) {
+  /* Hero : contenu vers le bas — gradient sombre plus efficace en bas */
+  .hero {
+    align-items: flex-end;
+    padding-bottom: 44px;
+  }
+
+  /* Eyebrow */
+  .hero-eye {
+    font-size: 9px;
+    letter-spacing: 2px;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .hero-eye::before { width: 22px; }
+
+  /* Titre */
+  .hero-title {
+    font-size: clamp(42px, 12vw, 68px);
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+
+  /* Slogan */
+  .hero-slogan {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  /* Villes — wrapping agréable */
+  .hero-villes {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
+  /* Boutons */
+  .hero-actions {
+    gap: 10px;
+  }
+}
+
+/* Petit mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .hero-actions {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Newsletter */
+  .nl-badge {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+  .nl-title {
+    font-size: clamp(24px, 7vw, 36px);
+  }
+  .nl-sub {
+    font-size: 13px;
+  }
+  .nl-freq-badges {
+    gap: 6px;
+  }
+  .nl-freq-badge {
+    padding: 6px 10px;
+  }
+  .nl-freq-num {
+    font-size: 14px;
+  }
 }
 
 /* ════════════════════════════════════════
