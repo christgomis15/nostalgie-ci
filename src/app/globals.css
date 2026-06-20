@@ -739,13 +739,14 @@ textarea { resize: vertical; min-height: 100px; }
   align-items: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(150deg, #FFFFFF 0%, #FDF7EE 100%);
 }
 
 .hero-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(48px, 10vw, 120px);
   font-weight: 900;
-  color: var(--blanc);
+  color: #0A0A0A;
   line-height: 1;
   margin-bottom: 12px;
   letter-spacing: -2px;
@@ -760,7 +761,7 @@ textarea { resize: vertical; min-height: 100px; }
 
 .hero-villes {
   font-size: 13px;
-  color: rgba(245, 240, 232, 0.4);
+  color: rgba(10, 10, 10, 0.4);
   letter-spacing: 1px;
   margin-bottom: 40px;
 }
@@ -772,18 +773,8 @@ textarea { resize: vertical; min-height: 100px; }
 }
 
 /* ── Hero extras ── */
-.hero-bg {
-  position: absolute; inset: 0;
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.25);
-  z-index: 0;
-}
-.hero-grad {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(10,10,10,0.98) 0%, rgba(10,10,10,0.55) 40%, rgba(10,10,10,0.06) 100%);
-  z-index: 0;
-}
+.hero-bg { display: none; }
+.hero-grad { display: none; }
 .hero-c { position: relative; z-index: 1; max-width: 820px; }
 .hero-eye {
   font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
@@ -1330,8 +1321,8 @@ html.intro-mode .wr-ticker {
    NEWSLETTER + FRÉQUENCES (section unifiée)
 ════════════════════════════════════════ */
 .nl-section {
-  background: #0D0D0D;
-  border-top: 1px solid rgba(212, 168, 67, 0.15);
+  background: #F5F0E8;
+  border-top: 1px solid rgba(212, 168, 67, 0.2);
   padding: 72px 24px 52px;
 }
 
@@ -1359,7 +1350,7 @@ html.intro-mode .wr-ticker {
 .nl-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(28px, 4.5vw, 44px);
-  color: var(--blanc);
+  color: #0A0A0A;
   line-height: 1.15;
   margin-bottom: 14px;
 }
@@ -1370,7 +1361,7 @@ html.intro-mode .wr-ticker {
 
 .nl-sub {
   font-size: 14px;
-  color: rgba(245, 240, 232, 0.5);
+  color: rgba(10, 10, 10, 0.55);
   line-height: 1.7;
   margin-bottom: 32px;
 }
@@ -1387,18 +1378,18 @@ html.intro-mode .wr-ticker {
 .nl-input {
   flex: 1;
   min-width: 0;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: #FFFFFF;
+  border: 1px solid rgba(10, 10, 10, 0.15);
   border-radius: 6px;
   padding: 13px 16px;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
-  color: var(--blanc);
+  color: #0A0A0A;
   outline: none;
   transition: border-color 0.2s;
 }
-.nl-input::placeholder { color: rgba(245, 240, 232, 0.3); }
-.nl-input:focus { border-color: rgba(212, 168, 67, 0.45); }
+.nl-input::placeholder { color: rgba(10, 10, 10, 0.35); }
+.nl-input:focus { border-color: var(--or); }
 
 .nl-btn {
   flex-shrink: 0;
@@ -1449,12 +1440,12 @@ html.intro-mode .wr-ticker {
   align-items: center;
   justify-content: center;
 }
-.nl-success-text { font-size: 14px; color: var(--blanc); line-height: 1.6; }
-.nl-success-text span { color: rgba(245, 240, 232, 0.5); font-size: 13px; }
+.nl-success-text { font-size: 14px; color: #0A0A0A; line-height: 1.6; }
+.nl-success-text span { color: rgba(10, 10, 10, 0.5); font-size: 13px; }
 
 .nl-mention {
   font-size: 11px;
-  color: rgba(245, 240, 232, 0.22);
+  color: rgba(10, 10, 10, 0.35);
   margin-top: 16px;
   letter-spacing: 0.3px;
 }
@@ -1529,7 +1520,7 @@ html.intro-mode .wr-ticker {
 }
 .nl-freq-ville {
   font-size: 11px;
-  color: rgba(245, 240, 232, 0.4);
+  color: rgba(10, 10, 10, 0.5);
 }
 
 @media (max-width: 600px) {
