@@ -61,4 +61,11 @@ export const REPLAYS_VIDEO: ContentItem[] = [
     emission: 'Nostafoot',
     date: '09 juin 2026',
   },
+  {
+    id: 3,
+    youtubeId: 'd3a1cMYHbPM',
+    titre: 'Kaboré dans la cage du lion',
+    emission: 'Les Canulars de Kaboré',
+    date: '23 juin 2026',
+  },
 ]
