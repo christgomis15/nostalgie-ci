@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState, useCallback } from 'react'
 import { usePlayerStore } from '@/lib/player-store'
 import NewsletterWidget from '@/components/NewsletterWidget'
+import Top5Section from '@/components/Top5Section'
 
 
 const INTRO_DURATION = 20000
@@ -97,6 +98,7 @@ export default function Accueil() {
         </div>
       </section>
 
+      <Top5Section />
       <NewsletterWidget />
     </>
   )
