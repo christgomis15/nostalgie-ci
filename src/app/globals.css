@@ -2878,11 +2878,16 @@ html.intro-mode .wr-ticker {
 .h2-hero-bg {
   position: absolute; inset: 0;
   background-size: cover; background-position: center;
-  filter: brightness(0.45); z-index: 0;
+  filter: brightness(0.92); z-index: 0;
 }
 .h2-hero-grad {
   position: absolute; inset: 0;
-  background: linear-gradient(105deg, rgba(10,10,10,0.97) 28%, rgba(10,10,10,0.18) 100%);
+  background: linear-gradient(105deg,
+    rgba(10,10,10,0.97) 0%,
+    rgba(10,10,10,0.93) 28%,
+    rgba(10,10,10,0.30) 48%,
+    rgba(10,10,10,0.00) 62%
+  );
   z-index: 1;
 }
 .h2-hero-left {
