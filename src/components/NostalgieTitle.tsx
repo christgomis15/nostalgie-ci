@@ -10,7 +10,7 @@ import { useRef, useEffect } from 'react'
  */
 
 const DOT_PX  = 18   // longueur visible du point (px le long du contour)
-const SPEED   = 450  // vitesse de déplacement (px/s de chemin)
+const SPEED   = 120  // vitesse de déplacement (px/s de chemin)
 
 const TEXT_BASE: React.CSSProperties = {
   fontFamily : "'Playfair Display', serif",
