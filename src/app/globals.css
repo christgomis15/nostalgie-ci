@@ -2829,6 +2829,31 @@ html.intro-mode .wr-ticker {
    Branche : design/homepage-v2
 ════════════════════════════════════════════ */
 
+/* ── Titre animé NOSTALGIE ── */
+.h2-title-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  margin-bottom: 16px;
+}
+
+/*
+ * stroke-dasharray : 12px (le point) + 4000px (l'espace vide)
+ * Le gap > périmètre estimé des lettres (~3200px) → un seul point visible à la fois.
+ * L'animation déplace l'offset de 0 à -4012 (= total du dasharray) pour un loop parfait.
+ */
+.h2-dot-anim {
+  stroke-dasharray: 12 4000;
+  stroke-dashoffset: 0;
+  animation: h2-dot-travel 8s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(212, 168, 67, 0.7));
+}
+
+@keyframes h2-dot-travel {
+  to { stroke-dashoffset: -4012; }
+}
+
 /* ── Hero V2 ── */
 .h2-hero {
   min-height: calc(100vh - var(--top-offset) - var(--player-height));

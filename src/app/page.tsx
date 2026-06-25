@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { usePlayerStore } from '@/lib/player-store'
 import NewsletterWidget from '@/components/NewsletterWidget'
 import { TOP5, type Top5Item } from '@/data/top5'
+import NostalgieTitle from '@/components/NostalgieTitle'
 
 const INTRO_DURATION = 20000
 
@@ -132,7 +133,7 @@ export default function Accueil() {
         {/* Gauche : branding */}
         <div className="h2-hero-left">
           <p className="h2-eyebrow">Nostalgie CI · 101.1 FM</p>
-          <h1 className="h2-title">NOSTALGIE</h1>
+          <NostalgieTitle />
           <p className="h2-slogan"><em>Sérieusement Décalée.</em></p>
           <p className="h2-villes">Abidjan · Bouaké · Yamoussoukro · San-Pédro · Korhogo</p>
           <div className="h2-actions">
