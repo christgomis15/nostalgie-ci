@@ -2609,6 +2609,21 @@ html.intro-mode .wr-ticker {
 }
 .top5-row:last-child { border-bottom: none; }
 
+/* Pochette + badge dans Top5Section */
+.top5-cover-wrap { position: relative; flex-shrink: 0; }
+.top5-cover {
+  width: 56px; height: 56px; object-fit: cover;
+  border-radius: 6px; display: block; background: var(--g2);
+}
+.top5-cover-badge {
+  position: absolute; bottom: -4px; right: -4px;
+  font-size: 15px; line-height: 1;
+  background: rgba(10,10,10,0.92);
+  border: 1px solid var(--g3);
+  border-radius: 50%; width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+}
+
 .top5-rang {
   font-size: 24px; width: 36px; text-align: center; flex-shrink: 0;
   font-weight: 700;
@@ -2854,28 +2869,26 @@ html.intro-mode .wr-ticker {
   to { stroke-dashoffset: -4012; }
 }
 
-/* ── Hero V2 ── */
+/* ── Hero V2 — plein écran, fond visible à droite ── */
 .h2-hero {
   min-height: calc(100vh - var(--top-offset) - var(--player-height));
-  display: grid;
-  grid-template-columns: 55fr 45fr;
-  position: relative;
-  overflow: hidden;
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
 }
 .h2-hero-bg {
   position: absolute; inset: 0;
   background-size: cover; background-position: center;
-  filter: brightness(0.35); z-index: 0;
+  filter: brightness(0.45); z-index: 0;
 }
 .h2-hero-grad {
   position: absolute; inset: 0;
-  background: linear-gradient(110deg, rgba(10,10,10,0.97) 45%, rgba(10,10,10,0.30) 100%);
+  background: linear-gradient(105deg, rgba(10,10,10,0.97) 28%, rgba(10,10,10,0.18) 100%);
   z-index: 1;
 }
 .h2-hero-left {
   position: relative; z-index: 2;
   display: flex; flex-direction: column; justify-content: center;
-  padding: 80px 60px;
+  padding: 80px 60px; max-width: 680px;
 }
 .h2-eyebrow {
   font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
@@ -2893,59 +2906,18 @@ html.intro-mode .wr-ticker {
   font-size: clamp(18px, 2.5vw, 26px);
   color: var(--or); font-style: italic; margin-bottom: 12px;
 }
-.h2-villes {
-  font-size: 12px; color: rgba(245,240,232,0.35);
-  letter-spacing: 1.5px; margin-bottom: 44px;
+/* Villes en chips */
+.h2-villes-wrap {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px;
+}
+.h2-ville-chip {
+  background: rgba(212,168,67,0.08);
+  border: 1px solid rgba(212,168,67,0.22);
+  color: rgba(245,240,232,0.65);
+  border-radius: 20px; padding: 5px 16px;
+  font-size: 12px; letter-spacing: 1.5px;
 }
 .h2-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-
-/* Carte ON AIR */
-.h2-hero-right {
-  position: relative; z-index: 2;
-  display: flex; align-items: center; justify-content: center;
-  padding: 60px 40px;
-}
-.h2-onair-card {
-  background: rgba(21,21,21,0.72);
-  border: 1px solid rgba(212,168,67,0.22);
-  border-radius: 20px; padding: 44px 36px;
-  text-align: center; backdrop-filter: blur(12px);
-  width: min(280px, 100%);
-}
-.h2-onair-dot {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: #E03E3E; margin: 0 auto 14px;
-  animation: h2-pulse 2s ease-in-out infinite;
-}
-@keyframes h2-pulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(224,62,62,0.18); }
-  50%       { box-shadow: 0 0 0 12px rgba(224,62,62,0.04); }
-}
-.h2-onair-label {
-  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-  color: #E03E3E; font-weight: 700; margin-bottom: 20px;
-}
-.h2-onair-freq {
-  font-family: 'Playfair Display', serif;
-  font-size: 68px; font-weight: 900; color: var(--blanc);
-  line-height: 1; margin-bottom: 4px;
-}
-.h2-onair-mhz {
-  font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--or); margin-bottom: 18px;
-}
-.h2-onair-villes {
-  font-size: 12px; color: rgba(245,240,232,0.38);
-  margin-bottom: 28px; line-height: 1.6;
-}
-.h2-onair-btn {
-  width: 100%; background: var(--or); color: var(--noir);
-  border: none; border-radius: 8px;
-  padding: 13px; font-size: 13px; font-weight: 700;
-  letter-spacing: 1px; text-transform: uppercase;
-  cursor: pointer; transition: background 0.2s;
-}
-.h2-onair-btn:hover { background: var(--or-s); }
 
 /* ── Barre de stats ── */
 .h2-stats {
@@ -2985,10 +2957,25 @@ html.intro-mode .wr-ticker {
 .h2-t5-list { display: flex; flex-direction: column; }
 .h2-t5-row {
   display: flex; align-items: center; gap: 14px;
-  padding: 13px 0; border-bottom: 1px solid var(--g3);
+  padding: 12px 0; border-bottom: 1px solid var(--g3);
 }
 .h2-t5-row:last-child { border-bottom: none; }
-.h2-t5-rang { font-size: 18px; width: 30px; text-align: center; flex-shrink: 0; }
+
+/* Pochette + badge */
+.h2-t5-cover-wrap { position: relative; flex-shrink: 0; }
+.h2-t5-cover {
+  width: 52px; height: 52px; object-fit: cover;
+  border-radius: 6px; display: block; background: var(--g2);
+}
+.h2-t5-badge {
+  position: absolute; bottom: -4px; right: -4px;
+  font-size: 13px; line-height: 1;
+  background: rgba(10,10,10,0.9);
+  border: 1px solid var(--g3);
+  border-radius: 50%; width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+}
+
 .h2-t5-info { flex: 1; min-width: 0; }
 .h2-t5-art {
   font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
@@ -3074,19 +3061,11 @@ html.intro-mode .wr-ticker {
 
 /* Responsive */
 @media (max-width: 900px) {
-  .h2-hero { grid-template-columns: 1fr; }
-  .h2-hero-right { display: none; }
-  .h2-hero-left { padding: 60px 24px 80px; }
-  .h2-hero-grad {
-    background: linear-gradient(to top, rgba(10,10,10,0.98) 0%, rgba(10,10,10,0.6) 50%, rgba(10,10,10,0.08) 100%);
-  }
+  .h2-hero-left { padding: 60px 24px 80px; max-width: 100%; }
   .h2-content-inner { grid-template-columns: 1fr; gap: 48px; }
-  .h2-stat { padding: 8px 18px; }
-  .h2-stat-sep { display: none; }
-  .h2-stats { justify-content: flex-start; }
   .h2-em-head { align-items: flex-start; }
 }
 @media (max-width: 600px) {
-  .h2-title { letter-spacing: -2px; }
-  .h2-stat-n { font-size: 22px; }
+  .h2-villes-wrap { gap: 6px; }
+  .h2-ville-chip { font-size: 11px; padding: 4px 12px; }
 }

@@ -14,6 +14,7 @@ export interface Top5Item {
   passages: number
   spotifyId: string
   spotifyType: 'track' | 'album'
+  coverImg: string  // pochette dans /public/img/top5/
 }
 
 export const TOP5: {
@@ -29,6 +30,7 @@ export const TOP5: {
       passages: 30,
       spotifyId: '1w85Bcjvy0WjxUxppkrxEg',
       spotifyType: 'track',
+      coverImg: '/img/top5/rang1.jpg',
     },
     {
       rang: 2,
@@ -37,6 +39,7 @@ export const TOP5: {
       passages: 24,
       spotifyId: '2d4kzXLc2vawOFvdkfDPJW',
       spotifyType: 'track',
+      coverImg: '/img/top5/rang2.jpg',
     },
     {
       rang: 3,
@@ -45,6 +48,7 @@ export const TOP5: {
       passages: 23,
       spotifyId: '3yGbVUTTg1qgAsvl1qVd0M',
       spotifyType: 'album',
+      coverImg: '/img/top5/rang3.jpg',
     },
     {
       rang: 4,
@@ -53,6 +57,7 @@ export const TOP5: {
       passages: 22,
       spotifyId: '2LE1reWJSlMNlZDwAEOKVE',
       spotifyType: 'track',
+      coverImg: '/img/top5/rang4.jpg',
     },
     {
       rang: 5,
@@ -61,6 +66,7 @@ export const TOP5: {
       passages: 21,
       spotifyId: '3crlkgUSq8eV3r6Csjl96h',
       spotifyType: 'track',
+      coverImg: '/img/top5/rang5.jpg',
     },
   ],
 }

@@ -51,9 +51,17 @@ export default function Top5Section() {
               return (
                 <div key={item.rang} className="top5-row">
 
-                  {/* Rang */}
-                  <div className="top5-rang" style={{ color: rangColor(item.rang) }}>
-                    {item.rang <= 3 ? MEDALS[item.rang - 1] : item.rang}
+                  {/* Pochette + badge */}
+                  <div className="top5-cover-wrap">
+                    <img
+                      src={item.coverImg}
+                      alt={item.titre}
+                      className="top5-cover"
+                      onError={e => { (e.target as HTMLImageElement).src = '/img/wc2026.jpeg' }}
+                    />
+                    <span className="top5-cover-badge" style={{ color: rangColor(item.rang) }}>
+                      {item.rang <= 3 ? MEDALS[item.rang - 1] : item.rang}
+                    </span>
                   </div>
 
                   {/* Infos */}

@@ -130,12 +130,16 @@ export default function Accueil() {
         <div className="h2-hero-bg" style={{ backgroundImage: "url('/img/hero-bg.jpg')" }} />
         <div className="h2-hero-grad" />
 
-        {/* Gauche : branding */}
+        {/* Branding — pleine largeur */}
         <div className="h2-hero-left">
           <p className="h2-eyebrow">Nostalgie CI · 101.1 FM</p>
           <NostalgieTitle />
           <p className="h2-slogan"><em>Sérieusement Décalée.</em></p>
-          <p className="h2-villes">Abidjan · Bouaké · Yamoussoukro · San-Pédro · Korhogo</p>
+          <div className="h2-villes-wrap">
+            {['Abidjan', 'Bouaké', 'Yamoussoukro', 'San-Pédro', 'Korhogo'].map(v => (
+              <span key={v} className="h2-ville-chip">{v}</span>
+            ))}
+          </div>
           <div className="h2-actions">
             <button className="btn btn-or" onClick={toggle}>
               {isPlaying ? '⏸ En cours...' : '▶ Écouter en Direct'}
@@ -143,44 +147,7 @@ export default function Accueil() {
             <Link href="/emissions" className="btn btn-outline">Nos Émissions</Link>
           </div>
         </div>
-
-        {/* Droite : carte ON AIR */}
-        <div className="h2-hero-right">
-          <div className="h2-onair-card">
-            <div className="h2-onair-dot" />
-            <p className="h2-onair-label">En Direct</p>
-            <p className="h2-onair-freq">101.1</p>
-            <p className="h2-onair-mhz">MHz · FM</p>
-            <p className="h2-onair-villes">5 villes de Côte d&apos;Ivoire</p>
-            <button className="h2-onair-btn" onClick={toggle}>
-              {isPlaying ? '⏸ Pause' : '▶ Écouter maintenant'}
-            </button>
-          </div>
-        </div>
       </section>
-
-      {/* ── STATS BAR ── */}
-      <div className="h2-stats">
-        <div className="h2-stat">
-          <span className="h2-stat-n">5</span>
-          <span className="h2-stat-l">Villes</span>
-        </div>
-        <div className="h2-stat-sep" />
-        <div className="h2-stat">
-          <span className="h2-stat-n">101.1</span>
-          <span className="h2-stat-l">FM · Abidjan</span>
-        </div>
-        <div className="h2-stat-sep" />
-        <div className="h2-stat">
-          <span className="h2-stat-n">24h</span>
-          <span className="h2-stat-l">/ 24 · 7j / 7</span>
-        </div>
-        <div className="h2-stat-sep" />
-        <div className="h2-stat">
-          <span className="h2-stat-n">Depuis&nbsp;1994</span>
-          <span className="h2-stat-l">Radio n°1 de CI</span>
-        </div>
-      </div>
 
       {/* ── GRILLE : TOP 5 + ACTUS ── */}
       <section className="h2-content">
@@ -193,8 +160,20 @@ export default function Accueil() {
             <div className="h2-t5-list">
               {TOP5.items.map(item => (
                 <div key={item.rang} className="h2-t5-row">
-                  <div className="h2-t5-rang" style={{ color: rangColor(item.rang) }}>
-                    {item.rang <= 3 ? MEDALS[item.rang - 1] : item.rang}
+                  {/* Pochette + badge de classement */}
+                  <div className="h2-t5-cover-wrap">
+                    <img
+                      src={item.coverImg}
+                      alt={item.titre}
+                      className="h2-t5-cover"
+                      onError={e => { (e.target as HTMLImageElement).src = '/img/wc2026.jpeg' }}
+                    />
+                    <span
+                      className="h2-t5-badge"
+                      style={{ color: rangColor(item.rang) }}
+                    >
+                      {item.rang <= 3 ? MEDALS[item.rang - 1] : `${item.rang}`}
+                    </span>
                   </div>
                   <div className="h2-t5-info">
                     <p className="h2-t5-art">{item.artiste}</p>
