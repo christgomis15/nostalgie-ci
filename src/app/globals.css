@@ -2882,12 +2882,19 @@ html.intro-mode .wr-ticker {
 }
 .h2-hero-grad {
   position: absolute; inset: 0;
-  background: linear-gradient(105deg,
-    rgba(10,10,10,0.97) 0%,
-    rgba(10,10,10,0.93) 28%,
-    rgba(10,10,10,0.30) 48%,
-    rgba(10,10,10,0.00) 62%
-  );
+  background:
+    /* gauche → droite : zone de texte très sombre */
+    linear-gradient(105deg,
+      rgba(10,10,10,0.97) 0%,
+      rgba(10,10,10,0.93) 28%,
+      rgba(10,10,10,0.30) 48%,
+      rgba(10,10,10,0.00) 62%
+    ),
+    /* droite → gauche : voile doux sur la carte CI */
+    linear-gradient(to left,
+      rgba(10,10,10,0.60) 0%,
+      rgba(10,10,10,0.00) 42%
+    );
   z-index: 1;
 }
 .h2-hero-left {
