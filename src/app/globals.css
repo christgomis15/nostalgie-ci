@@ -2883,7 +2883,7 @@ html.intro-mode .wr-ticker {
 .h2-hero-grad {
   position: absolute; inset: 0;
   background:
-    /* gauche → droite : zone texte très sombre, étendue jusqu'à 55% */
+    /* gauche → droite : zone texte très sombre */
     linear-gradient(105deg,
       rgba(10,10,10,1.00) 0%,
       rgba(10,10,10,1.00) 38%,
@@ -2894,6 +2894,12 @@ html.intro-mode .wr-ticker {
     linear-gradient(to left,
       rgba(10,10,10,0.60) 0%,
       rgba(10,10,10,0.00) 42%
+    ),
+    /* bas → haut : fondu vers le noir — élimine la rupture avec la section suivante */
+    linear-gradient(to top,
+      rgba(10,10,10,1.00) 0%,
+      rgba(10,10,10,0.80) 12%,
+      rgba(10,10,10,0.00) 35%
     );
   z-index: 1;
 }
