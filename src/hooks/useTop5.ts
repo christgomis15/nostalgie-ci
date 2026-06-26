@@ -14,7 +14,17 @@ export function useTop5(): Top5Data {
     fetch('/api/top5')
       .then(r => (r.ok ? r.json() : null))
       .then((json: Top5Data | null) => {
-        if (json?.items?.length) setData(json)
+        if (json?.items?.length) {
+          // Si coverUrl est vide dans le Sheet, on garde la pochette locale
+          const merged: Top5Data = {
+            ...json,
+            items: json.items.map((item, i) => ({
+              ...item,
+              coverImg: item.coverImg || TOP5.items[i]?.coverImg || '',
+            })),
+          }
+          setData(merged)
+        }
       })
       .catch(() => {})
   }, [])
