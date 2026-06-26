@@ -122,7 +122,6 @@ export default function Top5Section() {
               width="100%"
               height={modal.spotifyType === 'album' ? '352' : '152'}
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
               style={{ border: 'none', borderRadius: '12px', display: 'block' }}
             />
             <p className="top5-modal-note">
