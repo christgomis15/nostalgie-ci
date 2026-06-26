@@ -7,6 +7,7 @@ import NewsletterWidget from '@/components/NewsletterWidget'
 import { type Top5Item } from '@/data/top5'
 import { useTop5 } from '@/hooks/useTop5'
 import NostalgieTitle from '@/components/NostalgieTitle'
+import SpotifyPlayer, { preloadSpotify } from '@/components/SpotifyPlayer'
 
 const INTRO_DURATION = 20000
 
@@ -56,6 +57,9 @@ export default function Accueil() {
   const [showIntro, setShowIntro] = useState(false)
   const [leaving, setLeaving] = useState(false)
   const [modal, setModal] = useState<Top5Item | null>(null)
+
+  // Précharge l'API Spotify au montage pour qu'elle soit prête au 1er clic
+  useEffect(() => { preloadSpotify() }, [])
 
   useEffect(() => {
     if (!sessionStorage.getItem('intro-seen')) {
@@ -264,12 +268,10 @@ export default function Accueil() {
                 <p className="top5-modal-titre">{modal.titre}</p>
               </div>
             </div>
-            <iframe
-              src={`https://open.spotify.com/embed/${modal.spotifyType}/${modal.spotifyId}?utm_source=generator&theme=0&autoplay=1`}
-              width="100%"
-              height={modal.spotifyType === 'album' ? '352' : '152'}
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              style={{ border: 'none', borderRadius: '12px', display: 'block' }}
+            <SpotifyPlayer
+              type={modal.spotifyType}
+              id={modal.spotifyId}
+              height={modal.spotifyType === 'album' ? 352 : 152}
             />
             <p className="top5-modal-note">
               {modal.passages} passages · Semaine du {TOP5.semaine}

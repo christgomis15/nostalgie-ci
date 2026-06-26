@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { type Top5Item } from '@/data/top5'
 import { useTop5 } from '@/hooks/useTop5'
 import { usePlayerStore } from '@/lib/player-store'
+import SpotifyPlayer, { preloadSpotify } from '@/components/SpotifyPlayer'
 
 const MEDALS = ['🥇', '🥈', '🥉']
 
@@ -20,6 +21,9 @@ export default function Top5Section() {
   const [modal, setModal] = useState<Top5Item | null>(null)
   const { isPlaying, toggle } = usePlayerStore()
 
+  // Précharge l'API Spotify au montage pour qu'elle soit prête au 1er clic
+  useEffect(() => { preloadSpotify() }, [])
+
   function openModal(item: Top5Item) {
     if (isPlaying) toggle()
     setModal(item)
@@ -28,10 +32,6 @@ export default function Top5Section() {
   function closeModal() {
     setModal(null)
   }
-
-  const spotifyEmbedUrl = modal
-    ? `https://open.spotify.com/embed/${modal.spotifyType}/${modal.spotifyId}?utm_source=generator&theme=0&autoplay=1`
-    : ''
 
   return (
     <>
@@ -117,12 +117,10 @@ export default function Top5Section() {
                 <p className="top5-modal-titre">{modal.titre}</p>
               </div>
             </div>
-            <iframe
-              src={spotifyEmbedUrl}
-              width="100%"
-              height={modal.spotifyType === 'album' ? '352' : '152'}
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              style={{ border: 'none', borderRadius: '12px', display: 'block' }}
+            <SpotifyPlayer
+              type={modal.spotifyType}
+              id={modal.spotifyId}
+              height={modal.spotifyType === 'album' ? 352 : 152}
             />
             <p className="top5-modal-note">
               {modal.passages} passages · Semaine du {TOP5.semaine}
