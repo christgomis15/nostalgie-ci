@@ -265,7 +265,7 @@ export default function Accueil() {
               </div>
             </div>
             <iframe
-              src={`https://open.spotify.com/embed/${modal.spotifyType}/${modal.spotifyId}?utm_source=generator&theme=0`}
+              src={`https://open.spotify.com/embed/${modal.spotifyType}/${modal.spotifyId}?utm_source=generator&theme=0&autoplay=1`}
               width="100%"
               height={modal.spotifyType === 'album' ? '352' : '152'}
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"

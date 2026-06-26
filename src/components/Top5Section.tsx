@@ -30,7 +30,7 @@ export default function Top5Section() {
   }
 
   const spotifyEmbedUrl = modal
-    ? `https://open.spotify.com/embed/${modal.spotifyType}/${modal.spotifyId}?utm_source=generator&theme=0`
+    ? `https://open.spotify.com/embed/${modal.spotifyType}/${modal.spotifyId}?utm_source=generator&theme=0&autoplay=1`
     : ''
 
   return (
