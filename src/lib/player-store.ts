@@ -91,22 +91,36 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       return
     }
 
-    // Lecture du preroll puis enchaînement sur le flux
+    // Lecture du preroll + pré-chargement simultané du flux
     set({ isLoading: true, streamError: null, isPreroll: true })
+
+    // Démarrer le chargement du flux PENDANT le preroll pour éliminer l'attente
+    const streamAudio = createAudio(
+      stream,
+      () => set({ isPlaying: false }),
+      (msg) => set({ isPlaying: false, isLoading: false, streamError: msg }),
+    )
+
+    const playStream = () => {
+      streamAudio.play()
+        .then(() => set({ audio: streamAudio, isPlaying: true, isLoading: false, isPreroll: false }))
+        .catch(() => set({ audio: null, isPlaying: false, isLoading: false, isPreroll: false, streamError: 'Impossible de démarrer le flux.' }))
+    }
+
     const preroll = new Audio(PREROLL_URL)
     preroll.addEventListener('ended', () => {
       sessionStorage.setItem('preroll-done', '1')
-      launchStream()
+      playStream()
     })
     preroll.addEventListener('error', () => {
       set({ isPreroll: false })
-      launchStream()
+      playStream()
     })
     preroll.play()
       .then(() => set({ isPlaying: true, isLoading: false }))
       .catch(() => {
         set({ isPreroll: false, isLoading: false })
-        launchStream()
+        playStream()
       })
   },
 
