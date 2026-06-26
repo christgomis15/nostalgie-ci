@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import { PODCASTS, REPLAYS_AUDIO, REPLAYS_VIDEO, type ContentItem } from '@/data/replay-content'
 import { usePlayerStore } from '@/lib/player-store'
+import VideoInteractions from '@/components/VideoInteractions'
 
 type Tab = 'podcasts' | 'audio' | 'video'
 
@@ -154,6 +155,7 @@ export default function PodcastsReplay() {
                 style={{ border: 'none', width: '100%', height: '100%' }}
               />
             </div>
+            <VideoInteractions videoId={modal.youtubeId} />
           </div>
         </div>
       )}

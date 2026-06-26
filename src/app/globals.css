@@ -2865,6 +2865,127 @@ html.intro-mode .wr-ticker {
   filter: drop-shadow(0 0 4px rgba(212, 168, 67, 0.7));
 }
 
+/* ── VideoInteractions — J'aime + Commentaires ── */
+.vi-wrap {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--g3);
+}
+
+.vi-like {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--g2);
+  border: 1px solid var(--g3);
+  border-radius: 20px;
+  padding: 8px 18px;
+  color: var(--blanc);
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+  margin-bottom: 20px;
+}
+.vi-like:hover:not(.vi-liked) { border-color: #e05555; }
+.vi-liked { border-color: #e05555; color: #e05555; }
+.vi-heart { font-size: 16px; line-height: 1; }
+
+.vi-comments-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,.4);
+  margin-bottom: 14px;
+}
+
+.vi-comment {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.vi-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--or-s);
+  color: #000;
+  font-weight: 800;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.vi-comment-body { flex: 1; }
+.vi-comment-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blanc);
+  margin-bottom: 3px;
+}
+.vi-comment-date {
+  font-weight: 400;
+  font-size: 11px;
+  color: rgba(245,240,232,.35);
+  margin-left: 8px;
+}
+.vi-comment-text {
+  font-size: 13px;
+  color: rgba(245,240,232,.75);
+  line-height: 1.45;
+}
+
+.vi-form {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.vi-input,
+.vi-textarea {
+  background: var(--g2);
+  border: 1px solid var(--g3);
+  border-radius: 8px;
+  color: var(--blanc);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 10px 12px;
+  outline: none;
+  resize: none;
+  transition: border-color .2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.vi-input:focus,
+.vi-textarea:focus { border-color: var(--or); }
+.vi-input::placeholder,
+.vi-textarea::placeholder { color: rgba(245,240,232,.25); }
+
+.vi-submit {
+  align-self: flex-end;
+  background: var(--or);
+  color: #000;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.vi-submit:disabled { opacity: .35; cursor: default; }
+.vi-submit:hover:not(:disabled) { opacity: .85; }
+
+.vi-sent {
+  font-size: 13px;
+  color: #4caf50;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
 @keyframes h2-dot-travel {
   to { stroke-dashoffset: -4012; }
 }

@@ -13,9 +13,50 @@ function doGet(e) {
   if (action === 'top5') {
     return getTop5Data();
   }
+  if (action === 'interactions') {
+    return getInteractions((e.parameter && e.parameter.videoId) ? e.parameter.videoId : '');
+  }
   return ContentService
     .createTextOutput('Nostalgie CI — OK')
     .setMimeType(ContentService.MimeType.TEXT);
+}
+
+function getInteractions(videoId) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var likeCount = 0;
+    var comments = [];
+
+    var likesSheet = ss.getSheetByName('Likes');
+    if (likesSheet && likesSheet.getLastRow() > 1) {
+      var likeRows = likesSheet.getRange(2, 1, likesSheet.getLastRow() - 1, 2).getValues();
+      likeCount = likeRows.filter(function(r) { return String(r[1]) === videoId; }).length;
+    }
+
+    var commSheet = ss.getSheetByName('Commentaires');
+    if (commSheet && commSheet.getLastRow() > 1) {
+      var commRows = commSheet.getRange(2, 1, commSheet.getLastRow() - 1, 4).getValues();
+      comments = commRows
+        .filter(function(r) { return String(r[1]) === videoId && r[3]; })
+        .map(function(r) {
+          var d = r[0] instanceof Date ? r[0] : new Date(r[0]);
+          return {
+            date: Utilities.formatDate(d, 'Africa/Abidjan', 'dd MMM yyyy'),
+            prenom: String(r[2]) || 'Anonyme',
+            commentaire: String(r[3])
+          };
+        })
+        .reverse();
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ likes: likeCount, comments: comments }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ likes: 0, comments: [], error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }
 
 function getTop5Data() {
@@ -77,7 +118,55 @@ function doPost(e) {
   if (data.type === 'partenariat') {
     return handlePartenariat(data);
   }
+  if (data.type === 'like') {
+    return handleLike(data);
+  }
+  if (data.type === 'comment') {
+    return handleComment(data);
+  }
   return handleDedicace(data);
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  J'AIME → feuille "Likes"
+// ────────────────────────────────────────────────────────────────────
+function handleLike(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Likes');
+  if (!sheet) {
+    sheet = ss.insertSheet('Likes');
+    sheet.appendRow(['Date', 'videoId']);
+    sheet.getRange(1, 1, 1, 2).setFontWeight('bold');
+  }
+  sheet.appendRow([
+    new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' }),
+    data.videoId
+  ]);
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  COMMENTAIRES → feuille "Commentaires"
+// ────────────────────────────────────────────────────────────────────
+function handleComment(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Commentaires');
+  if (!sheet) {
+    sheet = ss.insertSheet('Commentaires');
+    sheet.appendRow(['Date', 'videoId', 'Prénom', 'Commentaire']);
+    sheet.getRange(1, 1, 1, 4).setFontWeight('bold');
+  }
+  sheet.appendRow([
+    new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' }),
+    data.videoId,
+    data.prenom || 'Anonyme',
+    data.commentaire
+  ]);
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // ────────────────────────────────────────────────────────────────────
