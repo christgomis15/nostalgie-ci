@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { useEffect, useState, useCallback } from 'react'
 import { usePlayerStore } from '@/lib/player-store'
 import NewsletterWidget from '@/components/NewsletterWidget'
-import { TOP5, type Top5Item } from '@/data/top5'
+import { type Top5Item } from '@/data/top5'
+import { useTop5 } from '@/hooks/useTop5'
 import NostalgieTitle from '@/components/NostalgieTitle'
 
 const INTRO_DURATION = 20000
@@ -50,6 +51,7 @@ const EMISSIONS_HOME = [
 ]
 
 export default function Accueil() {
+  const TOP5 = useTop5()
   const { isPlaying, toggle } = usePlayerStore()
   const [showIntro, setShowIntro] = useState(false)
   const [leaving, setLeaving] = useState(false)

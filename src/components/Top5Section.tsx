@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { TOP5, type Top5Item } from '@/data/top5'
+import { type Top5Item } from '@/data/top5'
+import { useTop5 } from '@/hooks/useTop5'
 import { usePlayerStore } from '@/lib/player-store'
 
 const MEDALS = ['🥇', '🥈', '🥉']
-const MAX = TOP5.items[0]?.passages ?? 1
 
 function rangColor(rang: number) {
   if (rang === 1) return '#D4A843'
@@ -15,6 +15,8 @@ function rangColor(rang: number) {
 }
 
 export default function Top5Section() {
+  const TOP5 = useTop5()
+  const MAX = TOP5.items[0]?.passages ?? 1
   const [modal, setModal] = useState<Top5Item | null>(null)
   const { isPlaying, toggle } = usePlayerStore()
 

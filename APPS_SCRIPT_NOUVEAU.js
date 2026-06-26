@@ -4,6 +4,65 @@
 //  À coller intégralement dans script.google.com
 // ═══════════════════════════════════════════════════════════════════
 
+// ────────────────────────────────────────────────────────────────────
+//  doGet — lecture publique des données (Top 5, etc.)
+//  Appel : URL?action=top5
+// ────────────────────────────────────────────────────────────────────
+function doGet(e) {
+  var action = (e && e.parameter) ? e.parameter.action : '';
+  if (action === 'top5') {
+    return getTop5Data();
+  }
+  return ContentService
+    .createTextOutput('Nostalgie CI — OK')
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+
+function getTop5Data() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Top5');
+    if (!sheet) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ error: 'Onglet Top5 introuvable' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // B1 = date de la semaine (ex: "23 – 27 juin 2026")
+    var semaine = sheet.getRange('B1').getValue();
+
+    // Ligne 3 = en-têtes, données en lignes 4 à 8 (5 titres)
+    // Colonnes : rang | artiste | titre | passages | spotifyId | spotifyType | coverUrl
+    var rows = sheet.getRange(4, 1, 5, 7).getValues();
+
+    var items = rows
+      .map(function(row) {
+        return {
+          rang:        Number(row[0]),
+          artiste:     String(row[1]),
+          titre:       String(row[2]),
+          passages:    Number(row[3]),
+          spotifyId:   String(row[4]),
+          spotifyType: String(row[5]),
+          coverImg:    String(row[6]),
+        };
+      })
+      .filter(function(item) { return item.rang > 0 && item.artiste; });
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ semaine: String(semaine), items: items }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  doPost — réception des formulaires (dédicaces, réservations, etc.)
+// ────────────────────────────────────────────────────────────────────
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);
   if (data.type === 'newsletter') {
