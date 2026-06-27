@@ -1066,6 +1066,68 @@ textarea { resize: vertical; min-height: 100px; }
 /* ════════════════════════════════════════
    DÉDICACES
 ════════════════════════════════════════ */
+/* Badge émission active */
+.ded-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(212,168,67,.1);
+  border: 1px solid rgba(212,168,67,.35);
+  border-radius: 24px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--blanc);
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.ded-live-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #e05555;
+  animation: pulse-dot 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .4; transform: scale(.8); }
+}
+.ded-live-badge strong { color: var(--or); }
+.ded-live-time { font-size: 12px; color: rgba(245,240,232,.5); }
+
+/* État hors créneau */
+.ded-closed {
+  max-width: 480px;
+  text-align: center;
+  padding: 40px 0;
+}
+.ded-closed-icon { font-size: 48px; margin-bottom: 16px; }
+.ded-closed-title { font-size: 22px; font-weight: 700; color: var(--blanc); margin-bottom: 10px; }
+.ded-closed-sub { font-size: 14px; color: rgba(245,240,232,.55); margin-bottom: 28px; line-height: 1.5; }
+
+.ded-windows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.ded-window {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--g2);
+  border: 1px solid var(--g3);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+.ded-window-name { font-weight: 600; font-size: 14px; color: var(--blanc); }
+.ded-window-time { font-size: 13px; color: var(--or); font-weight: 700; }
+
+.ded-next {
+  font-size: 13px;
+  color: rgba(245,240,232,.55);
+}
+.ded-next strong { color: var(--blanc); }
+
 .ded-info {
   display: flex;
   gap: 16px;
