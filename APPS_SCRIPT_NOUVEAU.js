@@ -208,13 +208,12 @@ function handleNewsletter(data) {
 //  DÉDICACES → feuille principale + WhatsApp animateur (CallMeBot)
 // ────────────────────────────────────────────────────────────────────
 
-// ⚙️ CONFIG WHATSAPP — remplir après inscription CallMeBot
-// Chaque animateur doit envoyer "I allow callmebot to send me messages"
-// au +34 644 60 13 80 sur WhatsApp pour obtenir sa clé API.
-// Phone = indicatif + numéro, sans le + (ex: 2250708xxxxxx pour CI)
-var WHATSAPP_ANIMATEURS = {
-  'Le Crazy Morning': { phone: 'PHONE_CRAZY_MORNING', apiKey: 'KEY_CRAZY_MORNING' },
-  'Hits & Co':        { phone: 'PHONE_HITS_CO',       apiKey: 'KEY_HITS_CO' },
+// ⚙️ CONFIG TELEGRAM — remplir après inscription CallMeBot
+// Chaque animateur ouvre Telegram → cherche @CallMeBot_txtbot → envoie /start
+// → reçoit sa clé API → communique à Christian : son @username + sa clé.
+var TELEGRAM_ANIMATEURS = {
+  'Le Crazy Morning': { username: '@USERNAME_CRAZY_MORNING', apiKey: 'KEY_CRAZY_MORNING' },
+  'Hits & Co':        { username: '@USERNAME_HITS_CO',       apiKey: 'KEY_HITS_CO' },
 };
 
 function handleDedicace(data) {
@@ -230,23 +229,25 @@ function handleDedicace(data) {
     'Non lu'
   ]);
 
-  // Envoi WhatsApp à l'animateur de l'émission concernée
+  // Envoi Telegram à l'animateur de l'émission concernée
   try {
-    var animateur = WHATSAPP_ANIMATEURS[data.emission];
-    if (animateur && animateur.phone && animateur.phone !== 'PHONE_CRAZY_MORNING' && animateur.phone !== 'PHONE_HITS_CO') {
-      var msg = '🎵 *DÉDICACE — ' + data.emission + '*\n\n'
-        + '👤 *De :* ' + data.prenom + ' (' + data.ville + ')\n'
-        + '💌 *Pour :* ' + data.pour + '\n'
-        + (data.chanson ? '🎶 *Chanson :* ' + data.chanson + '\n' : '')
-        + '📝 *Message :* ' + data.message + '\n\n'
-        + '📱 nostalgie-ci.vercel.app';
-      var url = 'https://api.callmebot.com/whatsapp.php?phone=' + animateur.phone
+    var animateur = TELEGRAM_ANIMATEURS[data.emission];
+    if (animateur && animateur.username && animateur.apiKey
+        && animateur.username !== '@USERNAME_CRAZY_MORNING'
+        && animateur.username !== '@USERNAME_HITS_CO') {
+      var msg = '🎵 DÉDICACE — ' + data.emission + '\n\n'
+        + '👤 De : ' + data.prenom + ' (' + data.ville + ')\n'
+        + '💌 Pour : ' + data.pour + '\n'
+        + (data.chanson ? '🎶 Chanson : ' + data.chanson + '\n' : '')
+        + '📝 Message : ' + data.message;
+      var url = 'https://api.callmebot.com/telegram.php'
+        + '?user=' + encodeURIComponent(animateur.username)
         + '&text=' + encodeURIComponent(msg)
         + '&apikey=' + animateur.apiKey;
       UrlFetchApp.fetch(url, { muteHttpExceptions: true });
     }
   } catch (err) {
-    Logger.log('WhatsApp error: ' + err.toString());
+    Logger.log('Telegram error: ' + err.toString());
   }
 
   return ContentService
