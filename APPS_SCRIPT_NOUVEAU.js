@@ -205,16 +205,37 @@ function handleNewsletter(data) {
 }
 
 // ────────────────────────────────────────────────────────────────────
-//  DÉDICACES → feuille principale + WhatsApp animateur (CallMeBot)
+//  DÉDICACES → feuille principale + notification Telegram animateur
 // ────────────────────────────────────────────────────────────────────
 
-// ⚙️ CONFIG TELEGRAM — remplir après inscription CallMeBot
-// Chaque animateur ouvre Telegram → cherche @CallMeBot_txtbot → envoie /start
-// → reçoit sa clé API → communique à Christian : son @username + sa clé.
+// ⚙️ TOKEN du bot @NostalgieCI_Dedicaces_bot (créé via @BotFather)
+var TELEGRAM_BOT_TOKEN = '8511505107:AAGg62q4VBgSjMXEGkCCcexQ5suAHA92HQM';
+
+// ⚙️ CONFIG ANIMATEURS — remplacer 0 par le vrai chat_id de chaque animateur
+// Pour obtenir le chat_id : l'animateur envoie /start au bot,
+// puis exécuter getTelegramChatIds() dans l'éditeur Apps Script.
 var TELEGRAM_ANIMATEURS = {
-  'Le Crazy Morning': { username: '@USERNAME_CRAZY_MORNING', apiKey: 'KEY_CRAZY_MORNING' },
-  'Hits & Co':        { username: '@USERNAME_HITS_CO',       apiKey: 'KEY_HITS_CO' },
+  'Le Crazy Morning': { chatId: 5945808873 },
+  'Hits & Co':        { chatId: 5945808873 },
 };
+
+function sendTelegramMessage(chatId, text) {
+  if (!chatId || chatId === 0) return;
+  var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
+  UrlFetchApp.fetch(url, {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify({ chat_id: chatId, text: text }),
+    muteHttpExceptions: true
+  });
+}
+
+// Exécuter cette fonction pour voir les chat_ids des animateurs qui ont /start le bot
+function getTelegramChatIds() {
+  var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/getUpdates';
+  var response = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+  Logger.log(response.getContentText());
+}
 
 function handleDedicace(data) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
@@ -232,19 +253,13 @@ function handleDedicace(data) {
   // Envoi Telegram à l'animateur de l'émission concernée
   try {
     var animateur = TELEGRAM_ANIMATEURS[data.emission];
-    if (animateur && animateur.username && animateur.apiKey
-        && animateur.username !== '@USERNAME_CRAZY_MORNING'
-        && animateur.username !== '@USERNAME_HITS_CO') {
+    if (animateur && animateur.chatId && animateur.chatId !== 0) {
       var msg = '🎵 DÉDICACE — ' + data.emission + '\n\n'
         + '👤 De : ' + data.prenom + ' (' + data.ville + ')\n'
         + '💌 Pour : ' + data.pour + '\n'
         + (data.chanson ? '🎶 Chanson : ' + data.chanson + '\n' : '')
         + '📝 Message : ' + data.message;
-      var url = 'https://api.callmebot.com/telegram.php'
-        + '?user=' + encodeURIComponent(animateur.username)
-        + '&text=' + encodeURIComponent(msg)
-        + '&apikey=' + animateur.apiKey;
-      UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+      sendTelegramMessage(animateur.chatId, msg);
     }
   } catch (err) {
     Logger.log('Telegram error: ' + err.toString());
@@ -481,4 +496,18 @@ function testEmail() {
     body: 'Le système d\'envoi d\'emails fonctionne correctement.\nLes réservations publicitaires seront transmises à assistant.commercial@nostalgie.ci'
   });
   Logger.log('Email de test envoyé avec succès');
+}
+
+// Exécuter cette fonction pour tester les notifications Telegram
+function testTelegram() {
+  var response = UrlFetchApp.fetch(
+    'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage',
+    {
+      method: 'post',
+      contentType: 'application/json',
+      payload: JSON.stringify({ chat_id: 5945808873, text: 'Test depuis Apps Script ✅' }),
+      muteHttpExceptions: true
+    }
+  );
+  Logger.log(response.getContentText());
 }
