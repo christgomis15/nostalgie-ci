@@ -38,7 +38,7 @@ function createAudio(url: string, onEnd: () => void, onError: (msg: string) => v
   a.src = url
   a.load()
   a.addEventListener('ended', onEnd)
-  a.addEventListener('error', () => onError('Flux non disponible. Réessayez dans un instant.'))
+  a.addEventListener('error', () => onError('Le flux est temporairement indisponible. Réessayez dans quelques minutes.'))
   return a
 }
 
@@ -65,7 +65,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
         set({ isLoading: true, streamError: null })
         audio.play()
           .then(() => set({ isPlaying: true, isLoading: false }))
-          .catch(() => set({ isPlaying: false, isLoading: false, streamError: 'Impossible de démarrer le flux.' }))
+          .catch(() => set({ isPlaying: false, isLoading: false, streamError: 'Le flux est temporairement indisponible. Réessayez dans quelques minutes.' }))
       }
       return
     }
@@ -80,7 +80,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       )
       newAudio.play()
         .then(() => set({ audio: newAudio, isPlaying: true, isLoading: false, isPreroll: false }))
-        .catch(() => set({ audio: null, isPlaying: false, isLoading: false, isPreroll: false, streamError: 'Impossible de démarrer le flux.' }))
+        .catch(() => set({ audio: null, isPlaying: false, isLoading: false, isPreroll: false, streamError: 'Le flux est temporairement indisponible. Réessayez dans quelques minutes.' }))
     }
 
     const prerollDone = typeof window !== 'undefined' && sessionStorage.getItem('preroll-done') === '1'
@@ -104,7 +104,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     const playStream = () => {
       streamAudio.play()
         .then(() => set({ audio: streamAudio, isPlaying: true, isLoading: false, isPreroll: false }))
-        .catch(() => set({ audio: null, isPlaying: false, isLoading: false, isPreroll: false, streamError: 'Impossible de démarrer le flux.' }))
+        .catch(() => set({ audio: null, isPlaying: false, isLoading: false, isPreroll: false, streamError: 'Le flux est temporairement indisponible. Réessayez dans quelques minutes.' }))
     }
 
     const preroll = new Audio(PREROLL_URL)
