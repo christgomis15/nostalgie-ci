@@ -3262,6 +3262,7 @@ html.intro-mode .wr-ticker {
 
 /* Responsive */
 @media (max-width: 900px) {
+  .h2-hero-bg { display: none; }
   .h2-hero-left { padding: 60px 24px 80px; max-width: 100%; }
   .h2-content-inner { grid-template-columns: 1fr; gap: 48px; }
   .h2-em-head { align-items: flex-start; }
