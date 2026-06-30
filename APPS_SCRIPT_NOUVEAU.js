@@ -215,7 +215,7 @@ var TELEGRAM_BOT_TOKEN = '8511505107:AAGg62q4VBgSjMXEGkCCcexQ5suAHA92HQM';
 // Pour obtenir le chat_id : l'animateur envoie /start au bot,
 // puis exécuter getTelegramChatIds() dans l'éditeur Apps Script.
 var TELEGRAM_ANIMATEURS = {
-  'Le Crazy Morning': { chatId: 5945808873 },
+  'Le Crazy Morning': { chatId: -5228905648 },
   'Hits & Co':        { chatId: 5945808873 },
 };
 
