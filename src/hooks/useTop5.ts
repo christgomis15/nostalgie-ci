@@ -11,22 +11,28 @@ export function useTop5(): Top5Data {
   const [data, setData] = useState<Top5Data>(TOP5)
 
   useEffect(() => {
-    fetch('/api/top5')
-      .then(r => (r.ok ? r.json() : null))
-      .then((json: Top5Data | null) => {
-        if (json?.items?.length) {
-          // Si coverUrl est vide dans le Sheet, on garde la pochette locale
-          const merged: Top5Data = {
-            ...json,
-            items: json.items.map((item, i) => ({
-              ...item,
-              coverImg: item.coverImg || TOP5.items[i]?.coverImg || '',
-            })),
+    let cancelled = false
+    const load = (attempt = 1) => {
+      fetch('/api/top5', { cache: 'no-store' })
+        .then(r => (r.ok ? r.json() : null))
+        .then((json: Top5Data | null) => {
+          if (cancelled) return
+          if (json?.items?.length) {
+            setData({
+              ...json,
+              items: json.items.map((item, i) => ({
+                ...item,
+                coverImg: item.coverImg || TOP5.items[i]?.coverImg || '',
+              })),
+            })
+          } else if (attempt < 3) {
+            setTimeout(() => load(attempt + 1), 2000)
           }
-          setData(merged)
-        }
-      })
-      .catch(() => {})
+        })
+        .catch(() => { if (!cancelled && attempt < 3) setTimeout(() => load(attempt + 1), 2000) })
+    }
+    load()
+    return () => { cancelled = true }
   }, [])
 
   return data

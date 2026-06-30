@@ -1,4 +1,4 @@
-const CACHE = 'nostalgie-ci-v1'
+const CACHE = 'nostalgie-ci-v2'
 const PRECACHE = ['/', '/live', '/emissions', '/podcasts', '/dedicaces', '/actus', '/contact']
 
 self.addEventListener('install', e => {
