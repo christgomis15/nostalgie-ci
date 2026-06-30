@@ -82,7 +82,7 @@ export default function Reserver() {
       <p className="section-label">Visibilité sur le web</p>
       <h1 className="section-title">Réserver un espace publicitaire</h1>
       <p className="rsv-intro">
-        Choisissez vos emplacements, sélectionnez votre durée — le coût total se calcule automatiquement.
+        Choisissez vos emplacements et sélectionnez votre durée de communication.
         Le paiement se fera hors ligne après confirmation de notre équipe commerciale.
       </p>
 
