@@ -136,44 +136,20 @@ export default function Accueil() {
         <div className="h2-hero-bg" style={{ backgroundImage: "url('/img/hero-bg.jpg')" }} />
         <div className="h2-hero-grad" />
 
-        <div className="h2-hero-inner">
-          {/* Branding — gauche */}
-          <div className="h2-hero-left">
-            <p className="h2-eyebrow">Nostalgie CI · 101.1 FM</p>
-            <NostalgieTitle />
-            <p className="h2-slogan"><em>Sérieusement Décalée.</em></p>
-            <div className="h2-villes-wrap">
-              {['Abidjan', 'Bouaké', 'Yamoussoukro', 'San-Pédro', 'Korhogo'].map(v => (
-                <span key={v} className="h2-ville-chip">{v}</span>
-              ))}
-            </div>
-            <div className="h2-actions">
-              <button className="btn btn-or" onClick={toggle}>
-                {isPlaying ? '⏸ En cours...' : '▶ Écouter en Direct'}
-              </button>
-              <Link href="/emissions" className="btn btn-outline">Nos Émissions</Link>
-            </div>
+        <div className="h2-hero-left">
+          <p className="h2-eyebrow">Nostalgie CI · 101.1 FM</p>
+          <NostalgieTitle />
+          <p className="h2-slogan"><em>Sérieusement Décalée.</em></p>
+          <div className="h2-villes-wrap">
+            {['Abidjan', 'Bouaké', 'Yamoussoukro', 'San-Pédro', 'Korhogo'].map(v => (
+              <span key={v} className="h2-ville-chip">{v}</span>
+            ))}
           </div>
-
-          {/* Fréquences — droite */}
-          <div className="h2-hero-right">
-            <p className="h2-freq-label">Nos fréquences</p>
-            <div className="h2-freq-list">
-              {[
-                { freq: '101.1', ville: 'Abidjan' },
-                { freq: '106.5', ville: 'Bouaké' },
-                { freq: '92.8',  ville: 'Yamoussoukro' },
-                { freq: '97.3',  ville: 'San-Pédro' },
-                { freq: '98.3',  ville: 'Daloa' },
-                { freq: '91.7',  ville: 'Korhogo' },
-              ].map(f => (
-                <div key={f.freq} className="h2-freq-row">
-                  <span className="h2-freq-num">{f.freq}</span>
-                  <span className="h2-freq-fm">FM</span>
-                  <span className="h2-freq-ville">{f.ville}</span>
-                </div>
-              ))}
-            </div>
+          <div className="h2-actions">
+            <button className="btn btn-or" onClick={toggle}>
+              {isPlaying ? '⏸ En cours...' : '▶ Écouter en Direct'}
+            </button>
+            <Link href="/emissions" className="btn btn-outline">Nos Émissions</Link>
           </div>
         </div>
       </section>
