@@ -22,6 +22,12 @@ function rangColor(r: number) {
 
 const ACTUS_HOME = [
   {
+    cat: 'WC2026',
+    img: '/img/christ-inao.jpg',
+    title: 'Christ Inao Oulaï, si jeune et déjà indispensable',
+    date: '1 juillet 2026',
+  },
+  {
     cat: 'Musique',
     img: '/img/ac-01.jpg',
     title: 'Kerozen annonce un nouvel album pour juillet 2026',
@@ -32,12 +38,6 @@ const ACTUS_HOME = [
     img: '/img/ac-02.jpg',
     title: 'Concert hommage à Arafat DJ au Palais de la Culture',
     date: '31 mai 2026',
-  },
-  {
-    cat: 'Awards',
-    img: '/img/ac-03.jpg',
-    title: 'Les artistes ivoiriens honorés aux MAMA 2026',
-    date: '28 mai 2026',
   },
 ]
 

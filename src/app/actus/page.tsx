@@ -22,7 +22,7 @@ function toYouTubeEmbed(url: string): string {
 const LOCALE: Article[] = [
   {
     cat: 'WC2026',
-    img: '/img/wc2026.jpeg',
+    img: '/img/christ-inao.jpg',
     title: 'Christ Inao Oulaï, si jeune et déjà indispensable',
     excerpt: "Le milieu de terrain de Trabzonspor s'impose comme la révélation ivoirienne de la Coupe du monde 2026.",
     date: '1 juillet 2026',
