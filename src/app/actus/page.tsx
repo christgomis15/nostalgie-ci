@@ -22,7 +22,7 @@ function toYouTubeEmbed(url: string): string {
 const LOCALE: Article[] = [
   {
     cat: 'Rap Ivoire',
-    img: '/img/himra.jpg',
+    img: '/img/himra.jpeg',
     title: 'Himra, premier rappeur ivoirien certifié or en France',
     excerpt: '"Number One" feat Minz dépasse les 22 millions de streams sur Spotify. Une première historique pour le rap ivoirien.',
     date: '1 juillet 2026',
@@ -34,7 +34,7 @@ Himra incarne une nouvelle génération de rappeurs ivoiriens qui s'imposent sur
   },
   {
     cat: 'Rap Ivoire',
-    img: '/img/didi-b.jpg',
+    img: '/img/didi-b.jpeg',
     title: 'Didi B franchit le million d\'auditeurs sur Spotify et l\'or au Nigeria',
     excerpt: 'Porté par son concert au Zénith de Paris, Didi B devient le premier artiste africain francophone certifié or au Nigeria.',
     date: '28 juin 2026',
