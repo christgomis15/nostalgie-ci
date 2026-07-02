@@ -108,6 +108,18 @@ Pour célébrer cet anniversaire exceptionnel, la radio prépare une semaine sp�
 
 const INTERNATIONALE: Article[] = [
   {
+    cat: 'Musique',
+    img: '/img/coumba-gawlo.jpg',
+    title: 'Coumba Gawlo Seck à Abidjan : la diva sénégalaise célèbre la fraternité africaine',
+    excerpt: 'La grande dame de la musique sénégalaise a séjourné à Abidjan fin juin 2026, rencontrant les figures de la scène ivoirienne.',
+    date: '30 juin 2026',
+    body: `La diva de la musique sénégalaise Coumba Gawlo Seck s'est récemment rendue à Abidjan. Lors de ce séjour fin juin 2026, elle a notamment été reçue au siège de la Fondation Magic System et a partagé des moments avec des figures de la musique ivoirienne comme Josey et Aïcha Koné.
+
+Durant sa visite, elle en a profité pour exprimer son attachement et son admiration pour la culture ivoirienne. Elle a également évoqué publiquement son récent rétablissement médical, rassurant ses fans après une intervention sur ses cordes vocales.
+
+Ce déplacement témoigne de la solidarité et des liens profonds qui unissent les artistes d'Afrique de l'Ouest, au-delà des frontières. Coumba Gawlo Seck reste l'une des voix les plus emblématiques du continent, et son passage à Abidjan a été salué comme un beau moment de fraternité musicale africaine.`,
+  },
+  {
     cat: 'Grammy',
     img: '/img/ac-07.jpg',
     title: 'Burna Boy décroche le Grammy du meilleur album Afrobeats 2026',
