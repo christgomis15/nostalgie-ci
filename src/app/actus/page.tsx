@@ -21,6 +21,18 @@ function toYouTubeEmbed(url: string): string {
 
 const LOCALE: Article[] = [
   {
+    cat: 'WC2026',
+    img: '/img/wc2026.jpeg',
+    title: 'Christ Inao Oulaï, si jeune et déjà indispensable',
+    excerpt: "Le milieu de terrain de Trabzonspor s'impose comme la révélation ivoirienne de la Coupe du monde 2026.",
+    date: '1 juillet 2026',
+    body: `Christ Inao Oulaï s'impose comme l'une des révélations ivoiriennes de la Coupe du monde 2026. Le milieu de terrain de Trabzonspor a brillé lors du match contre l'Allemagne, affichant une maturité et une personnalité rares pour son âge, malgré la défaite des Éléphants.
+
+À seulement 20 ans, Christ Inao Oulaï a su hausser son niveau dans les grandes occasions, enchaînant les interventions décisives et portant le ballon avec autorité dans l'entrejeu. Sa capacité à récupérer les ballons et à relancer proprement a souvent permis à la Côte d'Ivoire de respirer dans les moments difficiles.
+
+Les observateurs s'accordent à dire que ce garçon a un avenir exceptionnel devant lui. Plusieurs grands clubs européens auraient d'ores et déjà manifesté leur intérêt. La CAN 2027 et les prochaines qualifications mondiales s'annoncent prometteuses avec lui dans le onze ivoirien.`,
+  },
+  {
     cat: 'Musique',
     img: '/img/ac-01.jpg',
     title: 'Kerozen annonce un nouvel album pour juillet 2026',
