@@ -22,22 +22,22 @@ function rangColor(r: number) {
 
 const ACTUS_HOME = [
   {
+    cat: 'Rap Ivoire',
+    img: '/img/himra.jpeg',
+    title: 'Himra, premier rappeur ivoirien certifié or en France',
+    date: '1 juillet 2026',
+  },
+  {
+    cat: 'Rap Ivoire',
+    img: '/img/didi-b.jpeg',
+    title: 'Didi B franchit le million d\'auditeurs sur Spotify et l\'or au Nigeria',
+    date: '28 juin 2026',
+  },
+  {
     cat: 'WC2026',
     img: '/img/christ-inao.jpg',
     title: 'Christ Inao Oulaï, si jeune et déjà indispensable',
     date: '1 juillet 2026',
-  },
-  {
-    cat: 'Musique',
-    img: '/img/ac-01.jpg',
-    title: 'Kerozen annonce un nouvel album pour juillet 2026',
-    date: '2 juin 2026',
-  },
-  {
-    cat: 'Culture',
-    img: '/img/ac-02.jpg',
-    title: 'Concert hommage à Arafat DJ au Palais de la Culture',
-    date: '31 mai 2026',
   },
 ]
 
