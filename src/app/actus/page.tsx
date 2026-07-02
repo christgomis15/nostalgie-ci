@@ -132,6 +132,18 @@ Pour célébrer cet anniversaire exceptionnel, la radio prépare une semaine sp�
 
 const INTERNATIONALE: Article[] = [
   {
+    cat: 'People',
+    img: '/img/taylor-travis.jpg',
+    title: 'Taylor Swift et Travis Kelce : les noces du siècle à Madison Square Garden',
+    excerpt: 'La cérémonie est attendue ce week-end du 4 juillet, répartie sur deux jours dans la salle mythique de New York.',
+    date: '2 juillet 2026',
+    body: `Le mariage de Taylor Swift et Travis Kelce s'annonce comme l'événement de l'année. Les célébrations sont attendues à Madison Square Garden ce week-end du 4 juillet, réparties sur deux jours selon des proches du dossier. La salle mythique de New York est déjà en travaux de décoration pour accueillir ce qui s'annonce comme la cérémonie la plus médiatisée de la décennie.
+
+Taylor Swift ferait filmer l'intégralité de la cérémonie par une équipe professionnelle, tout en gardant le dernier mot sur le montage final. Un contrôle artistique total, à l'image de la popstar qui n'a jamais laissé personne dicter sa narrative.
+
+Le couple, qui fait vibrer les États-Unis depuis leur relation rendue publique en 2023, unit donc officiellement leurs destins dans un cadre à la hauteur de leur légende. Fans et médias du monde entier retiennent leur souffle pour ce week-end historique.`,
+  },
+  {
     cat: 'Musique',
     img: '/img/coumba-gawlo.jpg',
     title: 'Coumba Gawlo Seck à Abidjan : la diva sénégalaise célèbre la fraternité africaine',
