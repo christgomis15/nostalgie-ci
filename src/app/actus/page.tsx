@@ -21,6 +21,30 @@ function toYouTubeEmbed(url: string): string {
 
 const LOCALE: Article[] = [
   {
+    cat: 'Rap Ivoire',
+    img: '/img/himra.jpg',
+    title: 'Himra, premier rappeur ivoirien certifié or en France',
+    excerpt: '"Number One" feat Minz dépasse les 22 millions de streams sur Spotify. Une première historique pour le rap ivoirien.',
+    date: '1 juillet 2026',
+    body: `Himra est entré dans l'histoire en devenant le premier rappeur ivoirien à décrocher une certification single d'or SNEP en France avec son titre "Number One" feat Minz, dépassant les 22 millions de streams sur Spotify. Une performance qui confirme l'influence croissante du rap ivoirien bien au-delà des frontières du continent.
+
+Sur sa lancée, l'artiste s'attaque désormais au marché américain avec une tournée qui a débuté au Gramercy Theatre de New York en juin 2026. Une étape symbolique pour un artiste qui ne cesse de repousser les limites.
+
+Himra incarne une nouvelle génération de rappeurs ivoiriens qui s'imposent sur la scène internationale sans renier leurs racines. Ce succès ouvre la voie à d'autres talents du pays et renforce le rayonnement du rap ivoire à l'échelle mondiale.`,
+  },
+  {
+    cat: 'Rap Ivoire',
+    img: '/img/didi-b.jpg',
+    title: 'Didi B franchit le million d\'auditeurs sur Spotify et l\'or au Nigeria',
+    excerpt: 'Porté par son concert au Zénith de Paris, Didi B devient le premier artiste africain francophone certifié or au Nigeria.',
+    date: '28 juin 2026',
+    body: `Didi B a franchi un cap historique en dépassant le million d'auditeurs mensuels sur Spotify, porté par le succès de son concert au Zénith de Paris — une salle mythique que peu d'artistes africains ont eu l'honneur de remplir.
+
+L'artiste ivoirien est également devenu le premier artiste africain francophone à obtenir un single d'or au Nigeria avec "Good Vibes" feat Zinoleesky. Un exploit qui témoigne de sa capacité à séduire les publics anglophones et à traverser les frontières linguistiques du continent africain.
+
+Ces records confirment que Didi B est l'un des artistes ivoiriens les plus influents de sa génération, capable de fédérer des audiences aussi bien en Côte d'Ivoire, en Europe qu'en Afrique de l'Ouest anglophone.`,
+  },
+  {
     cat: 'WC2026',
     img: '/img/christ-inao.jpg',
     title: 'Christ Inao Oulaï, si jeune et déjà indispensable',
