@@ -42,13 +42,13 @@ const ACTUS_HOME = [
 ]
 
 const EMISSIONS_HOME = [
-  { title: 'Le Crazy Morning', tag: 'Matin', schedule: '06h – 10h', img: '/img/em-01.jpg' },
-  { title: 'Hits & Co', tag: 'Après-midi', schedule: '12h – 15h', img: '/img/em-03.jpg' },
-  { title: "L'Afterwork", tag: 'Soirée', schedule: '17h – 19h', img: '/img/em-05.jpg' },
-  { title: 'Nostafoot', tag: 'Football', schedule: '19h – 21h', img: '/img/em-06.jpg' },
-  { title: 'Brand New', tag: 'Nouveautés', schedule: '15h – 16h', img: '/img/em-04.jpg' },
-  { title: 'Tchika Tchika Boom', tag: 'Milieu de journée', schedule: '11h – 12h', img: '/img/em-02.jpg' },
-  { title: 'Retourne Les Hits', tag: 'Club', schedule: '20h – 00h', img: '/img/em-11.jpg' },
+  { title: 'Good Morning Holidays', tag: 'Matin', schedule: '07h – 09h', img: '/img/em-01.jpg' },
+  { title: 'Le Tchika Tchika Boom', tag: 'Milieu de journée', schedule: '10h – 12h', img: '/img/em-02.jpg' },
+  { title: 'Le Brand New', tag: 'Après-midi', schedule: '15h – 16h', img: '/img/em-04.jpg' },
+  { title: 'My Nostalgie', tag: 'Après-midi', schedule: '16h – 18h', img: '/img/em-05.jpg' },
+  { title: 'Radio Tubes', tag: 'Soirée', schedule: '18h – 20h', img: '/img/em-06.jpg' },
+  { title: 'Nostalgie Holiday Mix', tag: 'Prime time', schedule: '20h – 23h', img: '/img/em-11.jpg' },
+  { title: 'Nostalgie Fun Outdoor', tag: 'Week-end', schedule: 'Sam 20h – 21h', img: '/img/em-10.jpg' },
 ]
 
 export default function Accueil() {
