@@ -42,13 +42,13 @@ const ACTUS_HOME = [
 ]
 
 const EMISSIONS_HOME = [
-  { title: 'Good Morning Holidays', tag: 'Matin', schedule: '07h – 09h', img: '/img/em-01.jpg' },
-  { title: 'Le Tchika Tchika Boom', tag: 'Milieu de journée', schedule: '10h – 12h', img: '/img/em-02.jpg' },
-  { title: 'Le Brand New', tag: 'Après-midi', schedule: '15h – 16h', img: '/img/em-04.jpg' },
-  { title: 'My Nostalgie', tag: 'Après-midi', schedule: '16h – 18h', img: '/img/em-05.jpg' },
-  { title: 'Radio Tubes', tag: 'Soirée', schedule: '18h – 20h', img: '/img/em-06.jpg' },
-  { title: 'Nostalgie Holiday Mix', tag: 'Prime time', schedule: '20h – 23h', img: '/img/em-11.jpg' },
-  { title: 'Nostalgie Fun Outdoor', tag: 'Week-end', schedule: 'Sam 20h – 21h', img: '/img/em-10.jpg' },
+  { title: 'Good Morning Holidays', tag: 'Matin', schedule: '07h – 09h', ph: '07' },
+  { title: 'Le Tchika Tchika Boom', tag: 'Milieu de journée', schedule: '10h – 12h', ph: '10' },
+  { title: 'Le Brand New', tag: 'Après-midi', schedule: '15h – 16h', ph: '15' },
+  { title: 'My Nostalgie', tag: 'Après-midi', schedule: '16h – 18h', ph: '16' },
+  { title: 'Radio Tubes', tag: 'Soirée', schedule: '18h – 20h', ph: '18' },
+  { title: 'Nostalgie Holiday Mix', tag: 'Prime time', schedule: '20h – 23h', ph: '20' },
+  { title: 'Nostalgie Fun Outdoor', tag: 'Week-end', schedule: 'Sam 20h – 21h', ph: '20' },
 ]
 
 export default function Accueil() {
@@ -234,12 +234,7 @@ export default function Accueil() {
         <div className="h2-em-scroll">
           {EMISSIONS_HOME.map(em => (
             <Link key={em.title} href="/emissions" className="h2-em-card">
-              <img
-                src={em.img}
-                alt={em.title}
-                className="h2-em-img"
-                onError={e => { (e.target as HTMLImageElement).src = '/img/wc2026.jpeg' }}
-              />
+              <div className="h2-em-ph">{em.ph}</div>
               <div className="h2-em-info">
                 <p className="h2-em-tag">{em.tag}</p>
                 <p className="h2-em-name">{em.title}</p>

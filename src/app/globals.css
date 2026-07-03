@@ -3245,6 +3245,14 @@ html.intro-mode .wr-ticker {
 }
 .h2-em-card:hover { border-color: rgba(212,168,67,0.35); transform: translateY(-3px); }
 .h2-em-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; background: var(--g3); }
+.h2-em-ph {
+  width: 100%; aspect-ratio: 1/1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44px; font-weight: 900;
+  color: rgba(212,168,67,0.14);
+  font-family: 'Playfair Display', serif;
+  background: var(--g3);
+}
 .h2-em-info { padding: 12px 14px; }
 .h2-em-tag {
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
