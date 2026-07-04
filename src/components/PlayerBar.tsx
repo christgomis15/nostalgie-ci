@@ -1,9 +1,11 @@
 'use client'
 
 import { usePlayerStore, WEBRADIOS } from '@/lib/player-store'
+import { useNowPlaying } from '@/lib/use-now-playing'
 
 export default function PlayerBar() {
   const { isPlaying, isLoading, isPreroll, streamError, currentRadio, toggle, switchRadio } = usePlayerStore()
+  const nowPlaying = useNowPlaying(currentRadio.badge === 'N' && isPlaying && !isPreroll)
 
   const handleRadioClick = (radio: typeof WEBRADIOS[0]) => {
     if (!radio.stream) return
@@ -26,6 +28,10 @@ export default function PlayerBar() {
               ? <span style={{ color: '#ff6b6b', fontSize: '10px' }}>{streamError}</span>
               : isPreroll
               ? <span style={{ color: '#D4A843', fontSize: '10px' }}>Message en cours…</span>
+              : nowPlaying.isLive && (nowPlaying.artist || nowPlaying.title)
+              ? <span className="pb-nowplaying">
+                  {nowPlaying.artist ? `${nowPlaying.artist} — ${nowPlaying.title}` : nowPlaying.title}
+                </span>
               : currentRadio.desc}
           </div>
         </div>

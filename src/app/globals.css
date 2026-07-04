@@ -772,6 +772,15 @@ textarea { resize: vertical; min-height: 100px; }
   font-size: 11px;
   color: rgba(245, 240, 232, 0.4);
 }
+.pb-nowplaying {
+  display: inline-block;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+  color: var(--or);
+}
 
 .pb-play {
   width: 44px; height: 44px;
