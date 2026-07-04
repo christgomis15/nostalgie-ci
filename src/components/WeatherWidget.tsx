@@ -1,17 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
-interface CityWeather {
-  ville: string
-  temp: number | null
-  label: string | null
-  icon: string | null
-  alert: string | null
-}
+import WeatherDetailModal, { type CityWeatherDetail } from '@/components/WeatherDetailModal'
 
 export default function WeatherWidget() {
-  const [cities, setCities] = useState<CityWeather[]>([])
+  const [cities, setCities] = useState<CityWeatherDetail[]>([])
+  const [selected, setSelected] = useState<CityWeatherDetail | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -30,16 +24,22 @@ export default function WeatherWidget() {
         <p className="section-label">En direct du ciel</p>
         <div className="wthr-row">
           {cities.map(c => (
-            <div key={c.ville} className={`wthr-chip ${c.alert ? 'wthr-alert' : ''}`}>
+            <button
+              key={c.ville}
+              className={`wthr-chip ${c.alert ? `wthr-alert wthr-alert-${c.level}` : ''}`}
+              onClick={() => setSelected(c)}
+            >
               <span className="wthr-icon">{c.icon ?? '🌡️'}</span>
               <div>
                 <p className="wthr-ville">{c.ville}</p>
                 <p className="wthr-temp">{c.temp !== null ? `${c.temp}°C` : '—'}</p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
+
+      {selected && <WeatherDetailModal city={selected} onClose={() => setSelected(null)} />}
     </section>
   )
 }

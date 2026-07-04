@@ -1,27 +1,23 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
-interface CityWeather {
-  ville: string
-  alert: string | null
-}
+import WeatherDetailModal, { type CityWeatherDetail } from '@/components/WeatherDetailModal'
 
 const STORAGE_KEY = 'weather-alert-dismissed'
 
 export default function WeatherAlertBanner() {
-  const [alerts, setAlerts] = useState<{ ville: string; alert: string }[]>([])
+  const [alerts, setAlerts] = useState<CityWeatherDetail[]>([])
   const [dismissed, setDismissed] = useState(false)
+  const [selected, setSelected] = useState<CityWeatherDetail | null>(null)
 
   useEffect(() => {
     let cancelled = false
     const check = () => {
       fetch('/api/weather', { cache: 'no-store' })
         .then(res => res.json())
-        .then((data: { cities: CityWeather[] }) => {
+        .then((data: { cities: CityWeatherDetail[] }) => {
           if (cancelled) return
-          const active = (data.cities ?? [])
-            .filter((c): c is { ville: string; alert: string } => !!c.alert)
+          const active = (data.cities ?? []).filter(c => !!c.alert)
           setAlerts(active)
 
           const signature = active.map(a => `${a.ville}:${a.alert}`).join('|')
@@ -44,17 +40,22 @@ export default function WeatherAlertBanner() {
   if (alerts.length === 0 || dismissed) return null
 
   return (
-    <div className="wthr-banner">
-      <span className="wthr-banner-icon">⚠️</span>
-      <span className="wthr-banner-text">
-        {alerts.map((a, i) => (
-          <span key={a.ville}>
-            {i > 0 && ' · '}
-            <strong>{a.ville}</strong> — {a.alert}
-          </span>
-        ))}
-      </span>
-      <button className="wthr-banner-close" onClick={dismiss} aria-label="Fermer">✕</button>
-    </div>
+    <>
+      <div className="wthr-banner">
+        <span className="wthr-banner-icon">⚠️</span>
+        <span className="wthr-banner-text">
+          {alerts.map((a, i) => (
+            <span key={a.ville}>
+              {i > 0 && ' · '}
+              <button className="wthr-banner-ville" onClick={() => setSelected(a)}>{a.ville}</button>
+              {' — '}{a.alert}
+            </span>
+          ))}
+        </span>
+        <button className="wthr-banner-close" onClick={dismiss} aria-label="Fermer">✕</button>
+      </div>
+
+      {selected && <WeatherDetailModal city={selected} onClose={() => setSelected(null)} />}
+    </>
   )
 }

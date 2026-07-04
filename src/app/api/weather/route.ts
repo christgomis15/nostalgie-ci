@@ -25,10 +25,14 @@ const WEATHER_LABELS: Record<number, { label: string; icon: string }> = {
   99: { label: 'Orage violent avec grêle', icon: '⛈️' },
 }
 
-const RAIN_ALERT_MM_6H = 20
-const RAIN_ALERT_MM_1H = 15
-const WIND_ALERT_KMH = 40
-const STORM_CODES = new Set([95, 96, 99])
+type Level = 'jaune' | 'orange' | 'rouge'
+const STORM_CODES: Record<number, Level> = { 95: 'orange', 96: 'rouge', 99: 'rouge' }
+
+const RAIN_LEVELS: [number, Level][] = [[60, 'rouge'], [40, 'orange'], [20, 'jaune']]
+const WIND_LEVELS: [number, Level][] = [[80, 'rouge'], [60, 'orange'], [40, 'jaune']]
+
+const LEVEL_RANK: Record<Level, number> = { jaune: 1, orange: 2, rouge: 3 }
+const LEVEL_LABEL: Record<Level, string> = { jaune: 'Jaune', orange: 'Orange', rouge: 'Rouge' }
 
 interface HourlyBlock {
   time: string[]
@@ -47,28 +51,60 @@ interface OpenMeteoResponse {
   hourly: HourlyBlock
 }
 
-function next6h(hourly: HourlyBlock) {
+function findNowIndex(hourly: HourlyBlock): number {
   const now = Date.now()
-  let startIdx = hourly.time.findIndex(t => new Date(t).getTime() >= now)
-  if (startIdx === -1) startIdx = 0
-  return {
-    precipitation: hourly.precipitation.slice(startIdx, startIdx + 6),
-    weather_code: hourly.weather_code.slice(startIdx, startIdx + 6),
-    wind_speed_10m: hourly.wind_speed_10m.slice(startIdx, startIdx + 6),
-  }
+  const idx = hourly.time.findIndex(t => new Date(t).getTime() >= now)
+  return idx === -1 ? 0 : idx
 }
 
-function computeAlert(hourly: HourlyBlock): string | null {
-  const window = next6h(hourly)
-  const rainSum = window.precipitation.reduce((a, b) => a + b, 0)
-  const rainMax = Math.max(0, ...window.precipitation)
-  const windMax = Math.max(0, ...window.wind_speed_10m)
-  const hasStorm = window.weather_code.some(c => STORM_CODES.has(c))
-
-  if (hasStorm) return 'Orages prévus dans les prochaines heures'
-  if (rainSum > RAIN_ALERT_MM_6H || rainMax > RAIN_ALERT_MM_1H) return 'Fortes pluies attendues dans les prochaines heures'
-  if (windMax > WIND_ALERT_KMH) return 'Vents forts attendus dans les prochaines heures'
+function pickLevel(value: number, table: [number, Level][]): Level | null {
+  for (const [threshold, level] of table) {
+    if (value > threshold) return level
+  }
   return null
+}
+
+function computeAlert(hourly: HourlyBlock): { level: Level; label: string } | null {
+  const startIdx = findNowIndex(hourly)
+  const precipitation = hourly.precipitation.slice(startIdx, startIdx + 6)
+  const weatherCode = hourly.weather_code.slice(startIdx, startIdx + 6)
+  const windSpeed = hourly.wind_speed_10m.slice(startIdx, startIdx + 6)
+
+  const rainSum = precipitation.reduce((a, b) => a + b, 0)
+  const windMax = Math.max(0, ...windSpeed)
+
+  let best: { level: Level; label: string } | null = null
+  const consider = (level: Level | null, label: string) => {
+    if (!level) return
+    if (!best || LEVEL_RANK[level] > LEVEL_RANK[best.level]) best = { level, label }
+  }
+
+  const stormLevel = weatherCode.reduce<Level | null>((acc, c) => {
+    const lvl = STORM_CODES[c]
+    if (!lvl) return acc
+    if (!acc || LEVEL_RANK[lvl] > LEVEL_RANK[acc]) return lvl
+    return acc
+  }, null)
+  consider(stormLevel, 'Orages prévus dans les prochaines heures')
+  consider(pickLevel(rainSum, RAIN_LEVELS), 'Fortes pluies attendues dans les prochaines heures')
+  consider(pickLevel(windMax, WIND_LEVELS), 'Vents forts attendus dans les prochaines heures')
+
+  return best
+}
+
+function buildForecast(hourly: HourlyBlock) {
+  const startIdx = findNowIndex(hourly)
+  return hourly.time.slice(startIdx, startIdx + 12).map((t, i) => {
+    const idx = startIdx + i
+    const meta = WEATHER_LABELS[hourly.weather_code[idx]] ?? { label: 'Variable', icon: '🌡️' }
+    return {
+      heure: new Date(t).toISOString().slice(11, 16),
+      icon: meta.icon,
+      label: meta.label,
+      precip: hourly.precipitation[idx],
+      vent: Math.round(hourly.wind_speed_10m[idx]),
+    }
+  })
 }
 
 export async function GET() {
@@ -91,15 +127,18 @@ export async function GET() {
     const cities = WEATHER_CITIES.map((city, i) => {
       const data = list[i]
       if (!data?.current) {
-        return { ville: city.ville, temp: null, label: null, icon: null, alert: null }
+        return { ville: city.ville, temp: null, label: null, icon: null, alert: null, level: null, forecast: [] }
       }
       const meta = WEATHER_LABELS[data.current.weather_code] ?? { label: 'Variable', icon: '🌡️' }
+      const alert = computeAlert(data.hourly)
       return {
         ville: city.ville,
         temp: Math.round(data.current.temperature_2m),
         label: meta.label,
         icon: meta.icon,
-        alert: computeAlert(data.hourly),
+        alert: alert ? `Alerte ${LEVEL_LABEL[alert.level]} — ${alert.label}` : null,
+        level: alert?.level ?? null,
+        forecast: buildForecast(data.hourly),
       }
     })
 
