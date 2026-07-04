@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import Header from '@/components/Header'
 import WebradioTicker from '@/components/WebradioTicker'
+import WeatherAlertBanner from '@/components/WeatherAlertBanner'
 import PlayerBar from '@/components/PlayerBar'
 import PWARegister from '@/components/PWARegister'
 import PWAInstallBanner from '@/components/PWAInstallBanner'
@@ -49,6 +50,9 @@ export default function RootLayout({
 
         {/* Header nav — sous le ticker */}
         <Header />
+
+        {/* Bandeau d'alerte météo — visible uniquement si alerte active, sous les barres fixes */}
+        <WeatherAlertBanner />
 
         {/* Contenu de la page */}
         <main>{children}</main>

@@ -3270,6 +3270,39 @@ html.intro-mode .wr-ticker {
 .h2-em-name { font-size: 13px; font-weight: 600; color: var(--blanc); line-height: 1.3; margin-bottom: 3px; }
 .h2-em-sched { font-size: 11px; color: rgba(245,240,232,0.32); }
 
+/* ════════════════════════════════════════
+   MÉTÉO
+════════════════════════════════════════ */
+.wthr-section { padding: 32px 0 8px; }
+.wthr-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.wthr-row {
+  display: flex; gap: 10px; overflow-x: auto; padding: 14px 0 4px;
+  scrollbar-width: none;
+}
+.wthr-row::-webkit-scrollbar { display: none; }
+.wthr-chip {
+  flex-shrink: 0; display: flex; align-items: center; gap: 10px;
+  background: var(--g2); border: 1px solid var(--g3); border-radius: 10px;
+  padding: 10px 16px; min-width: 130px;
+}
+.wthr-chip.wthr-alert { border-color: #E4A02B; background: rgba(228,160,43,0.08); }
+.wthr-icon { font-size: 22px; line-height: 1; }
+.wthr-ville { font-size: 12px; font-weight: 600; color: var(--blanc); }
+.wthr-temp { font-size: 15px; font-weight: 700; color: var(--or); font-family: 'Playfair Display', serif; }
+
+.wthr-banner {
+  display: flex; align-items: center; gap: 12px;
+  background: #3A2A0E; border-bottom: 1px solid #E4A02B;
+  padding: 10px 24px; color: #F5E6C4; font-size: 13px;
+}
+.wthr-banner-icon { font-size: 16px; flex-shrink: 0; }
+.wthr-banner-text { flex: 1; line-height: 1.4; }
+.wthr-banner-close {
+  background: none; border: none; color: #F5E6C4; opacity: 0.6;
+  cursor: pointer; font-size: 14px; padding: 4px 8px; flex-shrink: 0;
+}
+.wthr-banner-close:hover { opacity: 1; }
+
 /* Responsive */
 @media (max-width: 900px) {
   .h2-hero-bg { display: none; }

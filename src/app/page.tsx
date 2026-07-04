@@ -8,6 +8,7 @@ import { type Top5Item } from '@/data/top5'
 import { useTop5 } from '@/hooks/useTop5'
 import NostalgieTitle from '@/components/NostalgieTitle'
 import SpotifyPlayer, { preloadSpotify } from '@/components/SpotifyPlayer'
+import WeatherWidget from '@/components/WeatherWidget'
 
 const INTRO_DURATION = 20000
 
@@ -153,6 +154,9 @@ export default function Accueil() {
           </div>
         </div>
       </section>
+
+      {/* ── MÉTÉO ── */}
+      <WeatherWidget />
 
       {/* ── GRILLE : TOP 5 + ACTUS ── */}
       <section className="h2-content">
