@@ -45,7 +45,7 @@ export default function Emissions() {
     <div className="em-section">
       <div className="page-section">
         <p className="section-label">Sur vos ondes · Juillet &amp; Août 2026</p>
-        <h1 className="section-title">La grille des vacances</h1>
+        <h1 className="section-title">Nos émissions</h1>
       </div>
 
       <div style={{ paddingBottom: '12px' }}>
