@@ -1,9 +1,13 @@
 import { ImageResponse } from 'next/og'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 export const size = { width: 180, height: 180 }
 export const contentType = 'image/png'
 
 export default function AppleIcon() {
+  const fontData = readFileSync(join(process.cwd(), 'public/fonts/PlayfairDisplay-Black.ttf'))
+
   return new ImageResponse(
     (
       <div
@@ -18,9 +22,9 @@ export default function AppleIcon() {
       >
         <span
           style={{
-            fontFamily: 'Georgia, serif',
+            fontFamily: 'Playfair Display',
             fontWeight: 900,
-            fontSize: 120,
+            fontSize: 112,
             color: '#D4A843',
             lineHeight: 1,
           }}
@@ -29,6 +33,9 @@ export default function AppleIcon() {
         </span>
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: [{ name: 'Playfair Display', data: fontData, weight: 900, style: 'normal' }],
+    }
   )
 }
