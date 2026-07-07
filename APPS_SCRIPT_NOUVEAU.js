@@ -118,6 +118,9 @@ function doPost(e) {
   if (data.type === 'partenariat') {
     return handlePartenariat(data);
   }
+  if (data.type === 'inscription_auditeur') {
+    return handleInscriptionAuditeur(data);
+  }
   if (data.type === 'like') {
     return handleLike(data);
   }
@@ -197,6 +200,47 @@ function handleNewsletter(data) {
     data.prenom || '—',
     data.email,
     'Actif'
+  ]);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  INSCRIPTION AUDITEUR → feuille "Auditeurs" (base marketing/SMS)
+// ────────────────────────────────────────────────────────────────────
+function handleInscriptionAuditeur(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+
+  var sheet = ss.getSheetByName('Auditeurs');
+  if (!sheet) {
+    sheet = ss.insertSheet('Auditeurs');
+    sheet.appendRow(['Date inscription', 'Nom', 'Prénom', 'Date de naissance', 'Téléphone', 'Ville', 'Consentement SMS']);
+    sheet.getRange(1, 1, 1, 7).setFontWeight('bold');
+  }
+
+  // Éviter les doublons sur le même numéro de téléphone
+  var lastRow = sheet.getLastRow();
+  if (lastRow > 1) {
+    var telephones = sheet.getRange(2, 5, lastRow - 1, 1).getValues();
+    for (var i = 0; i < telephones.length; i++) {
+      if (telephones[i][0] === data.telephone) {
+        return ContentService
+          .createTextOutput(JSON.stringify({ success: true, already: true }))
+          .setMimeType(ContentService.MimeType.JSON);
+      }
+    }
+  }
+
+  sheet.appendRow([
+    new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' }),
+    data.nom,
+    data.prenom,
+    data.dateNaissance || '—',
+    data.telephone,
+    data.ville || '—',
+    data.consentement ? 'Oui' : 'Non'
   ]);
 
   return ContentService

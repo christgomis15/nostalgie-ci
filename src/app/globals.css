@@ -2743,6 +2743,7 @@ html.intro-mode .wr-ticker {
   width: min(460px, 95vw); padding: 28px;
   position: relative;
 }
+.aud-modal { width: min(480px, 95vw); max-height: 90vh; overflow-y: auto; }
 .top5-modal-meta {
   display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
 }

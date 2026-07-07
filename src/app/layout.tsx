@@ -7,6 +7,7 @@ import PlayerBar from '@/components/PlayerBar'
 import PWARegister from '@/components/PWARegister'
 import PWAInstallBanner from '@/components/PWAInstallBanner'
 import PWASplash from '@/components/PWASplash'
+import AudienceSignupModal from '@/components/AudienceSignupModal'
 import { Analytics } from '@vercel/analytics/next'
 
 export const metadata: Metadata = {
@@ -62,6 +63,7 @@ export default function RootLayout({
         <PWASplash />
         <PWAInstallBanner />
         <PWARegister />
+        <AudienceSignupModal />
         <Analytics />
       </body>
     </html>
