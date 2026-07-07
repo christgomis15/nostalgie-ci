@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { ESPACES_PUB, DUREES, formatPrix, type DureeKey } from '@/data/ad-prices'
+import { ESPACES_PUB, DUREES, type DureeKey } from '@/data/ad-prices'
 
 export default function Reserver() {
   const [duree, setDuree] = useState<DureeKey>('mois')
@@ -106,7 +106,7 @@ export default function Reserver() {
 
           {/* Gauche : grille d'espaces */}
           <div className="rsv-espaces">
-            <p className="rsv-hint">Cochez les espaces souhaités — les prix s&apos;ajustent selon la durée :</p>
+            <p className="rsv-hint">Cochez les espaces souhaités pour la durée sélectionnée :</p>
             <div className="rsv-grid">
               {ESPACES_PUB.map(e => (
                 <label
@@ -124,9 +124,6 @@ export default function Reserver() {
                   <div className="rsv-card-icon">{e.icone}</div>
                   <div className="rsv-card-nom">{e.nom}</div>
                   <div className="rsv-card-desc">{e.desc}</div>
-                  <div className="rsv-card-prix" style={{ color: e.color }}>
-                    {formatPrix(e.prix[duree])}
-                  </div>
                   <div className="rsv-card-check">✓</div>
                 </label>
               ))}
@@ -150,7 +147,6 @@ export default function Reserver() {
                       <div key={id} className="rsv-sum-item">
                         <span className="rsv-sum-dot" style={{ background: espace.color }} />
                         <span className="rsv-sum-nom">{espace.nom}</span>
-                        <span className="rsv-sum-prix">{formatPrix(espace.prix[duree])}</span>
                         <button type="button" className="rsv-sum-rm" onClick={() => toggle(id)}>×</button>
                       </div>
                     )
@@ -158,12 +154,8 @@ export default function Reserver() {
                 </div>
               )}
 
-              <div className="rsv-sum-total">
-                <span>TOTAL ESTIMÉ</span>
-                <span className="rsv-sum-total-val">{total > 0 ? formatPrix(total) : '—'}</span>
-              </div>
               <p className="rsv-sum-note">
-                Hors taxes · Durée : {DUREES.find(d => d.key === duree)?.label}
+                Durée sélectionnée : {DUREES.find(d => d.key === duree)?.label} · Un devis vous sera transmis par notre service commercial.
               </p>
             </div>
 
@@ -226,11 +218,11 @@ export default function Reserver() {
                   ? 'Envoi en cours...'
                   : selected.length === 0
                     ? 'Sélectionnez au moins un espace'
-                    : `Envoyer ma demande · ${formatPrix(total)}`}
+                    : 'Envoyer ma demande'}
               </button>
 
               <p className="rsv-submit-note">
-                Paiement hors ligne · Confirmation sous 24h · Aucun engagement sans devis signé
+                Confirmation sous 24h · Devis envoyé par notre service commercial
               </p>
             </div>
 

@@ -150,7 +150,7 @@ export default function Accueil() {
             <button className="btn btn-or" onClick={toggle}>
               {isPlaying ? '⏸ En cours...' : '▶ Écouter en Direct'}
             </button>
-            <Link href="/live" className="btn btn-outline">🎥 Regarder le Live</Link>
+            <Link href="/live" className="btn btn-outline">🔴 Regarder le Live</Link>
           </div>
           <div className="h2-actions" style={{ marginTop: '12px' }}>
             <Link href="/emissions" className="btn btn-outline">Nos Émissions</Link>
