@@ -238,7 +238,7 @@ function handleInscriptionAuditeur(data) {
     data.nom,
     data.prenom,
     data.dateNaissance || '—',
-    data.telephone,
+    "'" + data.telephone, // apostrophe = force le texte brut (sinon Sheets lit "+225..." comme une formule)
     data.ville || '—',
     data.consentement ? 'Oui' : 'Non'
   ]);
