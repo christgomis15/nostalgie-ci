@@ -236,7 +236,7 @@ const POTINS: Article[] = [
     title: 'Qui est vraiment Mohamed-Adnane Achirou, le discret mari de Marie Paule Adjé ?',
     excerpt: "Depuis son mariage avec l'actrice ivoirienne, l'entrepreneur discret suscite autant de curiosité que de réactions sur les réseaux.",
     date: '8 juillet 2026',
-    images: ['/img/potin-achirou-02.jpg'],
+    images: ['/img/potin-achirou-02.jpeg'],
     body: `Depuis son mariage avec Marie Paule Adjé, Mohamed-Adnane Achirou est devenu l'un des noms les plus commentés sur les réseaux sociaux. Entrepreneur discret jusqu'alors, il suscite aujourd'hui autant de curiosité que de réactions.
 
 Présenté comme le dirigeant d'Agrosources, il s'est longtemps tenu loin des projecteurs. Mais depuis que son union avec l'actrice ivoirienne a été rendue publique, internautes et médias s'intéressent de près à son parcours.
