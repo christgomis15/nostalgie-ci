@@ -9,8 +9,9 @@ interface Article {
   excerpt: string
   date: string
   body: string
-  video?: string    // URL YouTube (https://youtu.be/... ou https://www.youtube.com/watch?v=...)
-  images?: string[] // photos supplémentaires pour la galerie
+  video?: string      // URL YouTube (https://youtu.be/... ou https://www.youtube.com/watch?v=...)
+  images?: string[]   // photos supplémentaires pour la galerie
+  imgPosition?: string // object-position CSS pour recadrer (ex: "center 15%") — sinon défaut top center
 }
 
 function toYouTubeEmbed(url: string): string {
@@ -237,6 +238,7 @@ const POTINS: Article[] = [
     excerpt: "Depuis son mariage avec l'actrice ivoirienne, l'entrepreneur discret suscite autant de curiosité que de réactions sur les réseaux.",
     date: '8 juillet 2026',
     images: ['/img/potin-achirou-02.jpeg'],
+    imgPosition: 'center 20%',
     body: `Depuis son mariage avec Marie Paule Adjé, Mohamed-Adnane Achirou est devenu l'un des noms les plus commentés sur les réseaux sociaux. Entrepreneur discret jusqu'alors, il suscite aujourd'hui autant de curiosité que de réactions.
 
 Présenté comme le dirigeant d'Agrosources, il s'est longtemps tenu loin des projecteurs. Mais depuis que son union avec l'actrice ivoirienne a été rendue publique, internautes et médias s'intéressent de près à son parcours.
@@ -352,7 +354,7 @@ export default function Actus() {
           {articles.map((a) => (
             <div key={a.title} className="ac-card" onClick={() => setSelected(a)} style={{ cursor: 'pointer' }}>
               <div className="ac-img">
-                <img src={a.img} alt={a.title} />
+                <img src={a.img} alt={a.title} style={a.imgPosition ? { objectPosition: a.imgPosition } : undefined} />
                 <span className="ac-cat-badge">{a.cat}</span>
               </div>
               <div className="ac-body">
@@ -381,7 +383,7 @@ export default function Actus() {
                 />
               </div>
             ) : (
-              <div className="actu-modal-img">
+              <div className="actu-modal-img" style={selected.imgPosition ? { marginTop: 0 } : undefined}>
                 <img src={selected.img} alt={selected.title} />
                 <span className="ac-cat-badge">{selected.cat}</span>
               </div>

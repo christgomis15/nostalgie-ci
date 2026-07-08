@@ -23,22 +23,22 @@ function rangColor(r: number) {
 
 const ACTUS_HOME = [
   {
-    cat: 'Rap Ivoire',
-    img: '/img/himra.jpeg',
-    title: 'Himra, premier rappeur ivoirien certifié or en France',
-    date: '1 juillet 2026',
-  },
-  {
-    cat: 'Rap Ivoire',
-    img: '/img/didi-b.jpeg',
-    title: 'Didi B franchit le million d\'auditeurs sur Spotify et l\'or au Nigeria',
-    date: '28 juin 2026',
-  },
-  {
     cat: 'WC2026',
     img: '/img/christ-inao.jpg',
     title: 'Christ Inao Oulaï, si jeune et déjà indispensable',
     date: '1 juillet 2026',
+  },
+  {
+    cat: 'People',
+    img: '/img/taylor-travis.jpg',
+    title: 'Taylor Swift et Travis Kelce : les noces du siècle à Madison Square Garden',
+    date: '2 juillet 2026',
+  },
+  {
+    cat: 'Potins',
+    img: '/img/potin-achirou-01.jpg',
+    title: 'Qui est vraiment Mohamed-Adnane Achirou, le discret mari de Marie Paule Adjé ?',
+    date: '8 juillet 2026',
   },
 ]
 
