@@ -16,6 +16,12 @@ function doGet(e) {
   if (action === 'interactions') {
     return getInteractions((e.parameter && e.parameter.videoId) ? e.parameter.videoId : '');
   }
+  if (action === 'actus') {
+    return getActusData();
+  }
+  if (action === 'podcasts') {
+    return getPodcastsData();
+  }
   return ContentService
     .createTextOutput('Nostalgie CI — OK')
     .setMimeType(ContentService.MimeType.TEXT);
@@ -94,6 +100,100 @@ function getTop5Data() {
       .createTextOutput(JSON.stringify({ semaine: String(semaine), items: items }))
       .setMimeType(ContentService.MimeType.JSON);
 
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  ACTUS → onglet "Actus"
+//  Colonnes : Onglet | Categorie | Image | Titre | Resume | Date | Texte | Video | Images galerie (separees par |) | Position image
+//  Onglet = locale / internationale / events / potins
+// ────────────────────────────────────────────────────────────────────
+function getActusData() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Actus');
+    if (!sheet || sheet.getLastRow() < 2) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ articles: [] }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 10).getValues();
+    var articles = rows
+      .filter(function(r) { return r[3]; }) // Titre non vide
+      .map(function(r) {
+        return {
+          tab: String(r[0]).trim().toLowerCase(),
+          cat: String(r[1]),
+          img: String(r[2]),
+          title: String(r[3]),
+          excerpt: String(r[4]),
+          date: String(r[5]),
+          body: String(r[6]),
+          video: r[7] ? String(r[7]) : null,
+          images: r[8] ? String(r[8]).split('|').map(function(s) { return s.trim(); }).filter(function(s) { return s; }) : null,
+          imgPosition: r[9] ? String(r[9]) : null,
+        };
+      });
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ articles: articles }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  PODCASTS & REPLAYS → onglet "Podcasts"
+//  Colonnes : Type | YouTube (URL ou ID) | Titre | Emission | Date | Duree | Description
+//  Type = podcast / audio / video
+// ────────────────────────────────────────────────────────────────────
+function extractYouTubeId_(value) {
+  if (!value) return '';
+  var s = String(value).trim();
+  var m = s.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : s;
+}
+
+function getPodcastsData() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Podcasts');
+    var result = { podcasts: [], audio: [], video: [] };
+    if (!sheet || sheet.getLastRow() < 2) {
+      return ContentService
+        .createTextOutput(JSON.stringify(result))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 7).getValues();
+    rows.forEach(function(r, i) {
+      if (!r[2]) return; // Titre vide = ligne ignorée
+      var type = String(r[0]).trim().toLowerCase();
+      var item = {
+        id: i + 1,
+        youtubeId: extractYouTubeId_(r[1]),
+        titre: String(r[2]),
+        emission: String(r[3]),
+        date: String(r[4]),
+        duree: r[5] ? String(r[5]) : null,
+        description: r[6] ? String(r[6]) : null,
+      };
+      if (type === 'podcast' || type === 'podcasts') result.podcasts.push(item);
+      else if (type === 'audio') result.audio.push(item);
+      else if (type === 'video') result.video.push(item);
+    });
+
+    return ContentService
+      .createTextOutput(JSON.stringify(result))
+      .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService
       .createTextOutput(JSON.stringify({ error: err.toString() }))

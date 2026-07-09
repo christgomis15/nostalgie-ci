@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { PODCASTS, REPLAYS_AUDIO, REPLAYS_VIDEO, type ContentItem } from '@/data/replay-content'
+import { usePodcasts } from '@/hooks/usePodcasts'
+import { type ContentItem } from '@/data/replay-content'
 import { usePlayerStore } from '@/lib/player-store'
 import VideoInteractions from '@/components/VideoInteractions'
 
@@ -26,6 +27,7 @@ function ytThumb(id: string) {
 }
 
 export default function PodcastsReplay() {
+  const data = usePodcasts()
   const [tab, setTab] = useState<Tab>('podcasts')
   const [emFilter, setEmFilter] = useState('Tous')
   const [modal, setModal] = useState<ContentItem | null>(null)
@@ -33,7 +35,7 @@ export default function PodcastsReplay() {
   const { isPlaying, toggle } = usePlayerStore()
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const allItems = tab === 'podcasts' ? PODCASTS : tab === 'audio' ? REPLAYS_AUDIO : REPLAYS_VIDEO
+  const allItems = tab === 'podcasts' ? data.podcasts : tab === 'audio' ? data.audio : data.video
   const items = emFilter === 'Tous' ? allItems : allItems.filter(i => i.emission === emFilter)
   const currentTab = TABS.find(t => t.key === tab)!
 
