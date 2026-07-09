@@ -4,8 +4,12 @@ import { put } from '@vercel/blob'
 export const runtime = 'nodejs'
 
 export async function POST(req: Request) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return NextResponse.json({ error: 'Stockage image non configuré (BLOB_READ_WRITE_TOKEN manquant)' }, { status: 500 })
+  // Le SDK accepte soit un token statique (BLOB_READ_WRITE_TOKEN), soit
+  // l'authentification OIDC (BLOB_STORE_ID + VERCEL_OIDC_TOKEN, ce dernier
+  // étant injecté automatiquement par Vercel en production — il n'apparaît
+  // jamais dans la liste des variables d'environnement du dashboard).
+  if (!process.env.BLOB_READ_WRITE_TOKEN && !process.env.BLOB_STORE_ID) {
+    return NextResponse.json({ error: "Stockage image non configuré (connectez un Blob store au projet)" }, { status: 500 })
   }
   try {
     const form = await req.formData()
