@@ -308,12 +308,141 @@ function getPodcastsData() {
 }
 
 // ────────────────────────────────────────────────────────────────────
+//  ADMIN — ajout/suppression Actus & Podcasts, mise à jour Top5
+//  Appelés uniquement depuis la page /admin du site (protégée par mot de passe)
+// ────────────────────────────────────────────────────────────────────
+function handleAdminAddActus(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Actus');
+  if (!sheet) {
+    sheet = ss.insertSheet('Actus');
+    sheet.appendRow(['Onglet', 'Categorie', 'Image', 'Titre', 'Resume', 'Date', 'Texte', 'Video', 'Images galerie', 'Position image']);
+    sheet.getRange(1, 1, 1, 10).setFontWeight('bold');
+  }
+  sheet.appendRow([
+    data.tab || '',
+    data.cat || '',
+    data.img || '',
+    data.title || '',
+    data.excerpt || '',
+    data.date || '',
+    data.body || '',
+    data.video || '',
+    (data.images || []).join('|'),
+    data.imgPosition || '',
+  ]);
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function handleAdminDeleteActus(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Actus');
+  if (sheet && sheet.getLastRow() > 1) {
+    var titres = sheet.getRange(2, 4, sheet.getLastRow() - 1, 1).getValues();
+    for (var i = 0; i < titres.length; i++) {
+      if (String(titres[i][0]).trim() === String(data.title).trim()) {
+        sheet.deleteRow(i + 2);
+        break;
+      }
+    }
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function handleAdminAddPodcast(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Podcasts');
+  if (!sheet) {
+    sheet = ss.insertSheet('Podcasts');
+    sheet.appendRow(['Type', 'YouTube', 'Titre', 'Emission', 'Date', 'Duree', 'Description']);
+    sheet.getRange(1, 1, 1, 7).setFontWeight('bold');
+  }
+  sheet.appendRow([
+    data.type || '',
+    data.youtube || '',
+    data.titre || '',
+    data.emission || '',
+    data.date || '',
+    data.duree || '',
+    data.description || '',
+  ]);
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function handleAdminDeletePodcast(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Podcasts');
+  if (sheet && sheet.getLastRow() > 1) {
+    var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getValues();
+    for (var i = 0; i < rows.length; i++) {
+      var sameType = String(rows[i][0]).trim().toLowerCase() === String(data.podcastType).trim().toLowerCase();
+      var sameTitre = String(rows[i][2]).trim() === String(data.titre).trim();
+      if (sameType && sameTitre) {
+        sheet.deleteRow(i + 2);
+        break;
+      }
+    }
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function handleAdminUpdateTop5(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Top5');
+  if (!sheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'Onglet Top5 introuvable' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  sheet.getRange('B1').setValue(data.semaine || '');
+  var items = data.items || [];
+  for (var i = 0; i < 5; i++) {
+    var it = items[i] || {};
+    sheet.getRange(4 + i, 1, 1, 7).setValues([[
+      i + 1,
+      it.artiste || '',
+      it.titre || '',
+      it.passages || 0,
+      it.spotifyId || '',
+      it.spotifyType || 'track',
+      it.coverImg || '',
+    ]]);
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ────────────────────────────────────────────────────────────────────
 //  doPost — réception des formulaires (dédicaces, réservations, etc.)
 // ────────────────────────────────────────────────────────────────────
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);
   if (data.type === 'newsletter') {
     return handleNewsletter(data);
+  }
+  if (data.type === 'admin_add_actus') {
+    return handleAdminAddActus(data);
+  }
+  if (data.type === 'admin_delete_actus') {
+    return handleAdminDeleteActus(data);
+  }
+  if (data.type === 'admin_add_podcast') {
+    return handleAdminAddPodcast(data);
+  }
+  if (data.type === 'admin_delete_podcast') {
+    return handleAdminDeletePodcast(data);
+  }
+  if (data.type === 'admin_update_top5') {
+    return handleAdminUpdateTop5(data);
   }
   if (data.type === 'reservation') {
     return handleReservation(data);
