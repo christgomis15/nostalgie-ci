@@ -112,6 +112,13 @@ function getTop5Data() {
 //  Colonnes : Onglet | Categorie | Image | Titre | Resume | Date | Texte | Video | Images galerie (separees par |) | Position image
 //  Onglet = locale / internationale / events / potins
 // ────────────────────────────────────────────────────────────────────
+function formatDateCell_(v) {
+  if (Object.prototype.toString.call(v) === '[object Date]') {
+    return v.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Africa/Abidjan' });
+  }
+  return String(v);
+}
+
 function getActusData() {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -124,7 +131,7 @@ function getActusData() {
 
     var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 10).getValues();
     var articles = rows
-      .filter(function(r) { return r[3]; }) // Titre non vide
+      .filter(function(r) { return r[3] && String(r[3]).trim().toLowerCase() !== 'titre'; }) // Titre non vide, exclut une ligne d'en-tête dupliquée
       .map(function(r) {
         return {
           tab: String(r[0]).trim().toLowerCase(),
@@ -132,7 +139,7 @@ function getActusData() {
           img: String(r[2]),
           title: String(r[3]),
           excerpt: String(r[4]),
-          date: String(r[5]),
+          date: formatDateCell_(r[5]),
           body: String(r[6]),
           video: r[7] ? String(r[7]) : null,
           images: r[8] ? String(r[8]).split('|').map(function(s) { return s.trim(); }).filter(function(s) { return s; }) : null,
@@ -175,14 +182,14 @@ function getPodcastsData() {
 
     var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 7).getValues();
     rows.forEach(function(r, i) {
-      if (!r[2]) return; // Titre vide = ligne ignorée
+      if (!r[2] || String(r[2]).trim().toLowerCase() === 'titre') return; // Titre vide ou ligne d'en-tête dupliquée
       var type = String(r[0]).trim().toLowerCase();
       var item = {
         id: i + 1,
         youtubeId: extractYouTubeId_(r[1]),
         titre: String(r[2]),
         emission: String(r[3]),
-        date: String(r[4]),
+        date: formatDateCell_(r[4]),
         duree: r[5] ? String(r[5]) : null,
         description: r[6] ? String(r[6]) : null,
       };
