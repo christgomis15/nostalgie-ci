@@ -1,11 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { usePlayerStore } from '@/lib/player-store'
 import NewsletterWidget from '@/components/NewsletterWidget'
 import { type Top5Item } from '@/data/top5'
 import { useTop5 } from '@/hooks/useTop5'
+import { useActus } from '@/hooks/useActus'
+import { useEmissions } from '@/hooks/useEmissions'
+import { sortByDateDesc } from '@/lib/date-fr'
 import NostalgieTitle from '@/components/NostalgieTitle'
 import SpotifyPlayer, { preloadSpotify } from '@/components/SpotifyPlayer'
 import WeatherWidget from '@/components/WeatherWidget'
@@ -21,40 +24,15 @@ function rangColor(r: number) {
   return 'rgba(245,240,232,0.35)'
 }
 
-const ACTUS_HOME = [
-  {
-    cat: 'WC2026',
-    img: '/img/christ-inao.jpg',
-    title: 'Christ Inao Oulaï, si jeune et déjà indispensable',
-    date: '1 juillet 2026',
-  },
-  {
-    cat: 'People',
-    img: '/img/taylor-travis.jpg',
-    title: 'Taylor Swift et Travis Kelce : les noces du siècle à Madison Square Garden',
-    date: '2 juillet 2026',
-  },
-  {
-    cat: 'Potins',
-    img: '/img/potin-achirou-01.jpg',
-    title: 'Qui est vraiment Mohamed-Adnane Achirou, le discret mari de Marie Paule Adjé ?',
-    date: '8 juillet 2026',
-  },
-]
-
-const EMISSIONS_HOME = [
-  { title: 'Le Crazy Morning', tag: 'Matin', schedule: '06h – 10h', img: '/img/em-01.jpg' },
-  { title: 'Hits & Co', tag: 'Après-midi', schedule: '12h – 15h', img: '/img/em-03.jpg' },
-  { title: "L'Afterwork", tag: 'Soirée', schedule: '17h – 19h', img: '/img/em-05.jpg' },
-  { title: 'Nostafoot', tag: 'Football', schedule: '19h – 21h', img: '/img/em-06.jpg' },
-  { title: 'Brand New', tag: 'Nouveautés', schedule: '15h – 16h', img: '/img/em-04.jpg' },
-  { title: 'Tchika Tchika Boom', tag: 'Milieu de journée', schedule: '11h – 12h', img: '/img/em-02.jpg' },
-  { title: 'Retourne Les Hits', tag: 'Club', schedule: '20h – 00h', img: '/img/em-11.jpg' },
-]
-
 export default function Accueil() {
   const TOP5 = useTop5()
+  const actus = useActus()
+  const EMISSIONS_HOME = useEmissions()
   const { isPlaying, toggle } = usePlayerStore()
+  const ACTUS_HOME = useMemo(
+    () => sortByDateDesc([...actus.locale, ...actus.internationale, ...actus.events, ...actus.potins]).slice(0, 3),
+    [actus]
+  )
   const [showIntro, setShowIntro] = useState(false)
   const [leaving, setLeaving] = useState(false)
   const [modal, setModal] = useState<Top5Item | null>(null)
@@ -208,8 +186,8 @@ export default function Accueil() {
           <div className="h2-actus-col">
             <p className="section-label">Toute l&apos;actualité</p>
             <h2 className="h2-block-title">Dernières actus</h2>
-            {ACTUS_HOME.map((a, i) => (
-              <Link key={i} href="/actus" className="h2-actu-card">
+            {ACTUS_HOME.map((a) => (
+              <Link key={a.title} href="/actus" className="h2-actu-card">
                 <img
                   src={a.img}
                   alt={a.title}

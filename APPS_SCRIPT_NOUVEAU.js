@@ -22,6 +22,9 @@ function doGet(e) {
   if (action === 'podcasts') {
     return getPodcastsData();
   }
+  if (action === 'emissions') {
+    return getEmissionsData();
+  }
   return ContentService
     .createTextOutput('Nostalgie CI — OK')
     .setMimeType(ContentService.MimeType.TEXT);
@@ -119,6 +122,43 @@ function formatDateCell_(v) {
   return String(v);
 }
 
+// ────────────────────────────────────────────────────────────────────
+//  TRI PAR DATE — le champ "Date" est un texte libre en français
+//  (ex: "9 juillet 2026", parfois juste "Février 2026"). On le convertit
+//  en timestamp pour afficher le plus récent en premier partout où c'est
+//  pertinent (Actus, Podcasts). Les dates non reconnues sont poussées
+//  en fin de liste plutôt que de faire planter le tri.
+// ────────────────────────────────────────────────────────────────────
+var MOIS_FR_ = {
+  janvier: 0, février: 1, fevrier: 1, mars: 2, avril: 3, mai: 4, juin: 5,
+  juillet: 6, août: 7, aout: 7, septembre: 8, octobre: 9, novembre: 10, décembre: 11, decembre: 11,
+};
+
+function parseFrenchDate_(str) {
+  if (!str) return null;
+  var s = String(str).trim().toLowerCase();
+  var m = s.match(/^(\d{1,2})\s+([a-zéûôîè]+)\s+(\d{4})$/);
+  if (m && MOIS_FR_[m[2]] !== undefined) {
+    return new Date(parseInt(m[3], 10), MOIS_FR_[m[2]], parseInt(m[1], 10)).getTime();
+  }
+  m = s.match(/^([a-zéûôîè]+)\s+(\d{4})$/);
+  if (m && MOIS_FR_[m[1]] !== undefined) {
+    return new Date(parseInt(m[2], 10), MOIS_FR_[m[1]], 1).getTime();
+  }
+  return null;
+}
+
+function sortByDateDesc_(items) {
+  return items.sort(function(a, b) {
+    var da = parseFrenchDate_(a.date);
+    var db = parseFrenchDate_(b.date);
+    if (da === null && db === null) return 0;
+    if (da === null) return 1;
+    if (db === null) return -1;
+    return db - da;
+  });
+}
+
 function getActusData() {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -148,7 +188,7 @@ function getActusData() {
       });
 
     return ContentService
-      .createTextOutput(JSON.stringify({ articles: articles }))
+      .createTextOutput(JSON.stringify({ articles: sortByDateDesc_(articles) }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService
@@ -257,6 +297,93 @@ function migrateActusFallback() {
 }
 
 // ────────────────────────────────────────────────────────────────────
+//  ÉMISSIONS → onglet "Emissions"
+//  Colonnes : Titre | Tag | Horaire | Animateurs | Image
+// ────────────────────────────────────────────────────────────────────
+function getEmissionsData() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Emissions');
+    if (!sheet || sheet.getLastRow() < 2) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ emissions: [] }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 5).getValues();
+    var emissions = rows
+      .filter(function(r) { return r[0] && String(r[0]).trim().toLowerCase() !== 'titre'; })
+      .map(function(r) {
+        return {
+          title: String(r[0]),
+          tag: String(r[1]),
+          schedule: String(r[2]),
+          animateurs: r[3] ? String(r[3]) : '',
+          img: r[4] ? String(r[4]) : '',
+        };
+      });
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ emissions: emissions }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  MIGRATION UNIQUE — recopie les 11 émissions historiques (qui vivaient
+//  dans le code) dans l'onglet "Emissions", pour que le Sheet devienne la
+//  seule source de vérité. À exécuter UNE SEULE FOIS depuis l'éditeur
+//  Apps Script (sélectionner migrateEmissionsFallback dans le menu
+//  déroulant en haut, puis cliquer "Exécuter"). Sans danger de doublons :
+//  n'ajoute que les titres pas déjà présents dans la feuille.
+// ────────────────────────────────────────────────────────────────────
+function migrateEmissionsFallback() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Emissions');
+  if (!sheet) {
+    sheet = ss.insertSheet('Emissions');
+  }
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(['Titre', 'Tag', 'Horaire', 'Animateurs', 'Image']);
+    sheet.getRange(1, 1, 1, 5).setFontWeight('bold');
+  }
+
+  var existants = {};
+  if (sheet.getLastRow() > 1) {
+    var titresExistants = sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getValues();
+    titresExistants.forEach(function(r) { existants[String(r[0]).trim()] = true; });
+  }
+
+  var emissions = [
+    ['Le Crazy Morning', 'Matin', 'Lun–Ven · 06h–10h', 'Arielle, Teeyah, Prince LB, Willy', '/img/em-01.jpg'],
+    ['Tchika Tchika Boom', 'Milieu de journée', 'Lun–Ven · 11h–12h', 'Bruno', '/img/em-02.jpg'],
+    ['Hits & Co', 'Après-midi', 'Lun–Ven · 12h–15h', 'Nanda', '/img/em-03.jpg'],
+    ['Brand New', 'Nouveautés', 'Lun–Ven · 15h–16h', 'Alvhin', '/img/em-04.jpg'],
+    ["L'Afterwork", 'Soirée', 'Lun–Jeu · 17h–19h', '', '/img/em-05.jpg'],
+    ['Nostafoot', 'Football', 'Lun–Jeu · 19h–21h', 'Malick Traore, Kalen Damessi, Joelle H. Acina, Roland Danon', '/img/em-06.jpg'],
+    ['Flash Info', 'Information', 'Lun–Sam · Toutes les heures', 'Luise Martin, Armel Mendy', '/img/em-07.jpg'],
+    ['Matinales du Week-End', 'Week-End', 'Sam–Dim · 07h–10h', 'Desie, Frederick', '/img/em-08.jpg'],
+    ['La Peufra', 'Culture', 'Samedis · 14h–16h', 'Ozone Afrikbamba', '/img/em-09.jpg'],
+    ['Kaboré Fait Son Show', 'Variétés', 'Sam–Dim · 18h–19h', 'Kabore', '/img/em-10.jpg'],
+    ['Retourne Les Hits', 'Club', 'Ven–Sam · 20h–00h', 'DJ Philo', '/img/em-11.jpg'],
+  ];
+
+  var ajoutes = 0;
+  emissions.forEach(function(row) {
+    if (!existants[String(row[0]).trim()]) {
+      sheet.appendRow(row);
+      ajoutes++;
+    }
+  });
+
+  Logger.log(ajoutes + ' émission(s) ajoutée(s) sur ' + emissions.length + '.');
+}
+
+// ────────────────────────────────────────────────────────────────────
 //  PODCASTS & REPLAYS → onglet "Podcasts"
 //  Colonnes : Type | YouTube (URL ou ID) | Titre | Emission | Date | Duree | Description
 //  Type = podcast / audio / video
@@ -296,6 +423,10 @@ function getPodcastsData() {
       else if (type === 'audio') result.audio.push(item);
       else if (type === 'video') result.video.push(item);
     });
+
+    result.podcasts = sortByDateDesc_(result.podcasts);
+    result.audio = sortByDateDesc_(result.audio);
+    result.video = sortByDateDesc_(result.video);
 
     return ContentService
       .createTextOutput(JSON.stringify(result))
@@ -394,6 +525,43 @@ function handleAdminDeletePodcast(data) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+function handleAdminAddEmission(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Emissions');
+  if (!sheet) {
+    sheet = ss.insertSheet('Emissions');
+    sheet.appendRow(['Titre', 'Tag', 'Horaire', 'Animateurs', 'Image']);
+    sheet.getRange(1, 1, 1, 5).setFontWeight('bold');
+  }
+  sheet.appendRow([
+    data.title || '',
+    data.tag || '',
+    data.schedule || '',
+    data.animateurs || '',
+    data.img || '',
+  ]);
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function handleAdminDeleteEmission(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName('Emissions');
+  if (sheet && sheet.getLastRow() > 1) {
+    var titres = sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getValues();
+    for (var i = 0; i < titres.length; i++) {
+      if (String(titres[i][0]).trim() === String(data.title).trim()) {
+        sheet.deleteRow(i + 2);
+        break;
+      }
+    }
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 function handleAdminUpdateTop5(data) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName('Top5');
@@ -443,6 +611,12 @@ function doPost(e) {
   }
   if (data.type === 'admin_update_top5') {
     return handleAdminUpdateTop5(data);
+  }
+  if (data.type === 'admin_add_emission') {
+    return handleAdminAddEmission(data);
+  }
+  if (data.type === 'admin_delete_emission') {
+    return handleAdminDeleteEmission(data);
   }
   if (data.type === 'reservation') {
     return handleReservation(data);
