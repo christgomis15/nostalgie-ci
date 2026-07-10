@@ -1051,6 +1051,53 @@ function testEmail() {
   Logger.log('Email de test envoyé avec succès');
 }
 
+// ────────────────────────────────────────────────────────────────────
+//  SAUVEGARDE AUTOMATIQUE — copie complète du classeur (Actus, Podcasts,
+//  Emissions, Top5, Auditeurs, Réservations, etc.) dans un dossier Google
+//  Drive dédié, horodatée, avec purge des sauvegardes trop anciennes.
+//
+//  Pour l'activer : dans l'éditeur Apps Script, cliquer sur l'icône
+//  "Déclencheurs" (horloge) dans la barre latérale gauche, puis
+//  "+ Ajouter un déclencheur" :
+//    - Fonction à exécuter : backupSheetToBackups
+//    - Source de l'événement : Basé sur le temps
+//    - Type : Minuteur hebdomadaire (ou quotidien si préféré)
+//  Enregistrer, puis autoriser l'accès à Google Drive quand demandé.
+//
+//  Pour que les sauvegardes apparaissent automatiquement sur l'ordinateur :
+//  installer "Google Drive pour ordinateur" et se connecter avec le même
+//  compte Google. Le dossier "Nostalgie CI - Sauvegardes" se synchronise
+//  alors tout seul dans l'Explorateur de fichiers Windows.
+// ────────────────────────────────────────────────────────────────────
+function backupSheetToBackups() {
+  var FOLDER_NAME = 'Nostalgie CI - Sauvegardes';
+  var KEEP_LAST_N = 12; // garde les 12 dernières sauvegardes (≈ 3 mois si hebdo)
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var file = DriveApp.getFileById(ss.getId());
+
+  var folders = DriveApp.getFoldersByName(FOLDER_NAME);
+  var folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(FOLDER_NAME);
+
+  var horodatage = Utilities.formatDate(new Date(), 'Africa/Abidjan', 'yyyy-MM-dd_HH-mm');
+  var nomCopie = 'Nostalgie CI - Sauvegarde ' + horodatage;
+  file.makeCopy(nomCopie, folder);
+
+  // Purge : ne garde que les KEEP_LAST_N sauvegardes les plus récentes
+  var copies = [];
+  var it = folder.getFiles();
+  while (it.hasNext()) {
+    var f = it.next();
+    copies.push({ file: f, date: f.getDateCreated() });
+  }
+  copies.sort(function(a, b) { return b.date - a.date; });
+  for (var i = KEEP_LAST_N; i < copies.length; i++) {
+    copies[i].file.setTrashed(true);
+  }
+
+  Logger.log('Sauvegarde créée : ' + nomCopie + ' (' + Math.min(copies.length, KEEP_LAST_N) + ' copie(s) conservée(s)).');
+}
+
 // Exécuter cette fonction pour tester les notifications Telegram
 function testTelegram() {
   var response = UrlFetchApp.fetch(
