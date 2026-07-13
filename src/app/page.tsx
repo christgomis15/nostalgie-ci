@@ -9,7 +9,6 @@ import { useTop5 } from '@/hooks/useTop5'
 import { useActus } from '@/hooks/useActus'
 import { useEmissions } from '@/hooks/useEmissions'
 import { sortByDateDesc } from '@/lib/date-fr'
-import NostalgieTitle from '@/components/NostalgieTitle'
 import SpotifyPlayer, { preloadSpotify } from '@/components/SpotifyPlayer'
 import WeatherWidget from '@/components/WeatherWidget'
 
@@ -117,8 +116,7 @@ export default function Accueil() {
 
         <div className="h2-hero-left">
           <p className="h2-eyebrow">Nostalgie CI · 101.1 FM</p>
-          <NostalgieTitle />
-          <p className="h2-slogan"><em>Sérieusement Décalée.</em></p>
+          <img src="/img/logo-nostalgie.png" alt="Nostalgie — Sérieusement Décalée" className="h2-logo-img" />
           <div className="h2-villes-wrap">
             {['Abidjan', 'Bouaké', 'Yamoussoukro', 'San-Pédro', 'Korhogo'].map(v => (
               <span key={v} className="h2-ville-chip">{v}</span>

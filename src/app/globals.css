@@ -2925,6 +2925,14 @@ html.intro-mode .wr-ticker {
   margin-bottom: 16px;
 }
 
+.h2-logo-img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
 /*
  * stroke-dasharray : 12px (le point) + 4000px (l'espace vide)
  * Le gap > périmètre estimé des lettres (~3200px) → un seul point visible à la fois.
