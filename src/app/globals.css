@@ -2927,10 +2927,10 @@ html.intro-mode .wr-ticker {
 
 .h2-logo-img {
   width: 100%;
-  max-width: 420px;
+  max-width: 560px;
   height: auto;
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
 /*
@@ -3104,7 +3104,7 @@ html.intro-mode .wr-ticker {
 }
 .h2-eyebrow {
   font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--or); margin-bottom: 24px;
+  color: var(--or); margin-bottom: 10px;
   display: flex; align-items: center; gap: 14px;
 }
 .h2-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--or); display: block; }
