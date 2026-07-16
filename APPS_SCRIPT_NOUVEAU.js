@@ -2,7 +2,14 @@
 //  NOSTALGIE CI — Google Apps Script v2
 //  Gère : dédicaces ET réservations publicitaires
 //  À coller intégralement dans script.google.com
+//
+//  Projet AUTONOME (non lié/bound à la feuille) : on ouvre la feuille
+//  explicitement par son identifiant plutôt que via getActiveSpreadsheet(),
+//  pour ne plus dépendre du mécanisme "Extensions > Apps Script" de Sheets
+//  (qui s'est retrouvé cassé côté Google le 2026-07-16).
 // ═══════════════════════════════════════════════════════════════════
+var SHEET_ID = '1xMTW8qU3TflbDUfsf__qXUak667LE-dtKh2XNLrXruo';
+function getSS_() { return SpreadsheetApp.openById(SHEET_ID); }
 
 // ────────────────────────────────────────────────────────────────────
 //  doGet — lecture publique des données (Top 5, etc.)
@@ -35,7 +42,7 @@ function doGet(e) {
 
 function getInteractions(videoId) {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = getSS_();
     var likeCount = 0;
     var comments = [];
 
@@ -73,7 +80,7 @@ function getInteractions(videoId) {
 
 function getTop5Data() {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = getSS_();
     var sheet = ss.getSheetByName('Top5');
     if (!sheet) {
       return ContentService
@@ -164,7 +171,7 @@ function sortByDateDesc_(items) {
 
 function getActusData() {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = getSS_();
     var sheet = ss.getSheetByName('Actus');
     if (!sheet || sheet.getLastRow() < 2) {
       return ContentService
@@ -209,7 +216,7 @@ function getActusData() {
 //  que les titres pas déjà présents dans la feuille.
 // ────────────────────────────────────────────────────────────────────
 function migrateActusFallback() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Actus');
   if (!sheet) {
     sheet = ss.insertSheet('Actus');
@@ -305,7 +312,7 @@ function migrateActusFallback() {
 // ────────────────────────────────────────────────────────────────────
 function getEmissionsData() {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = getSS_();
     var sheet = ss.getSheetByName('Emissions');
     if (!sheet || sheet.getLastRow() < 2) {
       return ContentService
@@ -345,7 +352,7 @@ function getEmissionsData() {
 //  n'ajoute que les titres pas déjà présents dans la feuille.
 // ────────────────────────────────────────────────────────────────────
 function migrateEmissionsFallback() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Emissions');
   if (!sheet) {
     sheet = ss.insertSheet('Emissions');
@@ -400,7 +407,7 @@ function extractYouTubeId_(value) {
 
 function getPodcastsData() {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = getSS_();
     var sheet = ss.getSheetByName('Podcasts');
     var result = { podcasts: [], audio: [], video: [] };
     if (!sheet || sheet.getLastRow() < 2) {
@@ -446,7 +453,7 @@ function getPodcastsData() {
 //  Appelés uniquement depuis la page /admin du site (protégée par mot de passe)
 // ────────────────────────────────────────────────────────────────────
 function handleAdminAddActus(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Actus');
   if (!sheet) {
     sheet = ss.insertSheet('Actus');
@@ -471,7 +478,7 @@ function handleAdminAddActus(data) {
 }
 
 function handleAdminDeleteActus(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Actus');
   if (sheet && sheet.getLastRow() > 1) {
     var titres = sheet.getRange(2, 4, sheet.getLastRow() - 1, 1).getValues();
@@ -488,7 +495,7 @@ function handleAdminDeleteActus(data) {
 }
 
 function handleAdminAddPodcast(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Podcasts');
   if (!sheet) {
     sheet = ss.insertSheet('Podcasts');
@@ -510,7 +517,7 @@ function handleAdminAddPodcast(data) {
 }
 
 function handleAdminDeletePodcast(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Podcasts');
   if (sheet && sheet.getLastRow() > 1) {
     var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getValues();
@@ -529,7 +536,7 @@ function handleAdminDeletePodcast(data) {
 }
 
 function handleAdminAddEmission(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Emissions');
   if (!sheet) {
     sheet = ss.insertSheet('Emissions');
@@ -549,7 +556,7 @@ function handleAdminAddEmission(data) {
 }
 
 function handleAdminDeleteEmission(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Emissions');
   if (sheet && sheet.getLastRow() > 1) {
     var titres = sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getValues();
@@ -566,7 +573,7 @@ function handleAdminDeleteEmission(data) {
 }
 
 function handleAdminUpdateTop5(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Top5');
   if (!sheet) {
     return ContentService
@@ -626,7 +633,7 @@ function archiveCurrentTop5_(ss, top5Sheet) {
 
 function getTop5ArchiveData(startStr, endStr) {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = getSS_();
     var sheet = ss.getSheetByName('Top5_Historique');
     if (!sheet || sheet.getLastRow() < 2) {
       return ContentService
@@ -747,7 +754,7 @@ function doPost(e) {
 //  J'AIME → feuille "Likes"
 // ────────────────────────────────────────────────────────────────────
 function handleLike(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Likes');
   if (!sheet) {
     sheet = ss.insertSheet('Likes');
@@ -767,7 +774,7 @@ function handleLike(data) {
 //  COMMENTAIRES → feuille "Commentaires"
 // ────────────────────────────────────────────────────────────────────
 function handleComment(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var sheet = ss.getSheetByName('Commentaires');
   if (!sheet) {
     sheet = ss.insertSheet('Commentaires');
@@ -789,7 +796,7 @@ function handleComment(data) {
 //  NEWSLETTER → feuille "Abonnés Newsletter"
 // ────────────────────────────────────────────────────────────────────
 function handleNewsletter(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
 
   var sheet = ss.getSheetByName('Abonnés Newsletter');
   if (!sheet) {
@@ -824,7 +831,7 @@ function handleNewsletter(data) {
 //  INSCRIPTION AUDITEUR → feuille "Auditeurs" (base marketing/SMS)
 // ────────────────────────────────────────────────────────────────────
 function handleInscriptionAuditeur(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
 
   var sheet = ss.getSheetByName('Auditeurs');
   if (!sheet) {
@@ -895,7 +902,7 @@ function getTelegramChatIds() {
 }
 
 function handleDedicace(data) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var sheet = getSS_().getActiveSheet();
   sheet.appendRow([
     new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' }),
     data.prenom,
@@ -931,7 +938,7 @@ function handleDedicace(data) {
 //  RÉSERVATIONS → feuille "Réservations" + email commercial
 // ────────────────────────────────────────────────────────────────────
 function handleReservation(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
 
   // Créer la feuille "Réservations" si elle n'existe pas encore
   var sheet = ss.getSheetByName('Réservations');
@@ -974,7 +981,7 @@ function handleReservation(data) {
 //  CONTACT COMMERCIAL → feuille "Demandes commerciales" + email
 // ────────────────────────────────────────────────────────────────────
 function handleContactCommercial(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
 
   var sheet = ss.getSheetByName('Demandes commerciales');
   if (!sheet) {
@@ -1025,7 +1032,7 @@ function handleContactCommercial(data) {
 //  PARTENARIAT → feuille "Partenariats" + email marketing
 // ────────────────────────────────────────────────────────────────────
 function handlePartenariat(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
 
   var sheet = ss.getSheetByName('Partenariats');
   if (!sheet) {
@@ -1140,7 +1147,7 @@ function buildEmailHtml(data) {
 
 // Exécuter cette fonction pour autoriser Google Sheets
 function testAuthorisation() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var sheet = getSS_().getActiveSheet();
   sheet.appendRow(['TEST', 'Autorisation Sheets', 'OK', '', '', '', '', '']);
   Logger.log('Autorisation Google Sheets OK');
 }
@@ -1180,7 +1187,7 @@ function backupSheetToBackups() {
   var FOLDER_NAME = 'Nostalgie CI - Sauvegardes';
   var BACKUP_NAME = 'Nostalgie CI - Sauvegarde (semaine en cours)';
 
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS_();
   var file = DriveApp.getFileById(ss.getId());
 
   var folders = DriveApp.getFoldersByName(FOLDER_NAME);
