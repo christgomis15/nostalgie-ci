@@ -11,6 +11,7 @@ import { useEmissions } from '@/hooks/useEmissions'
 import { sortByDateDesc } from '@/lib/date-fr'
 import SpotifyPlayer, { preloadSpotify } from '@/components/SpotifyPlayer'
 import WeatherWidget from '@/components/WeatherWidget'
+import EmissionsSlideshow from '@/components/EmissionsSlideshow'
 
 const INTRO_DURATION = 20000
 
@@ -131,32 +132,9 @@ export default function Accueil() {
         </div>
       </section>
 
-      {/* ── CARROUSEL ÉMISSIONS ── */}
+      {/* ── DIAPORAMA ÉMISSIONS ── */}
       <section className="h2-em-section">
-        <div className="h2-em-head">
-          <div>
-            <p className="section-label">Sur vos ondes</p>
-            <h2 className="h2-block-title" style={{ marginBottom: 0 }}>Nos Émissions</h2>
-          </div>
-          <Link href="/emissions" className="h2-em-all">Toutes les émissions →</Link>
-        </div>
-        <div className="h2-em-scroll">
-          {EMISSIONS_HOME.map(em => (
-            <Link key={em.title} href="/emissions" className="h2-em-card">
-              <img
-                src={em.img}
-                alt={em.title}
-                className="h2-em-img"
-                onError={e => { (e.target as HTMLImageElement).src = '/img/wc2026.jpeg' }}
-              />
-              <div className="h2-em-info">
-                <p className="h2-em-tag">{em.tag}</p>
-                <p className="h2-em-name">{em.title}</p>
-                <p className="h2-em-sched">{em.schedule}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <EmissionsSlideshow emissions={EMISSIONS_HOME} />
       </section>
 
       {/* ── MÉTÉO ── */}
