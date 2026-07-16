@@ -1156,9 +1156,12 @@ function testEmail() {
 }
 
 // ────────────────────────────────────────────────────────────────────
-//  SAUVEGARDE AUTOMATIQUE — copie complète du classeur (Actus, Podcasts,
-//  Emissions, Top5, Auditeurs, Réservations, etc.) dans un dossier Google
-//  Drive dédié, horodatée, avec purge des sauvegardes trop anciennes.
+//  SAUVEGARDE AUTOMATIQUE — UNE SEULE copie complète du classeur (Actus,
+//  Podcasts, Emissions, Top5, Auditeurs, Réservations, etc.), toujours au
+//  même nom, dans un dossier Google Drive dédié. Chaque exécution remplace
+//  la sauvegarde de la semaine précédente — jamais plus d'1 copie à la fois,
+//  donc jamais plus de 2 versions du site en tout (le site actif + cette
+//  unique sauvegarde).
 //
 //  Pour l'activer : dans l'éditeur Apps Script, cliquer sur l'icône
 //  "Déclencheurs" (horloge) dans la barre latérale gauche, puis
@@ -1168,14 +1171,14 @@ function testEmail() {
 //    - Type : Minuteur hebdomadaire (ou quotidien si préféré)
 //  Enregistrer, puis autoriser l'accès à Google Drive quand demandé.
 //
-//  Pour que les sauvegardes apparaissent automatiquement sur l'ordinateur :
+//  Pour que la sauvegarde apparaisse automatiquement sur l'ordinateur :
 //  installer "Google Drive pour ordinateur" et se connecter avec le même
 //  compte Google. Le dossier "Nostalgie CI - Sauvegardes" se synchronise
 //  alors tout seul dans l'Explorateur de fichiers Windows.
 // ────────────────────────────────────────────────────────────────────
 function backupSheetToBackups() {
   var FOLDER_NAME = 'Nostalgie CI - Sauvegardes';
-  var KEEP_LAST_N = 4; // garde les 4 dernières sauvegardes (≈ 1 mois si hebdo)
+  var BACKUP_NAME = 'Nostalgie CI - Sauvegarde (semaine en cours)';
 
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var file = DriveApp.getFileById(ss.getId());
@@ -1183,23 +1186,16 @@ function backupSheetToBackups() {
   var folders = DriveApp.getFoldersByName(FOLDER_NAME);
   var folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(FOLDER_NAME);
 
-  var horodatage = Utilities.formatDate(new Date(), 'Africa/Abidjan', 'yyyy-MM-dd_HH-mm');
-  var nomCopie = 'Nostalgie CI - Sauvegarde ' + horodatage;
-  file.makeCopy(nomCopie, folder);
-
-  // Purge : ne garde que les KEEP_LAST_N sauvegardes les plus récentes
-  var copies = [];
-  var it = folder.getFiles();
-  while (it.hasNext()) {
-    var f = it.next();
-    copies.push({ file: f, date: f.getDateCreated() });
-  }
-  copies.sort(function(a, b) { return b.date - a.date; });
-  for (var i = KEEP_LAST_N; i < copies.length; i++) {
-    copies[i].file.setTrashed(true);
+  // Supprime l'ancienne sauvegarde avant d'en créer une nouvelle : il n'y
+  // en a donc jamais qu'une seule à la fois dans le dossier.
+  var anciennes = folder.getFilesByName(BACKUP_NAME);
+  while (anciennes.hasNext()) {
+    anciennes.next().setTrashed(true);
   }
 
-  Logger.log('Sauvegarde créée : ' + nomCopie + ' (' + Math.min(copies.length, KEEP_LAST_N) + ' copie(s) conservée(s)).');
+  file.makeCopy(BACKUP_NAME, folder);
+
+  Logger.log('Sauvegarde hebdomadaire mise à jour : ' + BACKUP_NAME);
 }
 
 // Exécuter cette fonction pour tester les notifications Telegram
