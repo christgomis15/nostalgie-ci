@@ -1175,7 +1175,7 @@ function testEmail() {
 // ────────────────────────────────────────────────────────────────────
 function backupSheetToBackups() {
   var FOLDER_NAME = 'Nostalgie CI - Sauvegardes';
-  var KEEP_LAST_N = 12; // garde les 12 dernières sauvegardes (≈ 3 mois si hebdo)
+  var KEEP_LAST_N = 4; // garde les 4 dernières sauvegardes (≈ 1 mois si hebdo)
 
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var file = DriveApp.getFileById(ss.getId());
