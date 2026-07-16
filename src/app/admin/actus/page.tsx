@@ -18,10 +18,10 @@ interface Article {
 }
 
 const TABS = [
+  { value: 'events', label: 'Events Nostalgie' },
+  { value: 'potins', label: 'Potins' },
   { value: 'locale', label: 'Actu Locale' },
   { value: 'internationale', label: 'Actu Internationale' },
-  { value: 'events', label: 'Events Nostalgie' },
-  { value: 'potins', label: 'Potins & Gbairais' },
 ]
 
 const EMPTY = {

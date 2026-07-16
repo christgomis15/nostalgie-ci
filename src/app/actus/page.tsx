@@ -75,7 +75,7 @@ function ShareButtons({ title }: { title: string }) {
 
 export default function Actus() {
   const data = useActus()
-  const [tab, setTab] = useState<'locale' | 'internationale' | 'events' | 'potins'>('locale')
+  const [tab, setTab] = useState<'locale' | 'internationale' | 'events' | 'potins'>('events')
   const [selected, setSelected] = useState<(typeof data)['locale'][number] | null>(null)
   const articles = data[tab]
 
@@ -85,17 +85,17 @@ export default function Actus() {
         <p className="section-label">L&apos;info qui groove</p>
         <h1 className="section-title">Actualités</h1>
         <div className="atabs">
+          <button className={`atab ${tab === 'events' ? 'active' : ''}`} onClick={() => setTab('events')}>
+            Events Nostalgie
+          </button>
+          <button className={`atab ${tab === 'potins' ? 'active' : ''}`} onClick={() => setTab('potins')}>
+            Potins
+          </button>
           <button className={`atab ${tab === 'locale' ? 'active' : ''}`} onClick={() => setTab('locale')}>
             Actu Locale
           </button>
           <button className={`atab ${tab === 'internationale' ? 'active' : ''}`} onClick={() => setTab('internationale')}>
             Actu Internationale
-          </button>
-          <button className={`atab ${tab === 'events' ? 'active' : ''}`} onClick={() => setTab('events')}>
-            Events Nostalgie
-          </button>
-          <button className={`atab ${tab === 'potins' ? 'active' : ''}`} onClick={() => setTab('potins')}>
-            Potins & Gbairais
           </button>
         </div>
         <div className="ac-grid">
