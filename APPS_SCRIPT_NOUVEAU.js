@@ -25,6 +25,9 @@ function doGet(e) {
   if (action === 'emissions') {
     return getEmissionsData();
   }
+  if (action === 'top5archive') {
+    return getTop5ArchiveData((e.parameter && e.parameter.start) || '', (e.parameter && e.parameter.end) || '');
+  }
   return ContentService
     .createTextOutput('Nostalgie CI — OK')
     .setMimeType(ContentService.MimeType.TEXT);
@@ -570,6 +573,11 @@ function handleAdminUpdateTop5(data) {
       .createTextOutput(JSON.stringify({ error: 'Onglet Top5 introuvable' }))
       .setMimeType(ContentService.MimeType.JSON);
   }
+
+  // Archive le classement encore en place avant de l'écraser, pour
+  // pouvoir reconstituer un Top5 par mois/trimestre/semestre/année.
+  archiveCurrentTop5_(ss, sheet);
+
   sheet.getRange('B1').setValue(data.semaine || '');
   var items = data.items || [];
   for (var i = 0; i < 5; i++) {
@@ -587,6 +595,102 @@ function handleAdminUpdateTop5(data) {
   return ContentService
     .createTextOutput(JSON.stringify({ success: true }))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  ARCHIVES TOP5 → onglet "Top5_Historique"
+//  Colonnes : Date | Semaine | Rang | Artiste | Titre | Passages | SpotifyId | SpotifyType | CoverImg
+//  À chaque mise à jour du Top5 courant, l'ancien classement est
+//  archivé ici avec la date du jour (approximation de "fin de semaine"
+//  puisqu'on ne connaît que le moment où il a été remplacé).
+// ────────────────────────────────────────────────────────────────────
+function archiveCurrentTop5_(ss, top5Sheet) {
+  var current = top5Sheet.getRange(4, 1, 5, 7).getValues();
+  var hasData = current.some(function(r) { return r[1] && String(r[1]).trim(); });
+  if (!hasData) return; // rien à archiver la toute première fois
+
+  var semaine = String(top5Sheet.getRange('B1').getValue() || '');
+  var histSheet = ss.getSheetByName('Top5_Historique');
+  if (!histSheet) {
+    histSheet = ss.insertSheet('Top5_Historique');
+    histSheet.appendRow(['Date', 'Semaine', 'Rang', 'Artiste', 'Titre', 'Passages', 'SpotifyId', 'SpotifyType', 'CoverImg']);
+    histSheet.getRange(1, 1, 1, 9).setFontWeight('bold');
+  }
+
+  var horodatage = new Date();
+  current.forEach(function(r) {
+    if (!r[1] || !String(r[1]).trim()) return; // artiste vide = ligne ignorée
+    histSheet.appendRow([horodatage, semaine, r[0], r[1], r[2], r[3], r[4], r[5], r[6]]);
+  });
+}
+
+function getTop5ArchiveData(startStr, endStr) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Top5_Historique');
+    if (!sheet || sheet.getLastRow() < 2) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ items: [] }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var start = startStr ? new Date(startStr) : null;
+    var end = endStr ? new Date(endStr) : null;
+    if (end) end.setHours(23, 59, 59, 999); // borne incluse jusqu'à la fin du jour
+
+    var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 9).getValues();
+    var grouped = {}; // clé = artiste|titre (normalisés) → { artiste, titre, passages, spotifyId, spotifyType, coverImg, dateLaPlusRecente }
+
+    rows.forEach(function(r) {
+      var date = r[0];
+      if (!(date instanceof Date)) return;
+      if (start && date < start) return;
+      if (end && date > end) return;
+
+      var artiste = String(r[3] || '').trim();
+      var titre = String(r[4] || '').trim();
+      if (!artiste || !titre) return;
+
+      var key = artiste.toLowerCase() + '|' + titre.toLowerCase();
+      var passages = Number(r[5]) || 0;
+
+      if (!grouped[key] || date > grouped[key]._date) {
+        grouped[key] = {
+          artiste: artiste,
+          titre: titre,
+          passages: (grouped[key] ? grouped[key].passages : 0) + passages,
+          spotifyId: String(r[6] || ''),
+          spotifyType: String(r[7] || 'track'),
+          coverImg: String(r[8] || ''),
+          _date: date,
+        };
+      } else {
+        grouped[key].passages += passages;
+      }
+    });
+
+    var items = Object.keys(grouped).map(function(k) { return grouped[k]; });
+    items.sort(function(a, b) { return b.passages - a.passages; });
+    items = items.slice(0, 5).map(function(it, i) {
+      return {
+        rang: i + 1,
+        artiste: it.artiste,
+        titre: it.titre,
+        passages: it.passages,
+        spotifyId: it.spotifyId,
+        spotifyType: it.spotifyType,
+        coverImg: it.coverImg,
+      };
+    });
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ items: items }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }
 
 // ────────────────────────────────────────────────────────────────────
