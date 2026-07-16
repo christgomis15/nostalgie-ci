@@ -128,9 +128,34 @@ export default function Accueil() {
             </button>
             <Link href="/live" className="btn btn-outline">🔴 Regarder le Live</Link>
           </div>
-          <div className="h2-actions" style={{ marginTop: '12px' }}>
-            <Link href="/emissions" className="btn btn-outline">Nos Émissions</Link>
+        </div>
+      </section>
+
+      {/* ── CARROUSEL ÉMISSIONS ── */}
+      <section className="h2-em-section">
+        <div className="h2-em-head">
+          <div>
+            <p className="section-label">Sur vos ondes</p>
+            <h2 className="h2-block-title" style={{ marginBottom: 0 }}>Nos Émissions</h2>
           </div>
+          <Link href="/emissions" className="h2-em-all">Toutes les émissions →</Link>
+        </div>
+        <div className="h2-em-scroll">
+          {EMISSIONS_HOME.map(em => (
+            <Link key={em.title} href="/emissions" className="h2-em-card">
+              <img
+                src={em.img}
+                alt={em.title}
+                className="h2-em-img"
+                onError={e => { (e.target as HTMLImageElement).src = '/img/wc2026.jpeg' }}
+              />
+              <div className="h2-em-info">
+                <p className="h2-em-tag">{em.tag}</p>
+                <p className="h2-em-name">{em.title}</p>
+                <p className="h2-em-sched">{em.schedule}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -202,34 +227,6 @@ export default function Accueil() {
             <Link href="/actus" className="h2-actus-more">Toutes les actus →</Link>
           </div>
 
-        </div>
-      </section>
-
-      {/* ── CARROUSEL ÉMISSIONS ── */}
-      <section className="h2-em-section">
-        <div className="h2-em-head">
-          <div>
-            <p className="section-label">Sur vos ondes</p>
-            <h2 className="h2-block-title" style={{ marginBottom: 0 }}>Nos Émissions</h2>
-          </div>
-          <Link href="/emissions" className="h2-em-all">Toutes les émissions →</Link>
-        </div>
-        <div className="h2-em-scroll">
-          {EMISSIONS_HOME.map(em => (
-            <Link key={em.title} href="/emissions" className="h2-em-card">
-              <img
-                src={em.img}
-                alt={em.title}
-                className="h2-em-img"
-                onError={e => { (e.target as HTMLImageElement).src = '/img/wc2026.jpeg' }}
-              />
-              <div className="h2-em-info">
-                <p className="h2-em-tag">{em.tag}</p>
-                <p className="h2-em-name">{em.title}</p>
-                <p className="h2-em-sched">{em.schedule}</p>
-              </div>
-            </Link>
-          ))}
         </div>
       </section>
 
