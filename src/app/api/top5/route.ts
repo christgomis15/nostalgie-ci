@@ -11,7 +11,7 @@ export async function GET() {
     const timeout = setTimeout(() => controller.abort(), 6000)
     const res = await fetch(`${WEBHOOK_URL}?action=top5`, {
       redirect: 'follow',
-      next: { revalidate: 3600 },
+      next: { revalidate: 300 },
       signal: controller.signal,
     })
     clearTimeout(timeout)
@@ -19,7 +19,7 @@ export async function GET() {
     const data = await res.json()
     if (!data?.items?.length) throw new Error('Données vides')
     return NextResponse.json(data, {
-      headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' },
+      headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' },
     })
   } catch (err) {
     console.error('[top5]', err)

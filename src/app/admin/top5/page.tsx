@@ -53,7 +53,7 @@ export default function AdminTop5() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Erreur')
       setStatus('ok')
-      setMsg('Top 5 mis à jour. Il apparaîtra sur le site sous environ 1 heure.')
+      setMsg('Top 5 mis à jour. Il apparaîtra sur le site sous quelques minutes.')
     } catch (err) {
       setStatus('error')
       setMsg(err instanceof Error ? err.message : 'Erreur lors de la mise à jour')
