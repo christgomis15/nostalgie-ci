@@ -9,6 +9,7 @@ const SECTIONS = [
   { href: '/admin/emissions', label: 'Émissions', desc: 'Ajouter ou retirer une émission de la grille' },
   { href: '/admin/top5', label: 'Top 5', desc: 'Mettre à jour le classement de la semaine' },
   { href: '/admin/top5-archives', label: 'Archives Top 5', desc: 'Consulter le classement par mois, trimestre, semestre ou année' },
+  { href: '/admin/newsletter', label: 'Newsletter', desc: 'Composer et envoyer la newsletter hebdomadaire' },
 ]
 
 export default function AdminHome() {
