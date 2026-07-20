@@ -3228,9 +3228,50 @@ textarea { resize: vertical; min-height: 100px; }
 .admin-top5-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .admin-top5-rank { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--or); font-size: 18px; padding-top: 8px; }
 
+/* Couverture FM par frequence — a droite du logo, par-dessus la photo */
+.h2-freq-coverage {
+  position: absolute;
+  top: 50%; right: 6%;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: flex; flex-direction: column; gap: 14px;
+  max-width: 420px;
+  text-align: left;
+}
+.h2-freq-row {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 4px 8px; margin: -4px -8px;
+  border-radius: 6px;
+  cursor: default;
+  transition: background 0.25s ease;
+}
+.h2-freq-num {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900; font-size: 15px;
+  color: rgba(212,168,67,0.45);
+  min-width: 44px;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+.h2-freq-info { display: flex; flex-direction: column; gap: 1px; }
+.h2-freq-ville {
+  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+  color: rgba(245,240,232,0.32);
+  transition: color 0.25s ease;
+}
+.h2-freq-zones {
+  font-size: 10.5px; letter-spacing: 0.5px;
+  color: rgba(245,240,232,0.18);
+  transition: color 0.25s ease;
+}
+.h2-freq-row:hover { background: rgba(212,168,67,0.08); }
+.h2-freq-row:hover .h2-freq-num { color: var(--or); text-shadow: 0 0 14px rgba(212,168,67,0.6); }
+.h2-freq-row:hover .h2-freq-ville { color: var(--blanc); }
+.h2-freq-row:hover .h2-freq-zones { color: rgba(245,240,232,0.6); }
+
 /* Responsive */
 @media (max-width: 900px) {
   .h2-hero-bg { display: none; }
+  .h2-freq-coverage { display: none; }
   .h2-hero-left { padding: 60px 24px 80px; max-width: 100%; }
   .h2-content-inner { grid-template-columns: 1fr; gap: 48px; }
   .h2-em-head { align-items: flex-start; }

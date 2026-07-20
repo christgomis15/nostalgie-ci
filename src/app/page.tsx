@@ -52,6 +52,26 @@ export default function Accueil() {
         <div className="h2-hero-bg" style={{ backgroundImage: "url('/img/hero-bg.jpg')" }} />
         <div className="h2-hero-grad" />
 
+        <div className="h2-freq-coverage">
+          {[
+            { freq: '101.1', ville: 'ABIDJAN', zones: 'Banlieue' },
+            { freq: '106.5', ville: 'BOUAKÉ', zones: 'Katiola · Botro · Béoumi · Sakassou · Tiébissou · Prikro' },
+            { freq: '92.8', ville: 'YAMOUSSOUKRO', zones: 'Toumodi · Dimbokro · Bouaflé · Sinfra · Zuénoula · Oumé · Guibéroua · Bonon' },
+            { freq: '97.3', ville: 'SAN-PÉDRO', zones: 'Soubré · Sassandra · Taï · Méagui · Grand-Béréby · Buyo · Lakota' },
+            { freq: '98.3', ville: 'DALOA', zones: 'Environs' },
+            { freq: '91.7', ville: 'KORHOGO', zones: 'Environs' },
+            { freq: '87.9', ville: 'ABENGOUROU', zones: 'Environs' },
+          ].map(f => (
+            <div key={f.ville} className="h2-freq-row">
+              <span className="h2-freq-num">{f.freq}</span>
+              <span className="h2-freq-info">
+                <span className="h2-freq-ville">{f.ville}</span>
+                <span className="h2-freq-zones">{f.zones}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+
         <div className="h2-hero-left">
           <p className="h2-eyebrow">Nostalgie CI · 101.1 FM</p>
           <img src="/img/logo-nostalgie.png" alt="Nostalgie — Sérieusement Décalée" className="h2-logo-img" />
