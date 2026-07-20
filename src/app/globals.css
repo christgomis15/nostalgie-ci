@@ -3228,45 +3228,54 @@ textarea { resize: vertical; min-height: 100px; }
 .admin-top5-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .admin-top5-rank { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--or); font-size: 18px; padding-top: 8px; }
 
-/* Couverture FM par frequence — a droite du logo, par-dessus la photo */
+/* Couverture FM par frequence — texte reel superpose EXACTEMENT sur la
+   legende dessinee dans hero-bg.jpg (memes police/taille/position), pour
+   rendre ce texte interactif au survol. Unites en vw : l'image est en
+   arriere-plan avec background-size:cover, donc son echelle a l'ecran suit
+   la largeur du hero (qui occupe 100% de la largeur de la fenetre) — vw
+   est la seule unite qui reste calee sur l'image a toute taille d'ecran.
+   Valeurs calibrees sur hero-bg.jpg (1280×640) : le bloc de texte y occupe
+   x=716→1165px (55.9%→91%), y=138→555px, centre vertical a +23px (~1.8vw)
+   sous le centre de l'image. Si hero-bg.jpg est remplacee par une autre
+   image, ces valeurs sont a recalibrer en re-mesurant la nouvelle image. */
 .h2-freq-coverage {
   position: absolute;
-  top: 50%; right: 6%;
-  transform: translateY(-50%);
+  top: 50%; left: 55.9%;
+  transform: translateY(calc(-50% + 1.8vw));
   z-index: 1;
-  display: flex; flex-direction: column; gap: 14px;
-  max-width: 420px;
-  text-align: left;
+  display: flex; flex-direction: column;
+  font-family: 'Oswald', Arial, sans-serif;
+  text-transform: uppercase;
+  pointer-events: auto;
 }
-.h2-freq-row {
-  display: flex; align-items: baseline; gap: 12px;
-  padding: 4px 8px; margin: -4px -8px;
-  border-radius: 6px;
+.h2-freq-entry {
+  border-radius: 4px;
   cursor: default;
   transition: background 0.25s ease;
 }
+.h2-freq-line {
+  display: flex; align-items: baseline;
+  gap: clamp(4px, 0.5vw, 8px);
+  line-height: clamp(28px, 3.4vw, 64px);
+  white-space: nowrap;
+}
 .h2-freq-num {
-  font-family: 'Playfair Display', serif;
-  font-weight: 900; font-size: 15px;
-  color: rgba(212,168,67,0.45);
-  min-width: 44px;
+  font-weight: 700;
+  font-size: clamp(13px, 1.3vw, 26px);
+  min-width: clamp(38px, 3.4vw, 66px);
+  color: rgba(212,168,67,0.55);
   transition: color 0.25s ease, text-shadow 0.25s ease;
 }
-.h2-freq-info { display: flex; flex-direction: column; gap: 1px; }
-.h2-freq-ville {
-  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
-  color: rgba(245,240,232,0.32);
+.h2-freq-text {
+  font-weight: 600;
+  font-size: clamp(11px, 1.05vw, 21px);
+  letter-spacing: 0.3px;
+  color: rgba(245,240,232,0.38);
   transition: color 0.25s ease;
 }
-.h2-freq-zones {
-  font-size: 10.5px; letter-spacing: 0.5px;
-  color: rgba(245,240,232,0.18);
-  transition: color 0.25s ease;
-}
-.h2-freq-row:hover { background: rgba(212,168,67,0.08); }
-.h2-freq-row:hover .h2-freq-num { color: var(--or); text-shadow: 0 0 14px rgba(212,168,67,0.6); }
-.h2-freq-row:hover .h2-freq-ville { color: var(--blanc); }
-.h2-freq-row:hover .h2-freq-zones { color: rgba(245,240,232,0.6); }
+.h2-freq-entry:hover { background: rgba(212,168,67,0.08); }
+.h2-freq-entry:hover .h2-freq-num { color: var(--or); text-shadow: 0 0 14px rgba(212,168,67,0.65); }
+.h2-freq-entry:hover .h2-freq-text { color: var(--blanc); }
 
 /* Responsive */
 @media (max-width: 900px) {

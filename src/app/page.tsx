@@ -54,20 +54,21 @@ export default function Accueil() {
 
         <div className="h2-freq-coverage">
           {[
-            { freq: '101.1', ville: 'ABIDJAN', zones: 'Banlieue' },
-            { freq: '106.5', ville: 'BOUAKÉ', zones: 'Katiola · Botro · Béoumi · Sakassou · Tiébissou · Prikro' },
-            { freq: '92.8', ville: 'YAMOUSSOUKRO', zones: 'Toumodi · Dimbokro · Bouaflé · Sinfra · Zuénoula · Oumé · Guibéroua · Bonon' },
-            { freq: '97.3', ville: 'SAN-PÉDRO', zones: 'Soubré · Sassandra · Taï · Méagui · Grand-Béréby · Buyo · Lakota' },
-            { freq: '98.3', ville: 'DALOA', zones: 'Environs' },
-            { freq: '91.7', ville: 'KORHOGO', zones: 'Environs' },
-            { freq: '87.9', ville: 'ABENGOUROU', zones: 'Environs' },
-          ].map(f => (
-            <div key={f.ville} className="h2-freq-row">
-              <span className="h2-freq-num">{f.freq}</span>
-              <span className="h2-freq-info">
-                <span className="h2-freq-ville">{f.ville}</span>
-                <span className="h2-freq-zones">{f.zones}</span>
-              </span>
+            { freq: '101.1', lines: ['ABIDJAN – BANLIEUE'] },
+            { freq: '106.5', lines: ['BOUAKÉ – KATIOLA – BOTRO – BÉOUMI', 'SAKASSOU – TIÉBISSOU – PRIKRO'] },
+            { freq: '92.8', lines: ['YAMOUSSOUKRO – TOUMODI – DIMBOKRO', 'BOUAFLÉ – SINFRA – ZUÉNOULA – OUMÉ – GUIBÉROUA – BONON'] },
+            { freq: '97.3', lines: ['SAN-PÉDRO – SOUBRÉ – SASSANDRA – TAÏ', 'MÉAGUI – GRAND-BÉRÉBY – BUYO – LAKOTA'] },
+            { freq: '98.3', lines: ['DALOA – ENVIRONS'] },
+            { freq: '91.7', lines: ['KORHOGO – ENVIRONS'] },
+            { freq: '87.9', lines: ['ABENGOUROU – ENVIRONS'] },
+          ].map(entry => (
+            <div key={entry.freq} className="h2-freq-entry">
+              {entry.lines.map((line, i) => (
+                <div key={i} className="h2-freq-line">
+                  <span className="h2-freq-num">{i === 0 ? entry.freq : ''}</span>
+                  <span className="h2-freq-text">{line}</span>
+                </div>
+              ))}
             </div>
           ))}
         </div>
