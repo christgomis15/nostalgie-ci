@@ -56,8 +56,19 @@ export default function Accueil() {
           <p className="h2-eyebrow">Nostalgie CI · 101.1 FM</p>
           <img src="/img/logo-nostalgie.png" alt="Nostalgie — Sérieusement Décalée" className="h2-logo-img" />
           <div className="h2-villes-wrap">
-            {['Abidjan', 'Bouaké', 'Yamoussoukro', 'San-Pédro', 'Korhogo'].map(v => (
-              <span key={v} className="h2-ville-chip">{v}</span>
+            {[
+              { freq: '101.1', ville: 'Abidjan' },
+              { freq: '106.5', ville: 'Bouaké' },
+              { freq: '92.8', ville: 'Yamoussoukro' },
+              { freq: '97.3', ville: 'San-Pédro' },
+              { freq: '98.3', ville: 'Daloa' },
+              { freq: '91.7', ville: 'Korhogo' },
+              { freq: '87.9', ville: 'Abengourou' },
+            ].map(f => (
+              <span key={f.ville} className="h2-ville-chip">
+                <span className="h2-ville-freq">{f.freq}</span>
+                <span className="h2-ville-nom">{f.ville}</span>
+              </span>
             ))}
           </div>
           <div className="h2-actions">

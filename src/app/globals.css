@@ -2906,12 +2906,31 @@ textarea { resize: vertical; min-height: 100px; }
   display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px;
 }
 .h2-ville-chip {
+  display: inline-flex; align-items: center; gap: 6px;
   background: rgba(212,168,67,0.08);
   border: 1px solid rgba(212,168,67,0.22);
   color: rgba(245,240,232,0.65);
   border-radius: 20px; padding: 5px 16px;
   font-size: 12px; letter-spacing: 1.5px;
+  cursor: default;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
+.h2-ville-freq {
+  color: var(--or); font-weight: 700;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+.h2-ville-nom { transition: color 0.25s ease; }
+.h2-ville-chip:hover {
+  background: rgba(212,168,67,0.22);
+  border-color: var(--or);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(212,168,67,0.25);
+}
+.h2-ville-chip:hover .h2-ville-freq {
+  color: #F5DFA0;
+  text-shadow: 0 0 12px rgba(212,168,67,0.7);
+}
+.h2-ville-chip:hover .h2-ville-nom { color: var(--blanc); }
 .h2-actions { display: flex; gap: 16px; flex-wrap: wrap; }
 
 /* ── Barre de stats ── */
