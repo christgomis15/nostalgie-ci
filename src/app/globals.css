@@ -3241,9 +3241,12 @@ textarea { resize: vertical; min-height: 100px; }
 .h2-freq-coverage {
   position: absolute;
   top: 50%; left: 55.9%;
-  transform: translateY(calc(-50% + 2.3vw));
+  transform: translateY(calc(-50% + 0.6vw));
+  max-height: 88%;
+  overflow: hidden;
   z-index: 1;
   display: flex; flex-direction: column;
+  justify-content: center;
   font-family: 'Oswald', Arial, sans-serif;
   text-transform: uppercase;
   pointer-events: auto;
@@ -3256,21 +3259,21 @@ textarea { resize: vertical; min-height: 100px; }
 .h2-freq-line {
   display: flex; align-items: baseline;
   gap: max(4px, 0.5vw);
-  line-height: max(29px, 3.55vw);
+  line-height: max(22px, 3vw);
   white-space: nowrap;
 }
 .h2-freq-num {
   font-weight: 700;
-  font-size: max(13px, 1.4vw);
+  font-size: max(12px, 1.25vw);
   letter-spacing: 0.5px;
-  min-width: max(40px, 3.6vw);
+  min-width: max(36px, 3.2vw);
   color: rgba(212,168,67,0.55);
   transition: color 0.25s ease, text-shadow 0.25s ease;
 }
 .h2-freq-text {
   font-weight: 600;
-  font-size: max(11px, 1.15vw);
-  letter-spacing: 0.9px;
+  font-size: max(10px, 1.02vw);
+  letter-spacing: 0.8px;
   color: rgba(245,240,232,0.38);
   transition: color 0.25s ease;
 }
