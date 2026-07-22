@@ -1,13 +1,10 @@
-import Link from 'next/link'
-import liveConfig from '@/data/live-config'
+'use client'
 
-export const metadata = {
-  title: 'Live — Nostalgie CI',
-  description: 'Regardez Nostalgie CI en direct video sur votre écran.',
-}
+import Link from 'next/link'
+import { useLiveConfig } from '@/hooks/useLiveConfig'
 
 export default function LivePage() {
-  const { isLive, videoId, title, description } = liveConfig
+  const { isLive, videoId, title, description } = useLiveConfig()
 
   return (
     <div className="page-section">

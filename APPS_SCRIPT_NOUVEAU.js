@@ -35,6 +35,9 @@ function doGet(e) {
   if (action === 'top5archive') {
     return getTop5ArchiveData((e.parameter && e.parameter.start) || '', (e.parameter && e.parameter.end) || '');
   }
+  if (action === 'live') {
+    return getLiveData();
+  }
   return ContentService
     .createTextOutput('Nostalgie CI — OK')
     .setMimeType(ContentService.MimeType.TEXT);
@@ -113,6 +116,36 @@ function getTop5Data() {
       .createTextOutput(JSON.stringify({ semaine: String(semaine), items: items }))
       .setMimeType(ContentService.MimeType.JSON);
 
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  LIVE → onglet "Live"
+//  B1 = IsLive (TRUE/FALSE) | B2 = VideoId | B3 = Titre | B4 = Description
+// ────────────────────────────────────────────────────────────────────
+function getLiveData() {
+  try {
+    var ss = getSS_();
+    var sheet = ss.getSheetByName('Live');
+    if (!sheet) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ isLive: false, videoId: '', title: 'Nostalgie Live', description: '' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    var vals = sheet.getRange('B1:B4').getValues();
+    var isLive = vals[0][0] === true || String(vals[0][0]).trim().toLowerCase() === 'true';
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        isLive: isLive,
+        videoId: String(vals[1][0] || ''),
+        title: String(vals[2][0] || 'Nostalgie Live'),
+        description: String(vals[3][0] || ''),
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService
       .createTextOutput(JSON.stringify({ error: err.toString() }))
@@ -604,6 +637,26 @@ function handleAdminUpdateTop5(data) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+function handleAdminUpdateLive(data) {
+  var ss = getSS_();
+  var sheet = ss.getSheetByName('Live');
+  if (!sheet) {
+    sheet = ss.insertSheet('Live');
+    sheet.getRange('A1').setValue('IsLive');
+    sheet.getRange('A2').setValue('VideoId');
+    sheet.getRange('A3').setValue('Titre');
+    sheet.getRange('A4').setValue('Description');
+    sheet.getRange('A1:A4').setFontWeight('bold');
+  }
+  sheet.getRange('B1').setValue(data.isLive ? true : false);
+  sheet.getRange('B2').setValue(data.videoId || '');
+  sheet.getRange('B3').setValue(data.title || 'Nostalgie Live');
+  sheet.getRange('B4').setValue(data.description || '');
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 // ────────────────────────────────────────────────────────────────────
 //  ARCHIVES TOP5 → onglet "Top5_Historique"
 //  Colonnes : Date | Semaine | Rang | Artiste | Titre | Passages | SpotifyId | SpotifyType | CoverImg
@@ -722,6 +775,9 @@ function doPost(e) {
   }
   if (data.type === 'admin_update_top5') {
     return handleAdminUpdateTop5(data);
+  }
+  if (data.type === 'admin_update_live') {
+    return handleAdminUpdateLive(data);
   }
   if (data.type === 'admin_add_emission') {
     return handleAdminAddEmission(data);
