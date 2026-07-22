@@ -12,6 +12,7 @@ import { sortByDateDesc } from '@/lib/date-fr'
 import SpotifyPlayer, { preloadSpotify } from '@/components/SpotifyPlayer'
 import WeatherWidget from '@/components/WeatherWidget'
 import EmissionsSlideshow from '@/components/EmissionsSlideshow'
+import { useLiveConfig } from '@/hooks/useLiveConfig'
 
 const MEDALS = ['🥇', '🥈', '🥉']
 
@@ -27,6 +28,7 @@ export default function Accueil() {
   const actus = useActus()
   const EMISSIONS_HOME = useEmissions()
   const { isPlaying, toggle } = usePlayerStore()
+  const { isLive } = useLiveConfig()
   const ACTUS_HOME = useMemo(
     () => sortByDateDesc([...actus.locale, ...actus.internationale, ...actus.events, ...actus.potins]).slice(0, 3),
     [actus]
@@ -96,7 +98,10 @@ export default function Accueil() {
             <button className="btn btn-or" onClick={toggle}>
               {isPlaying ? '⏸ En cours...' : '▶ Écouter en Direct'}
             </button>
-            <Link href="/live" className="btn btn-outline">🔴 Regarder le Live</Link>
+            <Link href="/live" className={`btn btn-outline ${isLive ? 'btn-live-on' : ''}`}>
+              {isLive && <span className="nav-live-dot" />}
+              {isLive ? 'EN DIRECT — Regarder le Live' : '🔴 Regarder le Live'}
+            </Link>
           </div>
         </div>
       </section>

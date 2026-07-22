@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { usePlayerStore } from '@/lib/player-store'
-import liveConfig from '@/data/live-config'
+import { useLiveConfig } from '@/hooks/useLiveConfig'
 
 const NAV_LINKS = [
   { href: '/',          label: 'Accueil'           },
@@ -19,6 +19,7 @@ const NAV_LINKS = [
 export default function Header() {
   const pathname = usePathname()
   const { isPlaying, isLoading, toggle } = usePlayerStore()
+  const { isLive } = useLiveConfig()
   const [open, setOpen] = useState(false)
 
   // Ferme le menu si on change de page
@@ -60,7 +61,7 @@ export default function Header() {
                 href={href}
                 className={`nav-link ${pathname === href ? 'active' : ''} ${href === '/live' ? 'nav-live' : ''}`}
               >
-                {href === '/live' && liveConfig.isLive && (
+                {href === '/live' && isLive && (
                   <span className="nav-live-dot" />
                 )}
                 {label}
@@ -100,7 +101,7 @@ export default function Header() {
                 className={`drawer-link ${pathname === href ? 'active' : ''} ${href === '/live' ? 'drawer-live' : ''}`}
                 onClick={() => setOpen(false)}
               >
-                {href === '/live' && liveConfig.isLive && (
+                {href === '/live' && isLive && (
                   <span className="nav-live-dot" />
                 )}
                 {label}
