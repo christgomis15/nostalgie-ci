@@ -5,7 +5,7 @@ import { useEmissions } from './useEmissions'
 export const EXTRA_PODCAST_EMISSIONS = ["DTA : Dans la Tête d'Ado"]
 
 // Émissions de la grille de diffusion à ne pas proposer ici (pas de podcasts/replays pour ces formats)
-const EXCLUDED_PODCAST_EMISSIONS = ['Flash Info', 'Retourne Les Hits', 'Brand New']
+const EXCLUDED_PODCAST_EMISSIONS = ['Flash Info', 'Retourne Les Hits', 'Brand New', 'Tchika Tchika Boom']
 
 export function usePodcastEmissionOptions(): string[] {
   const emissions = useEmissions()
