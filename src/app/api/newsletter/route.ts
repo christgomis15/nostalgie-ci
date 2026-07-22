@@ -1,6 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const WEBHOOK_URL = process.env.GOOGLE_SHEET_WEBHOOK_URL!
+const BREVO_API_KEY = process.env.BREVO_API_KEY
+const BREVO_LIST_ID = 3
+
+async function addToBrevo(email: string, prenom: string) {
+  if (!BREVO_API_KEY) return
+  const res = await fetch('https://api.brevo.com/v3/contacts', {
+    method: 'POST',
+    headers: { 'api-key': BREVO_API_KEY, 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      email,
+      attributes: prenom ? { PRENOM: prenom } : undefined,
+      listIds: [BREVO_LIST_ID],
+      updateEnabled: true,
+    }),
+  })
+  if (!res.ok && res.status !== 204) {
+    const data = await res.json().catch(() => ({}))
+    throw new Error(data?.message || `Statut Brevo ${res.status}`)
+  }
+}
 
 export async function POST(request: NextRequest) {
   if (!WEBHOOK_URL) {
@@ -28,6 +48,12 @@ export async function POST(request: NextRequest) {
 
     if (res.status !== 200 && res.status !== 302 && res.status !== 301) {
       throw new Error(`Statut ${res.status}`)
+    }
+
+    try {
+      await addToBrevo(email, prenom || '')
+    } catch (brevoErr) {
+      console.error('[newsletter] Brevo sync failed', brevoErr)
     }
 
     return NextResponse.json({ success: true })
