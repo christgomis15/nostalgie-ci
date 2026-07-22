@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { usePodcasts } from '@/hooks/usePodcasts'
+import { usePodcastEmissionOptions } from '@/hooks/usePodcastEmissions'
 import { type ContentItem } from '@/data/replay-content'
 import { usePlayerStore } from '@/lib/player-store'
 import VideoInteractions from '@/components/VideoInteractions'
@@ -14,20 +15,14 @@ const TABS: { key: Tab; label: string; icon: string; vide: string }[] = [
   { key: 'video',   label: 'Replay Vidéo',  icon: '📺', vide: 'Aucun replay vidéo disponible pour le moment.' },
 ]
 
-const EMISSIONS_FILTER = [
-  'Tous',
-  'Le Crazy Morning',
-  'Hits & Co',
-  "L'Afterwork",
-  'Les Canulars de Kaboré',
-]
-
 function ytThumb(id: string) {
   return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`
 }
 
 export default function PodcastsReplay() {
   const data = usePodcasts()
+  const emissionOptions = usePodcastEmissionOptions()
+  const EMISSIONS_FILTER = ['Tous', ...emissionOptions]
   const [tab, setTab] = useState<Tab>('podcasts')
   const [emFilter, setEmFilter] = useState('Tous')
   const [modal, setModal] = useState<ContentItem | null>(null)

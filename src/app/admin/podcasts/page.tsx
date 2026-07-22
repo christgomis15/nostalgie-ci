@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from 'react'
 import Link from 'next/link'
+import { usePodcastEmissionOptions } from '@/hooks/usePodcastEmissions'
 
 interface ContentItem {
   id: number
@@ -27,6 +28,7 @@ function ytThumb(id: string) {
 }
 
 export default function AdminPodcasts() {
+  const emissionOptions = usePodcastEmissionOptions()
   const [data, setData] = useState<PodcastsData>({ podcasts: [], audio: [], video: [] })
   const [loading, setLoading] = useState(true)
   const [form, setForm] = useState(EMPTY)
@@ -141,7 +143,10 @@ export default function AdminPodcasts() {
             </div>
             <div className="form-group">
               <label>Émission</label>
-              <input type="text" placeholder="Le Crazy Morning" value={form.emission} onChange={e => setForm({ ...form, emission: e.target.value })} required />
+              <select value={form.emission} onChange={e => setForm({ ...form, emission: e.target.value })} required>
+                <option value="" disabled>Choisir une émission…</option>
+                {emissionOptions.map(em => <option key={em} value={em}>{em}</option>)}
+              </select>
             </div>
             <div className="form-group">
               <label>Date</label>
