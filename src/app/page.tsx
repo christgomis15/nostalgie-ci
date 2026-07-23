@@ -13,6 +13,7 @@ import SpotifyPlayer, { preloadSpotify } from '@/components/SpotifyPlayer'
 import WeatherWidget from '@/components/WeatherWidget'
 import EmissionsSlideshow from '@/components/EmissionsSlideshow'
 import { useLiveConfig } from '@/hooks/useLiveConfig'
+import ChristmasSnow from '@/components/ChristmasSnow'
 
 const MEDALS = ['🥇', '🥈', '🥉']
 
@@ -49,10 +50,12 @@ export default function Accueil() {
 
   return (
     <>
-      {/* ── HERO V2 ── */}
-      <section className="h2-hero">
+      {/* ── HERO V2 (habillage Noël) ── */}
+      <section className="h2-hero xmas-hero">
         <div className="h2-hero-bg" style={{ backgroundImage: "url('/img/hero-bg.jpg')" }} />
         <div className="h2-hero-grad" />
+        <div className="xmas-overlay" />
+        <ChristmasSnow />
 
         <div className="h2-freq-coverage">
           {[
@@ -77,6 +80,7 @@ export default function Accueil() {
 
         <div className="h2-hero-left">
           <p className="h2-eyebrow">Nostalgie CI · 101.1 FM</p>
+          <p className="xmas-badge">🎄 Joyeuses Fêtes de fin d&apos;année</p>
           <img src="/img/logo-nostalgie.png" alt="Nostalgie — Sérieusement Décalée" className="h2-logo-img" />
           <div className="h2-villes-wrap">
             {[

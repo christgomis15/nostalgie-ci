@@ -2949,6 +2949,50 @@ textarea { resize: vertical; min-height: 100px; }
 .h2-ville-chip:hover .h2-ville-nom { color: var(--blanc); }
 .h2-actions { display: flex; gap: 16px; flex-wrap: wrap; }
 
+/* ══════════════════════════════════════
+   HABILLAGE DE NOËL — branche noel-2026
+   Scopé à .xmas-hero (page d'accueil uniquement), ne touche à rien d'autre.
+══════════════════════════════════════ */
+.xmas-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(circle at 12% 15%, rgba(196,30,50,0.35) 0%, rgba(196,30,50,0) 45%),
+    radial-gradient(circle at 85% 80%, rgba(21,110,60,0.35) 0%, rgba(21,110,60,0) 45%),
+    linear-gradient(180deg, rgba(212,168,67,0.10) 0%, rgba(212,168,67,0) 30%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.xmas-badge {
+  display: inline-flex; align-items: center; gap: 6px; width: fit-content;
+  background: linear-gradient(90deg, #C41E32, #156E3C);
+  border: 1px solid rgba(212,168,67,0.55);
+  color: var(--blanc);
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  padding: 6px 16px; border-radius: 20px;
+  margin-bottom: 14px;
+}
+.xmas-snow {
+  position: absolute; inset: 0; z-index: 5;
+  overflow: hidden; pointer-events: none;
+}
+.xmas-flake {
+  position: absolute; top: -12px;
+  background: var(--blanc);
+  border-radius: 50%;
+  filter: blur(0.3px);
+  animation-name: xmas-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes xmas-fall {
+  0%   { transform: translate(0, -10vh) translateX(0); }
+  50%  { transform: translate(calc(var(--xmas-drift) * 1), 55vh) translateX(0); }
+  100% { transform: translate(0, 120vh) translateX(0); }
+}
+@media (max-width: 900px) {
+  .xmas-snow { display: none; }
+}
+
 /* ── Barre de stats ── */
 .h2-stats {
   background: var(--g1);
