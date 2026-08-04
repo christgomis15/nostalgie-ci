@@ -536,7 +536,7 @@ function handleAdminAddPodcast(data) {
     sheet.getRange(1, 1, 1, 7).setFontWeight('bold');
   }
   sheet.appendRow([
-    data.type || '',
+    data.podcastType || '',
     data.youtube || '',
     data.titre || '',
     data.emission || '',

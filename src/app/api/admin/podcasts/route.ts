@@ -16,8 +16,8 @@ async function forward(payload: unknown) {
 export async function POST(req: Request) {
   if (!WEBHOOK_URL) return NextResponse.json({ error: 'Configuration manquante' }, { status: 500 })
   try {
-    const body = await req.json()
-    const data = await forward({ type: 'admin_add_podcast', ...body })
+    const { type, ...rest } = await req.json()
+    const data = await forward({ type: 'admin_add_podcast', podcastType: type, ...rest })
     return NextResponse.json(data)
   } catch (err) {
     console.error('[admin/podcasts POST]', err)
