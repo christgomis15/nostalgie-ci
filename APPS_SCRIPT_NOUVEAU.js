@@ -535,6 +535,19 @@ function handleAdminAddPodcast(data) {
     sheet.appendRow(['Type', 'YouTube', 'Titre', 'Emission', 'Date', 'Duree', 'Description']);
     sheet.getRange(1, 1, 1, 7).setFontWeight('bold');
   }
+  if (sheet.getLastRow() > 1) {
+    var existants = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getValues();
+    for (var i = 0; i < existants.length; i++) {
+      var sameType = String(existants[i][0]).trim().toLowerCase() === String(data.podcastType || '').trim().toLowerCase();
+      var sameTitre = String(existants[i][2]).trim().toLowerCase() === String(data.titre || '').trim().toLowerCase();
+      if (sameType && sameTitre) {
+        // Deja present (probable retentative apres timeout) : on ne duplique pas.
+        return ContentService
+          .createTextOutput(JSON.stringify({ success: true }))
+          .setMimeType(ContentService.MimeType.JSON);
+      }
+    }
+  }
   sheet.appendRow([
     data.podcastType || '',
     data.youtube || '',
