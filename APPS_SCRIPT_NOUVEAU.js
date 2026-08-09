@@ -769,8 +769,29 @@ function getTop5ArchiveData(startStr, endStr) {
 // ────────────────────────────────────────────────────────────────────
 //  doPost — réception des formulaires (dédicaces, réservations, etc.)
 // ────────────────────────────────────────────────────────────────────
+// Types d'action réservés à l'admin : protégés par un secret partagé (voir ci-dessous),
+// car ce webhook est une URL publique — n'importe qui qui la connaîtrait pourrait sinon
+// écrire directement dans le Sheet sans passer par le mot de passe du panneau /admin.
+var ADMIN_ACTION_TYPES = [
+  'admin_add_actus', 'admin_delete_actus',
+  'admin_add_podcast', 'admin_delete_podcast',
+  'admin_update_top5',
+  'admin_update_live',
+  'admin_add_emission', 'admin_delete_emission'
+];
+
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);
+
+  if (ADMIN_ACTION_TYPES.indexOf(data.type) !== -1) {
+    var secretAttendu = PropertiesService.getScriptProperties().getProperty('ADMIN_WEBHOOK_SECRET');
+    if (!secretAttendu || data.secret !== secretAttendu) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: false, error: 'Non autorisé' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
   if (data.type === 'newsletter') {
     return handleNewsletter(data);
   }
@@ -942,7 +963,8 @@ function handleInscriptionAuditeur(data) {
 // ────────────────────────────────────────────────────────────────────
 
 // ⚙️ TOKEN du bot @NostalgieCI_Dedicaces_bot (créé via @BotFather)
-var TELEGRAM_BOT_TOKEN = '8511505107:AAGg62q4VBgSjMXEGkCCcexQ5suAHA92HQM';
+// Stocké en propriété du script (Extensions > Propriétés du script), jamais en clair ici.
+var TELEGRAM_BOT_TOKEN = PropertiesService.getScriptProperties().getProperty('TELEGRAM_BOT_TOKEN');
 
 // ⚙️ CONFIG ANIMATEURS — remplacer 0 par le vrai chat_id de chaque animateur
 // Pour obtenir le chat_id : l'animateur envoie /start au bot,
