@@ -23,6 +23,14 @@ export default function ImageUploader({
       const form = new FormData()
       form.append('file', file)
       const res = await fetch('/api/admin/upload', { method: 'POST', body: form })
+      const contentType = res.headers.get('content-type') || ''
+      if (!contentType.includes('application/json')) {
+        throw new Error(
+          res.status === 413
+            ? 'Image trop volumineuse pour être envoyée (4 Mo max) — réduisez la taille ou compressez la photo'
+            : `Échec de l'upload (erreur serveur ${res.status})`
+        )
+      }
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || "Échec de l'upload")
       onChange(data.url)

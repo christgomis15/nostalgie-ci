@@ -20,8 +20,13 @@ export async function POST(req: Request) {
     if (!file.type.startsWith('image/')) {
       return NextResponse.json({ error: 'Le fichier doit être une image' }, { status: 400 })
     }
-    if (file.size > 8 * 1024 * 1024) {
-      return NextResponse.json({ error: 'Image trop volumineuse (8 Mo max)' }, { status: 400 })
+    // Vercel rejette les requêtes au-delà d'environ 4,5 Mo directement au niveau
+    // de la plateforme (avant même d'exécuter ce code), avec une réponse qui
+    // n'est pas du JSON. On se garde donc une marge de sécurité ici pour que
+    // ce soit toujours ce contrôle applicatif (message clair) qui déclenche
+    // en premier, jamais le rejet brut de la plateforme.
+    if (file.size > 4 * 1024 * 1024) {
+      return NextResponse.json({ error: 'Image trop volumineuse (4 Mo max) — réduisez la taille ou compressez la photo avant de l\'envoyer' }, { status: 400 })
     }
 
     const ext = (file.name.split('.').pop() || 'jpg').toLowerCase()
