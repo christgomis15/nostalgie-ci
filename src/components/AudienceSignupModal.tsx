@@ -9,12 +9,25 @@ const SHOW_DELAY_MS = 6000
 
 const VILLES = ['Abidjan', 'Bouaké', 'Yamoussoukro', 'San-Pédro', 'Daloa', 'Korhogo', 'Abengourou']
 
+const MOIS = [
+  { v: '01', l: 'Janvier' }, { v: '02', l: 'Février' }, { v: '03', l: 'Mars' },
+  { v: '04', l: 'Avril' }, { v: '05', l: 'Mai' }, { v: '06', l: 'Juin' },
+  { v: '07', l: 'Juillet' }, { v: '08', l: 'Août' }, { v: '09', l: 'Septembre' },
+  { v: '10', l: 'Octobre' }, { v: '11', l: 'Novembre' }, { v: '12', l: 'Décembre' },
+]
+const JOURS = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0'))
+const ANNEE_COURANTE = new Date().getFullYear()
+const ANNEES = Array.from({ length: 100 }, (_, i) => String(ANNEE_COURANTE - i))
+
 export default function AudienceSignupModal() {
   const [visible, setVisible] = useState(false)
   const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
   const [nom, setNom] = useState('')
   const [prenom, setPrenom] = useState('')
-  const [dateNaissance, setDateNaissance] = useState('')
+  const [naissJour, setNaissJour] = useState('')
+  const [naissMois, setNaissMois] = useState('')
+  const [naissAnnee, setNaissAnnee] = useState('')
+  const dateNaissance = naissJour && naissMois && naissAnnee ? `${naissAnnee}-${naissMois}-${naissJour}` : ''
   const [telephone, setTelephone] = useState('')
   const [ville, setVille] = useState('')
   const [consentement, setConsentement] = useState(false)
@@ -75,10 +88,24 @@ export default function AudienceSignupModal() {
               <div className="form-group"><label>Nom</label><input type="text" placeholder="Konan" value={nom} onChange={e => setNom(e.target.value)} disabled={status === 'loading'} required /></div>
               <div className="form-group"><label>Prénom</label><input type="text" placeholder="Jean" value={prenom} onChange={e => setPrenom(e.target.value)} disabled={status === 'loading'} required /></div>
             </div>
-            <div className="form-row">
-              <div className="form-group"><label>Date de naissance</label><input type="date" max={new Date().toISOString().slice(0, 10)} value={dateNaissance} onChange={e => setDateNaissance(e.target.value)} disabled={status === 'loading'} required /></div>
-              <div className="form-group"><label>Téléphone</label><input type="tel" placeholder="+225 07 XX XX XX XX" value={telephone} onChange={e => setTelephone(e.target.value)} disabled={status === 'loading'} required /></div>
+            <div className="form-group">
+              <label>Date de naissance</label>
+              <div className="naiss-row">
+                <select value={naissJour} onChange={e => setNaissJour(e.target.value)} disabled={status === 'loading'} required>
+                  <option value="" disabled>Jour</option>
+                  {JOURS.map(j => <option key={j} value={j}>{j}</option>)}
+                </select>
+                <select value={naissMois} onChange={e => setNaissMois(e.target.value)} disabled={status === 'loading'} required>
+                  <option value="" disabled>Mois</option>
+                  {MOIS.map(m => <option key={m.v} value={m.v}>{m.l}</option>)}
+                </select>
+                <select value={naissAnnee} onChange={e => setNaissAnnee(e.target.value)} disabled={status === 'loading'} required>
+                  <option value="" disabled>Année</option>
+                  {ANNEES.map(a => <option key={a} value={a}>{a}</option>)}
+                </select>
+              </div>
             </div>
+            <div className="form-group"><label>Téléphone</label><input type="tel" placeholder="+225 07 XX XX XX XX" value={telephone} onChange={e => setTelephone(e.target.value)} disabled={status === 'loading'} required /></div>
             <div className="form-group">
               <label>Ville de résidence</label>
               <input type="text" list="aud-villes" placeholder="Abidjan" value={ville} onChange={e => setVille(e.target.value)} disabled={status === 'loading'} required />

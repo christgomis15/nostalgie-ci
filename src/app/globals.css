@@ -124,6 +124,8 @@ a { color: inherit; text-decoration: none; }
 /* ── Formulaires ── */
 .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.naiss-row { display: grid; grid-template-columns: 0.8fr 1.3fr 1fr; gap: 8px; }
+.naiss-row select { padding-left: 8px; padding-right: 8px; }
 
 label {
   font-size: 12px;
