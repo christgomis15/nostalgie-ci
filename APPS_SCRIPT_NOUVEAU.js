@@ -712,7 +712,10 @@ function handleAdminUpdateTTB(data) {
     sheet.getRange('A1:A2').setFontWeight('bold');
   }
   sheet.getRange('B1').setValue(data.indice || '');
-  sheet.getRange('B2').setValue(data.date || '');
+  // Préfixe apostrophe : force Sheets à garder une chaîne "JJ/MM/AAAA" telle
+  // quelle au lieu de la convertir automatiquement en cellule de type Date
+  // (même piège que pour les numéros de téléphone ailleurs dans ce fichier).
+  sheet.getRange('B2').setValue("'" + (data.date || ''));
   return ContentService
     .createTextOutput(JSON.stringify({ success: true }))
     .setMimeType(ContentService.MimeType.JSON);
