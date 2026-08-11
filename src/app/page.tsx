@@ -13,6 +13,7 @@ import SpotifyPlayer, { preloadSpotify } from '@/components/SpotifyPlayer'
 import WeatherWidget from '@/components/WeatherWidget'
 import EmissionsSlideshow from '@/components/EmissionsSlideshow'
 import { useLiveConfig } from '@/hooks/useLiveConfig'
+import TTBPopup from '@/components/TTBPopup'
 
 const MEDALS = ['🥇', '🥈', '🥉']
 
@@ -210,6 +211,8 @@ export default function Accueil() {
           </div>
         </div>
       )}
+
+      <TTBPopup />
     </>
   )
 }

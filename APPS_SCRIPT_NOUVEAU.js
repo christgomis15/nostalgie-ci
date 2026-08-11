@@ -38,6 +38,9 @@ function doGet(e) {
   if (action === 'live') {
     return getLiveData();
   }
+  if (action === 'ttb') {
+    return getTTBData();
+  }
   return ContentService
     .createTextOutput('Nostalgie CI — OK')
     .setMimeType(ContentService.MimeType.TEXT);
@@ -144,6 +147,35 @@ function getLiveData() {
         videoId: String(vals[1][0] || ''),
         title: String(vals[2][0] || 'Nostalgie Live'),
         description: String(vals[3][0] || ''),
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  INDICE DU JOUR TTB (Tchika Tchika Boom) → onglet "TTB"
+//  B1 = Indice du jour, B2 = Date (JJ/MM/AAAA, doit correspondre au jour
+//  courant côté site pour que le pop-up s'affiche — évite qu'un indice
+//  oublié la veille reste affiché indéfiniment)
+// ────────────────────────────────────────────────────────────────────
+function getTTBData() {
+  try {
+    var ss = getSS_();
+    var sheet = ss.getSheetByName('TTB');
+    if (!sheet) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ indice: '', date: '' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    var vals = sheet.getRange('B1:B2').getValues();
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        indice: String(vals[0][0] || ''),
+        date: String(vals[1][0] || ''),
       }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
@@ -670,6 +702,22 @@ function handleAdminUpdateLive(data) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+function handleAdminUpdateTTB(data) {
+  var ss = getSS_();
+  var sheet = ss.getSheetByName('TTB');
+  if (!sheet) {
+    sheet = ss.insertSheet('TTB');
+    sheet.getRange('A1').setValue('Indice');
+    sheet.getRange('A2').setValue('Date');
+    sheet.getRange('A1:A2').setFontWeight('bold');
+  }
+  sheet.getRange('B1').setValue(data.indice || '');
+  sheet.getRange('B2').setValue(data.date || '');
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 // ────────────────────────────────────────────────────────────────────
 //  ARCHIVES TOP5 → onglet "Top5_Historique"
 //  Colonnes : Date | Semaine | Rang | Artiste | Titre | Passages | SpotifyId | SpotifyType | CoverImg
@@ -777,7 +825,8 @@ var ADMIN_ACTION_TYPES = [
   'admin_add_podcast', 'admin_delete_podcast',
   'admin_update_top5',
   'admin_update_live',
-  'admin_add_emission', 'admin_delete_emission'
+  'admin_add_emission', 'admin_delete_emission',
+  'admin_update_ttb'
 ];
 
 function doPost(e) {
@@ -812,6 +861,9 @@ function doPost(e) {
   }
   if (data.type === 'admin_update_live') {
     return handleAdminUpdateLive(data);
+  }
+  if (data.type === 'admin_update_ttb') {
+    return handleAdminUpdateTTB(data);
   }
   if (data.type === 'admin_add_emission') {
     return handleAdminAddEmission(data);

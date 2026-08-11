@@ -11,6 +11,7 @@ const SECTIONS = [
   { href: '/admin/top5-archives', label: 'Archives Top 5', desc: 'Consulter le classement par mois, trimestre, semestre ou année' },
   { href: '/admin/newsletter', label: 'Newsletter', desc: 'Composer et envoyer la newsletter hebdomadaire' },
   { href: '/admin/live', label: 'Live', desc: 'Activer ou désactiver le live YouTube sur /live' },
+  { href: '/admin/ttb', label: 'Indice TTB', desc: "Publier l'indice du jour de Tchika Tchika Boom (pop-up 10h45–11h15)" },
 ]
 
 export default function AdminHome() {
