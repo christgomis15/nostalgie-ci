@@ -195,7 +195,7 @@ export default function AdminNewsletter() {
             <div className="form-group"><label>Rubrique</label><input type="text" placeholder="WC2026, Musique, Actu CI…" value={uneRubrique} onChange={e => setUneRubrique(e.target.value)} /></div>
             <div className="form-group"><label>Titre accrocheur</label><input type="text" value={uneTitre} onChange={e => setUneTitre(e.target.value)} /></div>
             <div className="form-group"><label>Texte (2-3 lignes)</label><textarea rows={3} value={uneTexte} onChange={e => setUneTexte(e.target.value)} /></div>
-            <div className="form-group"><label>Lien "Lire la suite" (optionnel)</label><input type="text" placeholder="https://nostalgie-ci.vercel.app/actus" value={uneLien} onChange={e => setUneLien(e.target.value)} /></div>
+            <div className="form-group"><label>Lien "Lire la suite" (optionnel)</label><input type="text" placeholder="https://www.nostalgie.ci/actus" value={uneLien} onChange={e => setUneLien(e.target.value)} /></div>
           </div>
 
           <div className="admin-panel" style={{ position: 'static' }}>

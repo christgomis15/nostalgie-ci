@@ -9,7 +9,7 @@ function toYouTubeEmbed(url: string): string {
   return url
 }
 
-const SHARE_URL = 'https://nostalgie-ci.vercel.app/actus'
+const SHARE_URL = 'https://www.nostalgie.ci/actus'
 
 function ShareButtons({ title }: { title: string }) {
   const [copied, setCopied] = useState(false)

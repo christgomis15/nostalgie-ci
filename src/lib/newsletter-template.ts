@@ -138,7 +138,7 @@ function podcastCard(label: string, badgeColor: string, badgeBg: string, icon: s
           <div style="font-family:Arial,sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:${badgeColor};background:${badgeBg};display:inline-block;padding:3px 8px;border-radius:3px;margin-bottom:8px;">${icon} ${label}</div>
           <div style="font-family:Arial,sans-serif;font-size:13px;font-weight:700;color:#F5F0E8;margin-bottom:5px;line-height:1.4;">${esc(p.titre)}</div>
           <div style="font-family:Arial,sans-serif;font-size:11px;color:#666;margin-bottom:14px;">${esc(p.duree)}</div>
-          <a href="https://nostalgie-ci.vercel.app/podcasts" style="font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#D4A843;text-decoration:none;">&#9654; Écouter le replay &#8594;</a>
+          <a href="https://www.nostalgie.ci/podcasts" style="font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#D4A843;text-decoration:none;">&#9654; Écouter le replay &#8594;</a>
         </td>
       </tr>
     </table>`
@@ -285,7 +285,7 @@ export function buildNewsletterHtml(data: NewsletterData): string {
                       </tr>
                     </table>
                     <table cellspacing="0" cellpadding="0" style="margin:22px auto 0;">
-                      <tr><td align="center" bgcolor="#D4A843" style="border-radius:5px;"><a href="https://nostalgie-ci.vercel.app/live" style="display:inline-block;padding:13px 36px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;color:#000;text-decoration:none;letter-spacing:2.5px;text-transform:uppercase;">&#9654; Écouter le Direct</a></td></tr>
+                      <tr><td align="center" bgcolor="#D4A843" style="border-radius:5px;"><a href="https://www.nostalgie.ci/live" style="display:inline-block;padding:13px 36px;font-family:Arial,sans-serif;font-size:12px;font-weight:700;color:#000;text-decoration:none;letter-spacing:2.5px;text-transform:uppercase;">&#9654; Écouter le Direct</a></td></tr>
                     </table>
                   </td>
                 </tr>
@@ -313,7 +313,7 @@ export function buildNewsletterHtml(data: NewsletterData): string {
               <div style="font-family:Arial,sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#D4A843;margin-bottom:6px;">PROGRAMMES</div>
               <h2 style="font-family:Georgia,serif;font-size:22px;color:#F5F0E8;margin-bottom:22px;">À ne pas rater cette semaine</h2>
               ${data.programmes.map((p, i) => programmeCard(p, barColors[i] ?? '#3A3A3A')).join('')}
-              <a href="https://nostalgie-ci.vercel.app/emissions" style="font-family:Arial,sans-serif;font-size:12px;color:#D4A843;text-decoration:none;letter-spacing:1px;">&#8594; Voir la grille complète des programmes</a>
+              <a href="https://www.nostalgie.ci/emissions" style="font-family:Arial,sans-serif;font-size:12px;color:#D4A843;text-decoration:none;letter-spacing:1px;">&#8594; Voir la grille complète des programmes</a>
             </td>
           </tr>
 ${podcastsSection}
@@ -325,7 +325,7 @@ ${podcastsSection}
               <h2 style="font-family:Georgia,serif;font-size:22px;color:#F5F0E8;margin-bottom:4px;">Top 5 de la semaine</h2>
               <p style="font-family:Arial,sans-serif;font-size:12px;color:#555;margin-bottom:22px;">Zouglou · Coupé-Décalé · Afrobeats</p>
               ${data.top5.map((t, i) => top5Row(t, i === 0)).join('')}
-              <a href="https://nostalgie-ci.vercel.app" style="font-family:Arial,sans-serif;font-size:12px;color:#D4A843;text-decoration:none;letter-spacing:1px;">&#8594; Écouter la webradio en continu</a>
+              <a href="https://www.nostalgie.ci" style="font-family:Arial,sans-serif;font-size:12px;color:#D4A843;text-decoration:none;letter-spacing:1px;">&#8594; Écouter la webradio en continu</a>
             </td>
           </tr>
 
@@ -345,7 +345,7 @@ ${podcastsSection}
                     <div style="font-family:Arial,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#D4A843;margin-bottom:5px;">Portrait · Animateur</div>
                     <h3 style="font-family:Georgia,serif;font-size:19px;font-weight:900;color:#F5F0E8;margin-bottom:10px;">${esc(data.coulissesNom)}</h3>
                     <p style="font-family:Arial,sans-serif;font-size:13px;color:#BBAA99;line-height:1.7;margin-bottom:14px;">${esc(data.coulissesTexte)}</p>
-                    <a href="https://nostalgie-ci.vercel.app/emissions" style="font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#D4A843;text-decoration:none;letter-spacing:1px;">&#8594; Découvrir ses émissions</a>
+                    <a href="https://www.nostalgie.ci/emissions" style="font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#D4A843;text-decoration:none;letter-spacing:1px;">&#8594; Découvrir ses émissions</a>
                   </td>
                 </tr>
               </table>
@@ -374,7 +374,7 @@ ${agendaBlock}
                     <span style="color:#888;">&bull;</span>
                     <a href="${SOCIAL.youtube}" style="font-family:Arial,sans-serif;font-size:11px;color:#D4A843;text-decoration:none;margin:0 10px;">YouTube</a>
                     <span style="color:#888;">&bull;</span>
-                    <a href="https://nostalgie-ci.vercel.app" style="font-family:Arial,sans-serif;font-size:11px;color:#D4A843;text-decoration:none;margin:0 10px;">nostalgie.ci</a>
+                    <a href="https://www.nostalgie.ci" style="font-family:Arial,sans-serif;font-size:11px;color:#D4A843;text-decoration:none;margin:0 10px;">nostalgie.ci</a>
                   </td>
                 </tr>
                 <tr>
@@ -398,7 +398,7 @@ ${agendaBlock}
                       Radio Nostalgie CI · Abidjan, Côte d'Ivoire<br>
                       <a href="{unsubscribe}" style="color:#BBAA99;text-decoration:underline;">Se désinscrire</a>
                       &nbsp;&bull;&nbsp;
-                      <a href="https://nostalgie-ci.vercel.app" style="color:#BBAA99;text-decoration:underline;">Voir la version en ligne</a>
+                      <a href="https://www.nostalgie.ci" style="color:#BBAA99;text-decoration:underline;">Voir la version en ligne</a>
                     </p>
                   </td>
                 </tr>

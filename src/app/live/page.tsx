@@ -38,7 +38,7 @@ export default function LivePage() {
             <iframe
               className="live-chat"
               src={`https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${
-                process.env.NEXT_PUBLIC_DOMAIN ?? 'nostalgie-ci.vercel.app'
+                process.env.NEXT_PUBLIC_DOMAIN ?? 'www.nostalgie.ci'
               }`}
               title="Chat Live"
             />

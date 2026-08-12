@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export const metadata = {
   title: 'Kit Média — Nostalgie CI 101.1 FM',
-  description: 'Espaces publicitaires disponibles sur nostalgie-ci.vercel.app',
+  description: 'Espaces publicitaires disponibles sur www.nostalgie.ci',
   robots: 'noindex',
 }
 
@@ -278,7 +278,7 @@ export default function MediaKit() {
             <div className="mk2-contact-info">
               <p>Pour toute demande commerciale :</p>
               <p className="mk2-contact-email">assistant.commercial@nostalgie.ci</p>
-              <p className="mk2-contact-url">nostalgie-ci.vercel.app</p>
+              <p className="mk2-contact-url">www.nostalgie.ci</p>
             </div>
           </div>
         </section>

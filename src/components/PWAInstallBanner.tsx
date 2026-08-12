@@ -107,7 +107,7 @@ export default function PWAInstallBanner() {
         <ol className="pwa-ios-steps">
           <li>
             <span className="pwa-ios-step-icon">1</span>
-            Copiez ce lien : <strong>nostalgie-ci.vercel.app</strong>
+            Copiez ce lien : <strong>www.nostalgie.ci</strong>
           </li>
           <li>
             <span className="pwa-ios-step-icon">2</span>
