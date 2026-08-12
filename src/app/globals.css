@@ -1622,6 +1622,17 @@ textarea { resize: vertical; min-height: 100px; }
   display: block;
 }
 
+/* Page article individuelle (/actus/[slug]) : même carte que la modale, sans le cadre overlay */
+.actu-modal-standalone {
+  max-width: 720px;
+  max-height: none;
+  overflow: visible;
+  margin: 0 auto;
+}
+.actu-modal-standalone .actu-modal-img {
+  margin-top: 0;
+}
+
 .pod-modal {
   background: var(--g2);
   border: 1px solid var(--g3);

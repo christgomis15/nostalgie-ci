@@ -1,33 +1,17 @@
-'use client'
+import type { Metadata } from 'next'
+import EmissionsClient from './EmissionsClient'
 
-import { useEmissions } from '@/hooks/useEmissions'
+export const metadata: Metadata = {
+  title: 'Nos Émissions',
+  description: 'Découvrez la grille des émissions de Nostalgie CI : animateurs, horaires et programmes de la radio Sérieusement Décalée, 101.1 FM Abidjan.',
+  alternates: { canonical: 'https://www.nostalgie.ci/emissions' },
+  openGraph: {
+    title: 'Nos Émissions — Nostalgie CI',
+    description: 'La grille des émissions de Nostalgie CI : animateurs, horaires et programmes.',
+    url: 'https://www.nostalgie.ci/emissions',
+  },
+}
 
-export default function Emissions() {
-  const emissions = useEmissions()
-
-  return (
-    <div className="em-section">
-      <div className="page-section">
-        <p className="section-label">Sur vos ondes</p>
-        <h1 className="section-title">Nos Émissions</h1>
-      </div>
-      <div className="em-grid">
-        {emissions.map((em) => (
-          <div key={em.title} className="em-card">
-            <img
-              src={em.img}
-              alt={em.title}
-              className="em-img"
-              onError={e => { (e.target as HTMLImageElement).src = '/img/wc2026.jpeg' }}
-            />
-            <div className="em-overlay">
-              <p className="em-tag">{em.tag} · {em.schedule}</p>
-              <h3 className="em-title-card">{em.title}</h3>
-              {em.animateurs && <p className="em-animateurs">{em.animateurs}</p>}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
+export default function EmissionsPage() {
+  return <EmissionsClient />
 }

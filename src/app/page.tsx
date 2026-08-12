@@ -14,6 +14,7 @@ import WeatherWidget from '@/components/WeatherWidget'
 import EmissionsSlideshow from '@/components/EmissionsSlideshow'
 import { useLiveConfig } from '@/hooks/useLiveConfig'
 import TTBPopup from '@/components/TTBPopup'
+import { slugify } from '@/lib/slugify'
 
 const MEDALS = ['🥇', '🥈', '🥉']
 
@@ -77,7 +78,7 @@ export default function Accueil() {
         </div>
 
         <div className="h2-hero-left">
-          <p className="h2-eyebrow">Nostalgie CI · 101.1 FM</p>
+          <h1 className="h2-eyebrow">Nostalgie CI — Radio 101.1 FM Sérieusement Décalée</h1>
           <img src="/img/logo-nostalgie.png" alt="Nostalgie — Sérieusement Décalée" className="h2-logo-img" />
           <div className="h2-villes-wrap">
             {[
@@ -163,7 +164,7 @@ export default function Accueil() {
             <p className="section-label">Toute l&apos;actualité</p>
             <h2 className="h2-block-title">Dernières actus</h2>
             {ACTUS_HOME.map((a) => (
-              <Link key={a.title} href="/actus" className="h2-actu-card">
+              <Link key={a.title} href={`/actus/${slugify(a.title)}`} className="h2-actu-card">
                 <img
                   src={a.img}
                   alt={a.title}
