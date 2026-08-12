@@ -46,7 +46,7 @@ export default function AdminTTB() {
         body: JSON.stringify({ indice, date: today }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Erreur')
+      if (!res.ok || data?.success === false) throw new Error(data?.error || 'Erreur')
       setDate(today)
       setStatus('ok')
       setMsg('Indice publié. Il apparaîtra en pop-up sur le site entre 10h45 et 11h15 (heure d\'Abidjan).')

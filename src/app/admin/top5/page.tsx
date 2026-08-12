@@ -51,7 +51,7 @@ export default function AdminTop5() {
         body: JSON.stringify({ semaine, items }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Erreur')
+      if (!res.ok || data?.success === false) throw new Error(data?.error || 'Erreur')
       setStatus('ok')
       setMsg('Top 5 mis à jour. Il apparaîtra sur le site sous quelques minutes.')
     } catch (err) {

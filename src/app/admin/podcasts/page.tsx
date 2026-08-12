@@ -63,7 +63,7 @@ export default function AdminPodcasts() {
         body: JSON.stringify(form),
       })
       const d = await res.json()
-      if (!res.ok) throw new Error(d.error || 'Erreur')
+      if (!res.ok || d?.success === false) throw new Error(d?.error || 'Erreur')
       setStatus('ok')
       setMsg('Épisode ajouté. Il apparaîtra sur le site sous quelques minutes.')
       setForm(EMPTY)
@@ -77,11 +77,13 @@ export default function AdminPodcasts() {
   async function remove(type: string, titre: string) {
     if (!confirm(`Retirer « ${titre} » ?`)) return
     try {
-      await fetch('/api/admin/podcasts', {
+      const res = await fetch('/api/admin/podcasts', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, titre }),
       })
+      const data = await res.json()
+      if (!res.ok || data?.success === false) throw new Error(data?.error || 'Erreur')
       load()
     } catch {
       alert('Échec de la suppression.')

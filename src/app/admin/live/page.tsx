@@ -45,7 +45,7 @@ export default function AdminLive() {
         body: JSON.stringify({ isLive, videoId, title, description }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Erreur')
+      if (!res.ok || data?.success === false) throw new Error(data?.error || 'Erreur')
       setVideoIdInput(videoId)
       setStatus('ok')
       setMsg(isLive ? 'Live activé. Il apparaîtra sur le site sous une minute.' : 'Live désactivé.')

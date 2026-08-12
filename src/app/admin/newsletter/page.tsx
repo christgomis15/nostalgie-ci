@@ -148,7 +148,7 @@ export default function AdminNewsletter() {
         }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Erreur')
+      if (!res.ok || data?.success === false) throw new Error(data?.error || 'Erreur')
       setStatus('ok')
       setMsg(sendMode === 'now' ? 'Newsletter envoyée !' : `Newsletter programmée pour le ${new Date(scheduledAt).toLocaleString('fr-FR')}.`)
     } catch (err) {

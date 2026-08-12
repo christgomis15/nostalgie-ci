@@ -57,7 +57,7 @@ export default function AdminActus() {
         body: JSON.stringify(form),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Erreur')
+      if (!res.ok || data?.success === false) throw new Error(data?.error || 'Erreur')
       setStatus('ok')
       setMsg('Article ajouté. Il apparaîtra sur le site sous quelques minutes.')
       setForm(EMPTY)
@@ -71,11 +71,13 @@ export default function AdminActus() {
   async function remove(title: string) {
     if (!confirm(`Retirer l'article « ${title} » ?`)) return
     try {
-      await fetch('/api/admin/actus', {
+      const res = await fetch('/api/admin/actus', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title }),
       })
+      const data = await res.json()
+      if (!res.ok || data?.success === false) throw new Error(data?.error || 'Erreur')
       load()
     } catch {
       alert('Échec de la suppression.')
