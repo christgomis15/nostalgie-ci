@@ -70,9 +70,9 @@ export default function AdminNewsletter() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/emissions', { cache: 'no-store' }).then(r => r.json()).catch(() => ({ emissions: [] })),
-      fetch('/api/top5', { cache: 'no-store' }).then(r => r.json()).catch(() => ({ items: [] })),
-      fetch('/api/podcasts', { cache: 'no-store' }).then(r => r.json()).catch(() => ({ podcasts: [], audio: [], video: [] })),
+      fetch('/api/emissions?fresh=1', { cache: 'no-store' }).then(r => r.json()).catch(() => ({ emissions: [] })),
+      fetch('/api/top5?fresh=1', { cache: 'no-store' }).then(r => r.json()).catch(() => ({ items: [] })),
+      fetch('/api/podcasts?fresh=1', { cache: 'no-store' }).then(r => r.json()).catch(() => ({ podcasts: [], audio: [], video: [] })),
     ]).then(([em, t5, pc]) => {
       setEmissions(em.emissions || [])
       setTop5Api(t5.items || [])
