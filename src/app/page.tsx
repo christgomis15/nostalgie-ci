@@ -146,7 +146,7 @@ export default function Accueil() {
                     <p className="h2-t5-art">{item.artiste}</p>
                     <p className="h2-t5-tit">{item.titre}</p>
                   </div>
-                  <span className="h2-t5-pass">{item.passages} pass.</span>
+                  <span className="h2-t5-pass">{item.passages} diff.</span>
                   <button
                     className="h2-t5-play"
                     onClick={() => openModal(item)}
