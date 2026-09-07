@@ -27,7 +27,7 @@ export default function ContactClient() {
           <div className="ct-info">
             <h3>Service Commercial</h3>
             <p>Notre équipe commerciale est à votre disposition pour toute demande de publicité ou sponsoring.</p>
-            <div className="ci-line"><span className="ci-ic">📞</span><span>+225 20 21 10 53</span></div>
+            <div className="ci-line"><span className="ci-ic">📞</span><span>+225 20 27 21 10 53</span></div>
             <div className="ci-line"><span className="ci-ic">✉️</span><span>assistant.commercial@nostalgie.ci</span></div>
             <div className="ci-line"><span className="ci-ic">📍</span><span>Abidjan Plateau · Avenue Chardy</span></div>
             <div className="ci-line"><span className="ci-ic">🕐</span><span>Lun–Ven · 08h–17h</span></div>
@@ -72,7 +72,7 @@ export default function ContactClient() {
           <div className="ct-info">
             <h3>Service Marketing</h3>
             <p>Nous accompagnons vos événements avec une couverture médiatique complète.</p>
-            <div className="ci-line"><span className="ci-ic">📞</span><span>+225 20 21 85 50</span></div>
+            <div className="ci-line"><span className="ci-ic">📞</span><span>+225 20 27 21 85 50</span></div>
             <div className="ci-line"><span className="ci-ic">✉️</span><span>marketing@nostalgie.ci</span></div>
             <div className="ci-line"><span className="ci-ic">📍</span><span>Abidjan Plateau · Avenue Chardy</span></div>
             <div className="ci-line"><span className="ci-ic">🕐</span><span>Lun–Ven · 08h–17h</span></div>
@@ -162,7 +162,7 @@ function CommercialForm() {
         </div>
       </div>
       <div className="form-group"><label>Votre message</label><textarea rows={3} placeholder="Décrivez votre projet..." value={message} onChange={e => setMessage(e.target.value)} disabled={dis} /></div>
-      {status === 'error' && <p className="ded-error">Erreur lors de l&apos;envoi. Réessayez ou appelez le +225 20 21 10 53.</p>}
+      {status === 'error' && <p className="ded-error">Erreur lors de l&apos;envoi. Réessayez ou appelez le +225 20 27 21 10 53.</p>}
       <button type="submit" className="btn btn-or" disabled={dis}>{dis ? 'Envoi en cours...' : 'Envoyer la demande'}</button>
     </form>
   )
@@ -253,7 +253,7 @@ function PartenaireForm() {
         </div>
       </div>
       <div className="form-group"><label>Description du projet</label><textarea rows={3} placeholder="Décrivez votre projet et vos attentes..." value={description} onChange={e => setDescription(e.target.value)} disabled={dis} /></div>
-      {status === 'error' && <p className="ded-error">Erreur lors de l&apos;envoi. Réessayez ou appelez le +225 20 21 85 50.</p>}
+      {status === 'error' && <p className="ded-error">Erreur lors de l&apos;envoi. Réessayez ou appelez le +225 20 27 21 85 50.</p>}
       <button type="submit" className="btn btn-or" disabled={dis}>{dis ? 'Envoi en cours...' : 'Envoyer la demande'}</button>
     </form>
   )
