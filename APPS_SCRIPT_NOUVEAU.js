@@ -1021,23 +1021,55 @@ function handleInscriptionAuditeur(data) {
 // Stocké en propriété du script (Extensions > Propriétés du script), jamais en clair ici.
 var TELEGRAM_BOT_TOKEN = PropertiesService.getScriptProperties().getProperty('TELEGRAM_BOT_TOKEN');
 
-// ⚙️ CONFIG ANIMATEURS — remplacer 0 par le vrai chat_id de chaque animateur
-// Pour obtenir le chat_id : l'animateur envoie /start au bot,
-// puis exécuter getTelegramChatIds() dans l'éditeur Apps Script.
+// ⚙️ CONFIG ANIMATEURS — chatIds = liste des chat_id PERSONNELS des animateurs.
+// On envoie à chaque personne individuellement : aucun groupe Telegram nécessaire.
+// Pour obtenir un chat_id : l'animateur envoie /start au bot @NostalgieCI_Dedicaces_bot,
+// puis on exécute getTelegramChatIds() dans l'éditeur Apps Script.
+// (L'ancien format { chatId: 123 } reste accepté, voir handleDedicace.)
 var TELEGRAM_ANIMATEURS = {
-  'Le Crazy Morning': { chatId: -5228905648 },
-  'Hits & Co':        { chatId: 5945808873 },
+  'Le Crazy Morning': { chatIds: [0, 0] },        // [Teeyah, Arielle] — à renseigner
+  'Hits & Co':        { chatIds: [5945808873] },  // Nanda
 };
 
+// Renvoie true si Telegram a accepté le message, false sinon, et journalise
+// le résultat dans l'onglet "Logs Telegram" (chat not found, bot bloqué,
+// token absent…) pour pouvoir diagnostiquer sans ouvrir les logs Apps Script.
 function sendTelegramMessage(chatId, text) {
-  if (!chatId || chatId === 0) return;
-  var url = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
-  UrlFetchApp.fetch(url, {
-    method: 'post',
-    contentType: 'application/json',
-    payload: JSON.stringify({ chat_id: chatId, text: text }),
-    muteHttpExceptions: true
-  });
+  if (!chatId || chatId === 0) return false;
+  var ok = false;
+  var detail = '';
+  try {
+    if (!TELEGRAM_BOT_TOKEN) {
+      detail = 'TELEGRAM_BOT_TOKEN absent des Propriétés du script';
+    } else {
+      var res = UrlFetchApp.fetch(
+        'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage',
+        {
+          method: 'post',
+          contentType: 'application/json',
+          payload: JSON.stringify({ chat_id: chatId, text: text }),
+          muteHttpExceptions: true
+        }
+      );
+      detail = res.getContentText();
+      ok = res.getResponseCode() === 200;
+    }
+  } catch (err) {
+    detail = err.toString();
+  }
+  try {
+    var logSheet = getSS_().getSheetByName('Logs Telegram');
+    if (!logSheet) {
+      logSheet = getSS_().insertSheet('Logs Telegram');
+      logSheet.appendRow(['Date', 'chat_id', 'OK', 'Réponse Telegram']);
+      logSheet.getRange(1, 1, 1, 4).setFontWeight('bold');
+    }
+    logSheet.appendRow([
+      new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' }),
+      String(chatId), ok ? 'OUI' : 'NON', detail
+    ]);
+  } catch (e) { /* le log ne doit jamais bloquer l'envoi */ }
+  return ok;
 }
 
 // Exécuter cette fonction pour voir les chat_ids des animateurs qui ont /start le bot
@@ -1060,16 +1092,17 @@ function handleDedicace(data) {
     'Non lu'
   ]);
 
-  // Envoi Telegram à l'animateur de l'émission concernée
+  // Envoi Telegram aux animateurs de l'émission concernée (un message par personne)
   try {
     var animateur = TELEGRAM_ANIMATEURS[data.emission];
-    if (animateur && animateur.chatId && animateur.chatId !== 0) {
+    if (animateur) {
       var msg = '🎵 DÉDICACE — ' + data.emission + '\n\n'
         + '👤 De : ' + data.prenom + ' (' + data.ville + ')\n'
         + '💌 Pour : ' + data.pour + '\n'
         + (data.chanson ? '🎶 Chanson : ' + data.chanson + '\n' : '')
         + '📝 Message : ' + data.message;
-      sendTelegramMessage(animateur.chatId, msg);
+      var cibles = animateur.chatIds || (animateur.chatId ? [animateur.chatId] : []);
+      cibles.forEach(function(id) { sendTelegramMessage(id, msg); });
     }
   } catch (err) {
     Logger.log('Telegram error: ' + err.toString());
@@ -1363,4 +1396,15 @@ function testTelegram() {
     }
   );
   Logger.log(response.getContentText());
+}
+
+// Exécuter cette fonction pour tester l'envoi à TOUS les animateurs du Crazy
+// Morning tels qu'ils sont configurés dans TELEGRAM_ANIMATEURS. Le résultat de
+// chaque envoi (OK / erreur) est écrit dans l'onglet "Logs Telegram".
+function testTelegramCrazyMorning() {
+  var cibles = TELEGRAM_ANIMATEURS['Le Crazy Morning'].chatIds || [];
+  cibles.forEach(function(id) {
+    sendTelegramMessage(id, '🎵 Test dédicace Crazy Morning depuis Apps Script ✅');
+  });
+  Logger.log('Test envoyé à : ' + JSON.stringify(cibles) + ' — voir onglet "Logs Telegram".');
 }
