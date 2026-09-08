@@ -2,15 +2,16 @@
 
 import { useState, useRef } from 'react'
 import { usePodcasts } from '@/hooks/usePodcasts'
-import { usePodcastEmissionOptions } from '@/hooks/usePodcastEmissions'
+import { usePodcastEmissionOptions, AUDIO_REPLAY_EMISSIONS } from '@/hooks/usePodcastEmissions'
 import { type ContentItem } from '@/data/replay-content'
 import { usePlayerStore } from '@/lib/player-store'
 import VideoInteractions from '@/components/VideoInteractions'
 
-type Tab = 'podcasts' | 'video'
+type Tab = 'podcasts' | 'audio' | 'video'
 
 const TABS: { key: Tab; label: string; icon: string; vide: string }[] = [
   { key: 'podcasts', label: 'Podcasts',     icon: '🎙️', vide: 'Aucun podcast disponible pour le moment.' },
+  { key: 'audio',   label: 'Replay Audio',  icon: '🎧', vide: 'Aucun replay audio disponible pour le moment.' },
   { key: 'video',   label: 'Replay Vidéo',  icon: '📺', vide: 'Aucun replay vidéo disponible pour le moment.' },
 ]
 
@@ -21,7 +22,6 @@ function ytThumb(id: string) {
 export default function PodcastsClient() {
   const data = usePodcasts()
   const emissionOptions = usePodcastEmissionOptions()
-  const EMISSIONS_FILTER = ['Tous', ...emissionOptions]
   const [tab, setTab] = useState<Tab>('podcasts')
   const [emFilter, setEmFilter] = useState('Tous')
   const [modal, setModal] = useState<ContentItem | null>(null)
@@ -29,9 +29,13 @@ export default function PodcastsClient() {
   const { isPlaying, toggle } = usePlayerStore()
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const allItems = tab === 'podcasts' ? data.podcasts : data.video
+  const allItems = tab === 'podcasts' ? data.podcasts : tab === 'audio' ? data.audio : data.video
   const items = emFilter === 'Tous' ? allItems : allItems.filter(i => i.emission.trim() === emFilter.trim())
   const currentTab = TABS.find(t => t.key === tab)!
+
+  // Onglet Replay Audio : filtres fixes (Crazy Morning / Hits & Co).
+  // Onglet Replay Vidéo : filtres dérivés de la grille des émissions.
+  const EMISSIONS_FILTER = ['Tous', ...(tab === 'audio' ? AUDIO_REPLAY_EMISSIONS : emissionOptions)]
 
   function switchTab(t: Tab) {
     setTab(t)

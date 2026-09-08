@@ -4,6 +4,11 @@ import { useEmissions } from './useEmissions'
 // Émissions qui existent uniquement pour Podcasts & Replays (pas dans la grille de diffusion /emissions)
 export const EXTRA_PODCAST_EMISSIONS = ["DTA : Dans La Tête d'Un Ado", 'Kaboré Fait Son Show']
 
+// Filtres proposés sur l'onglet « Replay Audio » (liste fixe : ces séquences
+// ne concernent que ces deux émissions). Sert aussi de choix d'émission dans
+// le panneau /admin quand le type d'épisode est « Replay Audio ».
+export const AUDIO_REPLAY_EMISSIONS = ['Le Crazy Morning', 'Hits & Co']
+
 // Émissions de la grille de diffusion à NE PAS proposer comme filtre ici
 // (formats sans replay vidéo, doublon avec EXTRA_PODCAST_EMISSIONS, ou entrée
 // qui n'est pas une vraie émission). La comparaison est insensible à la casse

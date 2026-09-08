@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from 'react'
 import Link from 'next/link'
-import { usePodcastEmissionOptions } from '@/hooks/usePodcastEmissions'
+import { usePodcastEmissionOptions, AUDIO_REPLAY_EMISSIONS } from '@/hooks/usePodcastEmissions'
 
 interface ContentItem {
   id: number
@@ -51,6 +51,9 @@ export default function AdminPodcasts() {
     ...data.audio.map(i => ({ ...i, type: 'audio' })),
     ...data.video.map(i => ({ ...i, type: 'video' })),
   ]
+
+  // Replay Audio : uniquement Crazy Morning / Hits & Co. Autres types : grille complète.
+  const emChoices = form.type === 'audio' ? AUDIO_REPLAY_EMISSIONS : emissionOptions
 
   async function submit(e: FormEvent) {
     e.preventDefault()
@@ -147,7 +150,7 @@ export default function AdminPodcasts() {
               <label>Émission</label>
               <select value={form.emission} onChange={e => setForm({ ...form, emission: e.target.value })} required>
                 <option value="" disabled>Choisir une émission…</option>
-                {emissionOptions.map(em => <option key={em} value={em}>{em}</option>)}
+                {emChoices.map(em => <option key={em} value={em}>{em}</option>)}
               </select>
             </div>
             <div className="form-group">
