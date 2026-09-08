@@ -7,11 +7,10 @@ import { type ContentItem } from '@/data/replay-content'
 import { usePlayerStore } from '@/lib/player-store'
 import VideoInteractions from '@/components/VideoInteractions'
 
-type Tab = 'podcasts' | 'audio' | 'video'
+type Tab = 'podcasts' | 'video'
 
 const TABS: { key: Tab; label: string; icon: string; vide: string }[] = [
   { key: 'podcasts', label: 'Podcasts',     icon: '🎙️', vide: 'Aucun podcast disponible pour le moment.' },
-  { key: 'audio',   label: 'Replay Audio',  icon: '🎧', vide: 'Aucun replay audio disponible pour le moment.' },
   { key: 'video',   label: 'Replay Vidéo',  icon: '📺', vide: 'Aucun replay vidéo disponible pour le moment.' },
 ]
 
@@ -30,8 +29,8 @@ export default function PodcastsClient() {
   const { isPlaying, toggle } = usePlayerStore()
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const allItems = tab === 'podcasts' ? data.podcasts : tab === 'audio' ? data.audio : data.video
-  const items = emFilter === 'Tous' ? allItems : allItems.filter(i => i.emission === emFilter)
+  const allItems = tab === 'podcasts' ? data.podcasts : data.video
+  const items = emFilter === 'Tous' ? allItems : allItems.filter(i => i.emission.trim() === emFilter.trim())
   const currentTab = TABS.find(t => t.key === tab)!
 
   function switchTab(t: Tab) {
