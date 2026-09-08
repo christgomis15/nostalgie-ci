@@ -1079,6 +1079,24 @@ function getTelegramChatIds() {
   Logger.log(response.getContentText());
 }
 
+// Exécuter cette fonction pour savoir À QUEL BOT correspond le token stocké.
+// Réponse attendue : {"ok":true,"result":{"username":"XXX_bot", ...}} → c'est
+// CE @username qu'il faut chercher dans Telegram (pas forcément
+// @NostalgieCI_Dedicaces_bot). Si "ok":false ou une erreur 401 → le token
+// est absent/invalide : il faut (re)créer un bot via @BotFather et remettre
+// le nouveau token dans Propriétés du script (clé TELEGRAM_BOT_TOKEN).
+function whoIsMyBot() {
+  if (!TELEGRAM_BOT_TOKEN) {
+    Logger.log('TELEGRAM_BOT_TOKEN absent des Propriétés du script.');
+    return;
+  }
+  var res = UrlFetchApp.fetch(
+    'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/getMe',
+    { muteHttpExceptions: true }
+  );
+  Logger.log('HTTP ' + res.getResponseCode() + ' — ' + res.getContentText());
+}
+
 function handleDedicace(data) {
   var sheet = getSS_().getActiveSheet();
   sheet.appendRow([
