@@ -1027,8 +1027,8 @@ var TELEGRAM_BOT_TOKEN = PropertiesService.getScriptProperties().getProperty('TE
 // puis on exécute getTelegramChatIds() dans l'éditeur Apps Script.
 // (L'ancien format { chatId: 123 } reste accepté, voir handleDedicace.)
 var TELEGRAM_ANIMATEURS = {
-  'Le Crazy Morning': { chatIds: [0, 0] },        // [Teeyah, Arielle] — à renseigner
-  'Hits & Co':        { chatIds: [5945808873] },  // Nanda
+  'Le Crazy Morning': { chatIds: [8388218045, 7271272638] },  // Teeyah, Arielle
+  'Hits & Co':        { chatIds: [5945808873] },              // Nanda
 };
 
 // Renvoie true si Telegram a accepté le message, false sinon, et journalise
