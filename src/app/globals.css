@@ -2573,18 +2573,26 @@ textarea { resize: vertical; min-height: 100px; }
 }
 
 /* Pop-up indice TTB — écran sponsor puis indice */
-.ttb-sponsor { text-align: center; padding: 8px 0; }
+.ttb-sponsor,
+.ttb-indice { text-align: center; padding: 8px 0; }
+.ttb-indice .cf-title { text-align: center; }
 .ttb-kicker {
   font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
   color: var(--or); margin-bottom: 10px;
 }
-.ttb-sponsor-line {
-  font-size: 15px; color: var(--blanc); line-height: 1.6;
-  margin: 18px 0 24px;
+.ttb-give {
+  font-size: 13px; color: rgba(245,240,232,0.75);
+  margin: 16px 0 16px;
 }
-.ttb-sponsor-line strong {
-  display: block; font-family: 'Playfair Display', serif;
-  font-size: 19px; font-weight: 700; color: var(--or); margin-bottom: 4px;
+.ttb-logos {
+  display: flex; align-items: center; justify-content: center;
+  gap: 22px; margin-bottom: 22px;
+}
+.ttb-logos img { display: block; box-sizing: border-box; }
+.ttb-logo-orange { width: 52px; height: 52px; border-radius: 6px; }
+.ttb-logo-paa {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: #fff; padding: 5px; object-fit: contain;
 }
 .ttb-credit {
   font-size: 11px; color: rgba(245,240,232,0.4);

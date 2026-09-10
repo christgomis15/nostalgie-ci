@@ -81,25 +81,44 @@ export default function TTBPopup() {
           <div className="ttb-sponsor">
             <p className="ttb-kicker">Exclusivité</p>
             <h3 className="cf-title" style={{ marginBottom: 0 }}>Tchika Tchika Boom</h3>
-            <p className="ttb-sponsor-line">
-              <strong>{TTB_SPONSORS}</strong>
-              vous offrent l&apos;indice du jour
-            </p>
+            <p className="ttb-give">L&apos;indice du jour vous est offert par</p>
+            <div className="ttb-logos">
+              <img
+                className="ttb-logo-orange"
+                src="/img/sponsor-orange.png"
+                alt="Orange"
+                width={52}
+                height={52}
+              />
+              <img
+                className="ttb-logo-paa"
+                src="/img/sponsor-paa.png"
+                alt="Port Autonome d'Abidjan"
+                width={60}
+                height={60}
+              />
+            </div>
             <button
               className="btn btn-or"
-              style={{ width: '100%' }}
+              style={{ width: '100%', justifyContent: 'center' }}
               onClick={() => setStep('indice')}
             >
               Découvrir l&apos;indice ▸
             </button>
           </div>
         ) : (
-          <>
+          <div className="ttb-indice">
             <h3 className="cf-title">🎯 Indice du jour — Tchika Tchika Boom</h3>
             <p className="cf-sub" style={{ fontSize: 16, marginTop: 10, marginBottom: 16 }}>{indice}</p>
             <p className="ttb-credit">Indice offert par {TTB_SPONSORS}</p>
-            <button className="btn btn-or" style={{ width: '100%' }} onClick={close}>OK</button>
-          </>
+            <button
+              className="btn btn-or"
+              style={{ width: '100%', justifyContent: 'center' }}
+              onClick={close}
+            >
+              OK
+            </button>
+          </div>
         )}
       </div>
     </div>
