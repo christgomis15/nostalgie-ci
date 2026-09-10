@@ -6,6 +6,11 @@ const CHECK_INTERVAL_MS = 60 * 1000
 const WINDOW_START_MIN = 10 * 60 + 45 // 10h45
 const WINDOW_END_MIN = 11 * 60 + 15   // 11h15
 
+// Sponsors de l'émission Tchika Tchika Boom — crédit affiché sur l'écran
+// d'accueil du pop-up, avant de dévoiler l'indice. Modifier ici si les
+// partenaires changent.
+const TTB_SPONSORS = "Orange et le Port Autonome d'Abidjan"
+
 function todayAbidjan(): string {
   return new Intl.DateTimeFormat('fr-FR', {
     timeZone: 'Africa/Abidjan',
@@ -30,6 +35,7 @@ function minutesNowAbidjan(): number {
 export default function TTBPopup() {
   const [visible, setVisible] = useState(false)
   const [indice, setIndice] = useState('')
+  const [step, setStep] = useState<'sponsor' | 'indice'>('sponsor')
 
   useEffect(() => {
     let cancelled = false
@@ -48,6 +54,7 @@ export default function TTBPopup() {
         if (cancelled) return
         if (data && !data.error && data.date === today && data.indice) {
           setIndice(data.indice)
+          setStep('sponsor')
           setVisible(true)
         }
       } catch {
@@ -70,9 +77,30 @@ export default function TTBPopup() {
   return (
     <div className="actu-overlay" onClick={close}>
       <div className="top5-modal aud-modal" onClick={e => e.stopPropagation()}>
-        <h3 className="cf-title">🎯 Indice du jour — Tchika Tchika Boom</h3>
-        <p className="cf-sub" style={{ fontSize: 16, marginTop: 10, marginBottom: 24 }}>{indice}</p>
-        <button className="btn btn-or" style={{ width: '100%' }} onClick={close}>OK</button>
+        {step === 'sponsor' ? (
+          <div className="ttb-sponsor">
+            <p className="ttb-kicker">Exclusivité</p>
+            <h3 className="cf-title" style={{ marginBottom: 0 }}>Tchika Tchika Boom</h3>
+            <p className="ttb-sponsor-line">
+              <strong>{TTB_SPONSORS}</strong>
+              vous offrent l&apos;indice du jour
+            </p>
+            <button
+              className="btn btn-or"
+              style={{ width: '100%' }}
+              onClick={() => setStep('indice')}
+            >
+              Découvrir l&apos;indice ▸
+            </button>
+          </div>
+        ) : (
+          <>
+            <h3 className="cf-title">🎯 Indice du jour — Tchika Tchika Boom</h3>
+            <p className="cf-sub" style={{ fontSize: 16, marginTop: 10, marginBottom: 16 }}>{indice}</p>
+            <p className="ttb-credit">Indice offert par {TTB_SPONSORS}</p>
+            <button className="btn btn-or" style={{ width: '100%' }} onClick={close}>OK</button>
+          </>
+        )}
       </div>
     </div>
   )

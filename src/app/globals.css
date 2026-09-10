@@ -2572,6 +2572,25 @@ textarea { resize: vertical; min-height: 100px; }
   text-align: center; margin-top: 12px;
 }
 
+/* Pop-up indice TTB — écran sponsor puis indice */
+.ttb-sponsor { text-align: center; padding: 8px 0; }
+.ttb-kicker {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--or); margin-bottom: 10px;
+}
+.ttb-sponsor-line {
+  font-size: 15px; color: var(--blanc); line-height: 1.6;
+  margin: 18px 0 24px;
+}
+.ttb-sponsor-line strong {
+  display: block; font-family: 'Playfair Display', serif;
+  font-size: 19px; font-weight: 700; color: var(--or); margin-bottom: 4px;
+}
+.ttb-credit {
+  font-size: 11px; color: rgba(245,240,232,0.4);
+  text-align: center; margin: 0 0 16px;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .top5-header { flex-direction: column; }
