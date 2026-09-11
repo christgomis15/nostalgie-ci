@@ -32,6 +32,9 @@ function doGet(e) {
   if (action === 'emissions') {
     return getEmissionsData();
   }
+  if (action === 'sujets') {
+    return getSujetsData();
+  }
   if (action === 'top5archive') {
     return getTop5ArchiveData((e.parameter && e.parameter.start) || '', (e.parameter && e.parameter.end) || '');
   }
@@ -409,6 +412,47 @@ function getEmissionsData() {
 }
 
 // ────────────────────────────────────────────────────────────────────
+//  SUJETS → onglet "Sujets"
+//  Colonnes : Titre | Emission | Question | Image | Date
+//  Sujets de discussion postés par la radio ; les auditeurs réagissent
+//  directement sur le site (J'aime + commentaires, même mécanique que
+//  VideoInteractions — la clé utilisée est "sujet-<Titre>" en guise de
+//  "videoId" dans les onglets Likes / Commentaires, pas de nouvel onglet).
+// ────────────────────────────────────────────────────────────────────
+function getSujetsData() {
+  try {
+    var ss = getSS_();
+    var sheet = ss.getSheetByName('Sujets');
+    if (!sheet || sheet.getLastRow() < 2) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ sujets: [] }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 5).getValues();
+    var sujets = rows
+      .filter(function(r) { return r[0] && String(r[0]).trim().toLowerCase() !== 'titre'; })
+      .map(function(r) {
+        return {
+          titre: String(r[0]),
+          emission: r[1] ? String(r[1]) : '',
+          question: r[2] ? String(r[2]) : '',
+          img: r[3] ? String(r[3]) : '',
+          date: formatDateCell_(r[4]),
+        };
+      });
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ sujets: sortByDateDesc_(sujets) }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
 //  MIGRATION UNIQUE — recopie les 11 émissions historiques (qui vivaient
 //  dans le code) dans l'onglet "Emissions", pour que le Sheet devienne la
 //  seule source de vérité. À exécuter UNE SEULE FOIS depuis l'éditeur
@@ -650,6 +694,43 @@ function handleAdminDeleteEmission(data) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+function handleAdminAddSujet(data) {
+  var ss = getSS_();
+  var sheet = ss.getSheetByName('Sujets');
+  if (!sheet) {
+    sheet = ss.insertSheet('Sujets');
+    sheet.appendRow(['Titre', 'Emission', 'Question', 'Image', 'Date']);
+    sheet.getRange(1, 1, 1, 5).setFontWeight('bold');
+  }
+  sheet.appendRow([
+    data.titre || '',
+    data.emission || '',
+    data.question || '',
+    data.img || '',
+    data.date || '',
+  ]);
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function handleAdminDeleteSujet(data) {
+  var ss = getSS_();
+  var sheet = ss.getSheetByName('Sujets');
+  if (sheet && sheet.getLastRow() > 1) {
+    var titres = sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getValues();
+    for (var i = 0; i < titres.length; i++) {
+      if (String(titres[i][0]).trim() === String(data.titre).trim()) {
+        sheet.deleteRow(i + 2);
+        break;
+      }
+    }
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 function handleAdminUpdateTop5(data) {
   var ss = getSS_();
   var sheet = ss.getSheetByName('Top5');
@@ -829,7 +910,8 @@ var ADMIN_ACTION_TYPES = [
   'admin_update_top5',
   'admin_update_live',
   'admin_add_emission', 'admin_delete_emission',
-  'admin_update_ttb'
+  'admin_update_ttb',
+  'admin_add_sujet', 'admin_delete_sujet'
 ];
 
 function doPost(e) {
@@ -873,6 +955,12 @@ function doPost(e) {
   }
   if (data.type === 'admin_delete_emission') {
     return handleAdminDeleteEmission(data);
+  }
+  if (data.type === 'admin_add_sujet') {
+    return handleAdminAddSujet(data);
+  }
+  if (data.type === 'admin_delete_sujet') {
+    return handleAdminDeleteSujet(data);
   }
   if (data.type === 'reservation') {
     return handleReservation(data);

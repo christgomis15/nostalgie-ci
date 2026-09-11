@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { href: '/actus',     label: 'Actus'              },
   { href: '/podcasts',  label: 'Podcasts & Replay'  },
   { href: '/dedicaces', label: 'Dédicaces'          },
+  { href: '/sujets',    label: 'Sujets'             },
   { href: '/contact',   label: 'Contact'            },
   { href: '/live',      label: 'Live'               },
 ]
