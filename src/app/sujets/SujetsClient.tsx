@@ -29,7 +29,7 @@ export default function SujetsClient() {
         <h1 className="section-title">Sujets du jour</h1>
         <p className="sj-intro">
           Chaque jour, l&apos;équipe des émissions vous propose un sujet à commenter. Réagissez
-          directement ici — pas besoin de Facebook.
+          directement ici.
         </p>
 
         {emissions.length > 0 && (
