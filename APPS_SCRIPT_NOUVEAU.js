@@ -44,6 +44,9 @@ function doGet(e) {
   if (action === 'ttb') {
     return getTTBData();
   }
+  if (action === 'affiches') {
+    return getAffichesData();
+  }
   return ContentService
     .createTextOutput('Nostalgie CI — OK')
     .setMimeType(ContentService.MimeType.TEXT);
@@ -180,6 +183,46 @@ function getTTBData() {
         indice: String(vals[0][0] || ''),
         date: String(vals[1][0] || ''),
       }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────
+//  AFFICHES PARTENAIRES → onglet "Affiches"
+//  Colonnes : Titre | Date (JJ/MM/AAAA ou texte "3 octobre 2026") | Image
+//  Affichées en intro sur la page d'accueil, une à la fois, en fonction de
+//  la date de l'événement (voir EventIntro.tsx côté site pour la logique
+//  de sélection). La date est préfixée d'une apostrophe à l'écriture pour
+//  rester une chaîne de texte (même piège que pour les numéros de
+//  téléphone et l'indice TTB ailleurs dans ce fichier).
+// ────────────────────────────────────────────────────────────────────
+function getAffichesData() {
+  try {
+    var ss = getSS_();
+    var sheet = ss.getSheetByName('Affiches');
+    if (!sheet || sheet.getLastRow() < 2) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ affiches: [] }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 3).getValues();
+    var affiches = rows
+      .filter(function(r) { return r[0] && String(r[0]).trim().toLowerCase() !== 'titre'; })
+      .map(function(r) {
+        return {
+          titre: String(r[0]),
+          date: formatDateCell_(r[1]),
+          img: r[2] ? String(r[2]) : '',
+        };
+      });
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ affiches: affiches }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService
@@ -802,6 +845,43 @@ function handleAdminUpdateTTB(data) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+function handleAdminAddAffiche(data) {
+  var ss = getSS_();
+  var sheet = ss.getSheetByName('Affiches');
+  if (!sheet) {
+    sheet = ss.insertSheet('Affiches');
+    sheet.appendRow(['Titre', 'Date', 'Image']);
+    sheet.getRange(1, 1, 1, 3).setFontWeight('bold');
+  }
+  sheet.appendRow([
+    data.titre || '',
+    // Préfixe apostrophe : force Sheets à garder la date en texte brut
+    // (même piège que pour l'indice TTB et les numéros de téléphone).
+    "'" + (data.date || ''),
+    data.img || '',
+  ]);
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function handleAdminDeleteAffiche(data) {
+  var ss = getSS_();
+  var sheet = ss.getSheetByName('Affiches');
+  if (sheet && sheet.getLastRow() > 1) {
+    var titres = sheet.getRange(2, 1, sheet.getLastRow() - 1, 1).getValues();
+    for (var i = 0; i < titres.length; i++) {
+      if (String(titres[i][0]).trim() === String(data.titre).trim()) {
+        sheet.deleteRow(i + 2);
+        break;
+      }
+    }
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 // ────────────────────────────────────────────────────────────────────
 //  ARCHIVES TOP5 → onglet "Top5_Historique"
 //  Colonnes : Date | Semaine | Rang | Artiste | Titre | Passages | SpotifyId | SpotifyType | CoverImg
@@ -911,7 +991,8 @@ var ADMIN_ACTION_TYPES = [
   'admin_update_live',
   'admin_add_emission', 'admin_delete_emission',
   'admin_update_ttb',
-  'admin_add_sujet', 'admin_delete_sujet'
+  'admin_add_sujet', 'admin_delete_sujet',
+  'admin_add_affiche', 'admin_delete_affiche'
 ];
 
 function doPost(e) {
@@ -961,6 +1042,12 @@ function doPost(e) {
   }
   if (data.type === 'admin_delete_sujet') {
     return handleAdminDeleteSujet(data);
+  }
+  if (data.type === 'admin_add_affiche') {
+    return handleAdminAddAffiche(data);
+  }
+  if (data.type === 'admin_delete_affiche') {
+    return handleAdminDeleteAffiche(data);
   }
   if (data.type === 'reservation') {
     return handleReservation(data);

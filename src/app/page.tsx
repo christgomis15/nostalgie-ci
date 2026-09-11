@@ -14,6 +14,7 @@ import WeatherWidget from '@/components/WeatherWidget'
 import EmissionsSlideshow from '@/components/EmissionsSlideshow'
 import { useLiveConfig } from '@/hooks/useLiveConfig'
 import TTBPopup from '@/components/TTBPopup'
+import EventIntro from '@/components/EventIntro'
 import { slugify } from '@/lib/slugify'
 
 const MEDALS = ['🥇', '🥈', '🥉']
@@ -51,6 +52,8 @@ export default function Accueil() {
 
   return (
     <>
+      <EventIntro />
+
       {/* ── HERO V2 ── */}
       <section className="h2-hero">
         <div className="h2-hero-bg" style={{ backgroundImage: "url('/img/hero-bg.jpg')" }} />

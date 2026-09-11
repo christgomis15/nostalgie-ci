@@ -2734,6 +2734,44 @@ textarea { resize: vertical; min-height: 100px; }
   .pr-tab { padding: 8px 14px; font-size: 12px; }
 }
 
+/* Intro affiches partenaires — plein écran, à l'arrivée sur l'accueil */
+.ev-intro {
+  position: fixed; inset: 0; z-index: 5000;
+  background: rgba(0,0,0,0.92);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px; opacity: 1; transition: opacity 0.5s ease;
+}
+.ev-intro-leaving { opacity: 0; pointer-events: none; }
+.ev-intro-img {
+  max-width: min(560px, 92vw); max-height: 82vh;
+  width: auto; height: auto; object-fit: contain;
+  border-radius: 10px; box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.ev-intro-skip {
+  position: absolute; top: 20px; right: 20px; z-index: 1;
+  font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  padding: 9px 16px; border-radius: 20px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(245,240,232,0.3);
+  color: var(--blanc); backdrop-filter: blur(4px);
+}
+.ev-intro-skip:hover { background: rgba(255,255,255,0.16); border-color: var(--or); }
+.ev-intro-progress {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+  background: rgba(255,255,255,0.12);
+}
+.ev-intro-progress-fill {
+  height: 100%; width: 100%; background: var(--or);
+  transform-origin: left; animation: ev-intro-fill linear forwards;
+}
+@keyframes ev-intro-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@media (max-width: 600px) {
+  .ev-intro-img { max-width: 94vw; max-height: 76vh; }
+  .ev-intro-skip { top: 14px; right: 14px; font-size: 12px; padding: 8px 12px; }
+}
+
 /* Page Sujets — réutilise le design Podcasts/Replay (.pr-*) */
 .sj-intro {
   font-size: 13px; color: rgba(245,240,232,0.5);
