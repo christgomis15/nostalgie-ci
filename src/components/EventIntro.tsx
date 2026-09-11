@@ -8,11 +8,13 @@ const DURATION_MS = 10_000
 const JOUR_MS = 24 * 60 * 60 * 1000
 
 // Affiche l'affiche d'événement partenaire dont la date est la plus proche
-// et pas encore passée (une seule à la fois). Dès que le jour de
-// l'événement est terminé, l'affiche suivante (triée par date) prend le
-// relais automatiquement — rien à faire côté site, juste tenir /admin/affiches
-// à jour. S'affiche à chaque arrivée sur l'accueil (pas de limite par
-// session) — choix explicite de Christian.
+// et pas encore passée. Dès que le jour de l'événement est terminé,
+// l'affiche suivante (par date) prend le relais automatiquement — rien à
+// faire côté site, juste tenir /admin/affiches à jour. S'affiche à chaque
+// arrivée sur l'accueil (pas de limite par session) — choix explicite de
+// Christian. Si plusieurs événements tombent exactement le même jour, on
+// tire au sort celui à montrer à chaque arrivée, pour répartir l'exposition
+// entre eux plutôt que de n'en montrer qu'un seul jusqu'à ce que sa date passe.
 export default function EventIntro() {
   const affiches = useAffiches()
   const [visible, setVisible] = useState(false)
@@ -24,8 +26,14 @@ export default function EventIntro() {
       .filter(a => a.img)
       .map(a => ({ ...a, ts: parseFrenchDate(a.date) }))
       .filter((a): a is typeof a & { ts: number } => a.ts !== null && a.ts + JOUR_MS > now)
-      .sort((a, b) => a.ts - b.ts)
-    return candidats[0] ?? null
+      // Dédoublonne par titre (une même affiche publiée deux fois par erreur
+      // ne doit pas être tirée au sort deux fois plus souvent).
+      .filter((a, i, arr) => arr.findIndex(x => x.titre.trim().toLowerCase() === a.titre.trim().toLowerCase()) === i)
+
+    if (candidats.length === 0) return null
+    const minTs = Math.min(...candidats.map(a => a.ts))
+    const prochains = candidats.filter(a => a.ts === minTs)
+    return prochains[Math.floor(Math.random() * prochains.length)]
   }, [affiches])
 
   useEffect(() => {
