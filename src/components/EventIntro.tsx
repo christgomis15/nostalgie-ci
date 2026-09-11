@@ -11,7 +11,8 @@ const JOUR_MS = 24 * 60 * 60 * 1000
 // et pas encore passée (une seule à la fois). Dès que le jour de
 // l'événement est terminé, l'affiche suivante (triée par date) prend le
 // relais automatiquement — rien à faire côté site, juste tenir /admin/affiches
-// à jour.
+// à jour. S'affiche à chaque arrivée sur l'accueil (pas de limite par
+// session) — choix explicite de Christian.
 export default function EventIntro() {
   const affiches = useAffiches()
   const [visible, setVisible] = useState(false)
@@ -27,21 +28,13 @@ export default function EventIntro() {
     return candidats[0] ?? null
   }, [affiches])
 
-  const seenKey = active ? `event-intro-seen-${active.titre}-${active.date}` : null
-
   useEffect(() => {
-    if (!seenKey) return
-    let already = false
-    try { already = sessionStorage.getItem(seenKey) === '1' } catch { /* stockage indisponible */ }
-    if (!already) setVisible(true)
-  }, [seenKey])
+    if (active) setVisible(true)
+  }, [active])
 
   function close() {
     if (leaving) return
     setLeaving(true)
-    if (seenKey) {
-      try { sessionStorage.setItem(seenKey, '1') } catch { /* stockage indisponible */ }
-    }
     setTimeout(() => setVisible(false), 500)
   }
 
