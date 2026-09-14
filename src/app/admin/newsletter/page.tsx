@@ -67,12 +67,29 @@ export default function AdminNewsletter() {
   const [showPreview, setShowPreview] = useState(false)
   const [status, setStatus] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
   const [msg, setMsg] = useState('')
+  const [loadError, setLoadError] = useState(false)
 
-  useEffect(() => {
+  // Le webhook Apps Script est parfois intermittent (voir postAdminAction) —
+  // on retente 3 fois avant d'abandonner, pour éviter qu'un aléa réseau vide
+  // silencieusement le menu Émissions au chargement de la page.
+  function fetchJsonRetry<T>(url: string, fallback: T, attempts = 3): Promise<T> {
+    const attempt = (n: number): Promise<T> =>
+      fetch(url, { cache: 'no-store' })
+        .then(r => (r.ok ? r.json() : Promise.reject(new Error(`Statut ${r.status}`))))
+        .catch(err => {
+          if (n < attempts) return new Promise(res => setTimeout(res, 1200 * n)).then(() => attempt(n + 1))
+          throw err
+        })
+    return attempt(1).catch(() => fallback)
+  }
+
+  function loadData() {
+    setLoadingData(true)
+    setLoadError(false)
     Promise.all([
-      fetch('/api/emissions?fresh=1', { cache: 'no-store' }).then(r => r.json()).catch(() => ({ emissions: [] })),
-      fetch('/api/top5?fresh=1', { cache: 'no-store' }).then(r => r.json()).catch(() => ({ items: [] })),
-      fetch('/api/podcasts?fresh=1', { cache: 'no-store' }).then(r => r.json()).catch(() => ({ podcasts: [], audio: [], video: [] })),
+      fetchJsonRetry('/api/emissions?fresh=1', { emissions: [] }),
+      fetchJsonRetry('/api/top5?fresh=1', { items: [] }),
+      fetchJsonRetry('/api/podcasts?fresh=1', { podcasts: [], audio: [], video: [] }),
     ]).then(([em, t5, pc]) => {
       setEmissions(em.emissions || [])
       setTop5Api(t5.items || [])
@@ -83,7 +100,12 @@ export default function AdminNewsletter() {
         { emissionIndex: Math.min(1, (em.emissions?.length || 1) - 1), accroche: '' },
         { emissionIndex: Math.min(2, (em.emissions?.length || 1) - 1), accroche: '' },
       ])
+      if (!em.emissions?.length) setLoadError(true)
     }).finally(() => setLoadingData(false))
+  }
+
+  useEffect(() => {
+    loadData()
 
     const end = new Date()
     end.setDate(end.getDate() - 1)
@@ -94,6 +116,7 @@ export default function AdminNewsletter() {
       .then(r => r.json())
       .then(d => setPrevTop5(d.items || []))
       .catch(() => setPrevTop5([]))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const top5WithTrend: NewsletterTop5Item[] = useMemo(() => {
@@ -201,6 +224,12 @@ export default function AdminNewsletter() {
           <div className="admin-panel" style={{ position: 'static' }}>
             <h3>Programmes à la une (3 émissions)</h3>
             <p className="sub">Émission, horaire et animateurs sont repris automatiquement depuis la grille — écris juste une accroche pour chacune.</p>
+            {loadError && emissions.length === 0 && (
+              <p className="admin-msg err" style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                Impossible de charger la liste des émissions (le service Google a mis trop de temps à répondre).
+                <button type="button" className="btn btn-outline" style={{ padding: '6px 14px' }} onClick={loadData}>Réessayer</button>
+              </p>
+            )}
             {programmes.map((p, i) => (
               <div key={i} className="form-row" style={{ marginBottom: 10 }}>
                 <div className="form-group">
