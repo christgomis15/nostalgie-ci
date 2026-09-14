@@ -24,7 +24,6 @@ const EXCLUDED_PODCAST_EMISSIONS = [
   'Le Tchika tchika boom',
   'Radio tubes',
   'Nostatop',
-  'La Peufra',
   "C'est la rentrée sur Nostalgie",
 ]
 
