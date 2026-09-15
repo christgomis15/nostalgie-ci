@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSujets, type Sujet } from '@/hooks/useSujets'
 import VideoInteractions from '@/components/VideoInteractions'
 
@@ -11,10 +11,29 @@ function sujetKey(titre: string) {
   return `sujet-${titre.trim()}`
 }
 
+interface Counts { likes: number; comments: number }
+
 export default function SujetsClient() {
   const { sujets, loading } = useSujets()
   const [emFilter, setEmFilter] = useState('Tous')
   const [modal, setModal] = useState<Sujet | null>(null)
+  const [counts, setCounts] = useState<Record<string, Counts>>({})
+
+  // J'aime + nombre de commentaires affichés sur chaque carte, pour voir
+  // l'engagement d'un sujet sans avoir à l'ouvrir.
+  useEffect(() => {
+    let cancelled = false
+    sujets.forEach(s => {
+      fetch(`/api/interactions?videoId=${encodeURIComponent(sujetKey(s.titre))}`)
+        .then(r => (r.ok ? r.json() : null))
+        .then((data: { likes?: number; comments?: unknown[] } | null) => {
+          if (cancelled || !data) return
+          setCounts(prev => ({ ...prev, [s.titre]: { likes: data.likes || 0, comments: data.comments?.length || 0 } }))
+        })
+        .catch(() => {})
+    })
+    return () => { cancelled = true }
+  }, [sujets])
 
   const emissions = Array.from(
     new Set(sujets.map(s => s.emission.trim()).filter(Boolean))
@@ -72,6 +91,12 @@ export default function SujetsClient() {
                   <p className="pr-titre">{s.titre}</p>
                   <p className="pr-date">{s.date}</p>
                   {s.question && <p className="pr-desc">{s.question}</p>}
+                  <div className="sj-stats">
+                    <span>❤️ {counts[s.titre]?.likes ?? 0}</span>
+                    <span>
+                      💬 {counts[s.titre]?.comments ?? 0} commentaire{(counts[s.titre]?.comments ?? 0) > 1 ? 's' : ''}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}

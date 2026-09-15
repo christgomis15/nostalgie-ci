@@ -2781,6 +2781,10 @@ textarea { resize: vertical; min-height: 100px; }
   width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
   font-size: 34px; opacity: 0.35;
 }
+.sj-stats {
+  display: flex; gap: 14px; margin-top: 8px;
+  font-size: 11.5px; color: rgba(245,240,232,0.4);
+}
 
 /* Honeypot anti-spam — invisible pour les humains, rempli par les robots */
 .hp-field {
@@ -2841,14 +2845,15 @@ textarea { resize: vertical; min-height: 100px; }
 
 .vi-like {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   background: var(--g2);
   border: 1px solid var(--g3);
-  border-radius: 20px;
-  padding: 8px 18px;
+  border-radius: 14px;
+  padding: 12px 22px;
   color: var(--blanc);
-  font-size: 14px;
+  font-size: 13px;
   font-family: inherit;
   cursor: pointer;
   transition: border-color .2s, color .2s;
@@ -2856,7 +2861,8 @@ textarea { resize: vertical; min-height: 100px; }
 }
 .vi-like:hover:not(.vi-liked) { border-color: #e05555; }
 .vi-liked { border-color: #e05555; color: #e05555; }
-.vi-heart { font-size: 16px; line-height: 1; }
+.vi-heart { font-size: 22px; line-height: 1; }
+.vi-like-count { font-size: 13px; }
 
 .vi-comments-title {
   font-size: 12px;

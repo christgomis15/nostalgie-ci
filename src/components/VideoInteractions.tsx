@@ -83,7 +83,7 @@ export default function VideoInteractions({ videoId }: { videoId: string }) {
         aria-label="J'aime"
       >
         <span className="vi-heart">{hasLiked ? '❤️' : '🤍'}</span>
-        <span>{data.likes > 0 ? `${data.likes} J'aime` : "J'aime"}</span>
+        <span className="vi-like-count">{data.likes > 0 ? `${data.likes} J'aime` : "J'aime"}</span>
       </button>
 
       {/* Section commentaires */}
