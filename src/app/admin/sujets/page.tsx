@@ -51,7 +51,11 @@ export default function AdminSujets() {
       const data = await res.json()
       if (!res.ok || data?.success === false) throw new Error(data?.error || 'Erreur')
       setStatus('ok')
-      setMsg('Sujet publié. Il apparaît sur /sujets sous quelques minutes.')
+      setMsg(
+        data?.renomme
+          ? `Un sujet portant déjà ce titre existait — publié sous « ${data.titre} » pour ne pas mélanger les commentaires des deux éditions.`
+          : 'Sujet publié. Il apparaît sur /sujets sous quelques minutes.'
+      )
       setForm({ ...EMPTY, date: todayFr() })
       load()
     } catch (err) {
