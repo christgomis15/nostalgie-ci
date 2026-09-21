@@ -29,7 +29,7 @@ export default function AdminSujets() {
 
   function load() {
     setLoading(true)
-    fetch('/api/sujets', { cache: 'no-store' })
+    fetch('/api/sujets?fresh=1', { cache: 'no-store' })
       .then(r => r.json())
       .then(data => setSujets(data.sujets || []))
       .catch(() => setSujets([]))
