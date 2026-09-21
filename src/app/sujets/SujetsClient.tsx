@@ -6,9 +6,13 @@ import VideoInteractions from '@/components/VideoInteractions'
 
 // Réutilise le système de J'aime / commentaires déjà construit pour les
 // vidéos (onglets Likes / Commentaires du Sheet, clé libre) : chaque sujet a
-// sa propre clé, dérivée de son titre — pas besoin d'un nouvel onglet.
-function sujetKey(titre: string) {
-  return `sujet-${titre.trim()}`
+// sa propre clé — pas besoin d'un nouvel onglet. La clé inclut la DATE en plus
+// du titre : un segment récurrent (ex. « Gamme d'auditeurs ») garde le même
+// titre d'une édition à l'autre, et sans la date les commentaires/J'aime de
+// l'ancienne édition (dont le sujet a été supprimé mais pas ses messages,
+// conservés dans le Sheet) réapparaîtraient sous la nouvelle.
+function sujetKey(s: Pick<Sujet, 'titre' | 'date'>) {
+  return `sujet-${s.titre.trim()}-${s.date.trim()}`
 }
 
 interface Comment { date: string; prenom: string; commentaire: string }
@@ -33,11 +37,11 @@ export default function SujetsClient() {
 
     function refresh() {
       sujets.forEach(s => {
-        fetch(`/api/interactions?videoId=${encodeURIComponent(sujetKey(s.titre))}`, { cache: 'no-store' })
+        fetch(`/api/interactions?videoId=${encodeURIComponent(sujetKey(s))}`, { cache: 'no-store' })
           .then(r => (r.ok ? r.json() : null))
           .then((data: Interactions | null) => {
             if (cancelled || !data) return
-            setInteractions(prev => ({ ...prev, [s.titre]: { likes: data.likes || 0, comments: data.comments || [] } }))
+            setInteractions(prev => ({ ...prev, [sujetKey(s)]: { likes: data.likes || 0, comments: data.comments || [] } }))
           })
           .catch(() => {})
       })
@@ -85,7 +89,7 @@ export default function SujetsClient() {
         ) : (
           <div className="pr-grid">
             {items.map(s => {
-              const it = interactions[s.titre]
+              const it = interactions[sujetKey(s)]
               const nbComments = it?.comments.length ?? 0
               return (
                 <div key={s.titre} className="pr-card" onClick={() => setModal(s)}>
@@ -152,7 +156,7 @@ export default function SujetsClient() {
               />
             )}
             {modal.question && <p className="pr-modal-desc">{modal.question}</p>}
-            <VideoInteractions videoId={sujetKey(modal.titre)} />
+            <VideoInteractions videoId={sujetKey(modal)} />
           </div>
         </div>
       )}
