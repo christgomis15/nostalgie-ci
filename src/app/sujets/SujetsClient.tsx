@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useSujets, type Sujet } from '@/hooks/useSujets'
 import VideoInteractions from '@/components/VideoInteractions'
 
@@ -15,42 +15,17 @@ function sujetKey(s: Pick<Sujet, 'titre' | 'date'>) {
   return `sujet-${s.titre.trim()}-${s.date.trim()}`
 }
 
-interface Comment { date: string; prenom: string; commentaire: string }
-interface Interactions { likes: number; comments: Comment[] }
-
-const REFRESH_MS = 20_000
 const APERCU_MAX = 2 // nb de commentaires affichés directement sur la carte
 
 export default function SujetsClient() {
+  // J'aime + commentaires arrivent directement avec chaque sujet (calculés
+  // côté Apps Script en un seul passage, voir getSujetsData) — plus besoin
+  // d'un aller-retour supplémentaire par sujet, qui rendait l'affichage lent
+  // et parfois silencieusement en échec. La liste se rafraîchit toute seule
+  // (voir useSujets), donc les nouveaux messages apparaissent sans rechargement.
   const { sujets, loading } = useSujets()
   const [emFilter, setEmFilter] = useState('Tous')
   const [modal, setModal] = useState<Sujet | null>(null)
-  const [interactions, setInteractions] = useState<Record<string, Interactions>>({})
-
-  // J'aime + commentaires affichés directement sur chaque carte (aperçu),
-  // pour que les animateurs puissent lire les réactions sans avoir à ouvrir
-  // le sujet. Rafraîchi régulièrement pour un suivi quasi en direct pendant
-  // l'antenne.
-  useEffect(() => {
-    if (sujets.length === 0) return
-    let cancelled = false
-
-    function refresh() {
-      sujets.forEach(s => {
-        fetch(`/api/interactions?videoId=${encodeURIComponent(sujetKey(s))}`, { cache: 'no-store' })
-          .then(r => (r.ok ? r.json() : null))
-          .then((data: Interactions | null) => {
-            if (cancelled || !data) return
-            setInteractions(prev => ({ ...prev, [sujetKey(s)]: { likes: data.likes || 0, comments: data.comments || [] } }))
-          })
-          .catch(() => {})
-      })
-    }
-
-    refresh()
-    const id = setInterval(refresh, REFRESH_MS)
-    return () => { cancelled = true; clearInterval(id) }
-  }, [sujets])
 
   const emissions = Array.from(
     new Set(sujets.map(s => s.emission.trim()).filter(Boolean))
@@ -89,8 +64,7 @@ export default function SujetsClient() {
         ) : (
           <div className="pr-grid">
             {items.map(s => {
-              const it = interactions[sujetKey(s)]
-              const nbComments = it?.comments.length ?? 0
+              const nbComments = s.comments?.length ?? 0
               return (
                 <div key={s.titre} className="pr-card" onClick={() => setModal(s)}>
                   <div className="pr-thumb">
@@ -112,14 +86,14 @@ export default function SujetsClient() {
                     <p className="pr-date">{s.date}</p>
                     {s.question && <p className="pr-desc">{s.question}</p>}
                     <div className="sj-stats">
-                      <span>❤️ {it?.likes ?? 0}</span>
+                      <span>❤️ {s.likes ?? 0}</span>
                       <span>💬 {nbComments} commentaire{nbComments > 1 ? 's' : ''}</span>
                     </div>
 
                     {/* Aperçu des derniers messages — lisible sans ouvrir le sujet */}
                     {nbComments > 0 && (
                       <div className="sj-preview">
-                        {it!.comments.slice(0, APERCU_MAX).map((c, i) => (
+                        {s.comments.slice(0, APERCU_MAX).map((c, i) => (
                           <p key={i} className="sj-preview-comment">
                             <strong>{c.prenom}</strong> — {c.commentaire}
                           </p>

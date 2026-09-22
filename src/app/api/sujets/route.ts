@@ -16,7 +16,7 @@ export async function GET(req: Request) {
     const timeout = setTimeout(() => controller.abort(), 6000)
     const res = await fetch(`${WEBHOOK_URL}?action=sujets`, {
       redirect: 'follow',
-      ...(fresh ? { cache: 'no-store' as const } : { next: { revalidate: 20 } }),
+      ...(fresh ? { cache: 'no-store' as const } : { next: { revalidate: 15 } }),
       signal: controller.signal,
     })
     clearTimeout(timeout)
@@ -24,7 +24,7 @@ export async function GET(req: Request) {
     const data = await res.json()
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': fresh ? 'no-store' : 'public, s-maxage=20, stale-while-revalidate=40',
+        'Cache-Control': fresh ? 'no-store' : 'public, s-maxage=15, stale-while-revalidate=30',
       },
     })
   } catch (err) {

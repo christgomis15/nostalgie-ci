@@ -485,6 +485,43 @@ function getSujetsData() {
         };
       });
 
+    // J'aime + commentaires de chaque sujet, calculés ici en un seul passage
+    // sur les onglets Likes/Commentaires (au lieu d'un aller-retour Apps
+    // Script par sujet depuis le site, lent et sujet aux pannes intermittentes
+    // de ce service). Clé = "sujet-<Titre>-<Date>", voir sujetKey() côté site.
+    var likesByKey = {};
+    var likesSheet = ss.getSheetByName('Likes');
+    if (likesSheet && likesSheet.getLastRow() > 1) {
+      var likeRows = likesSheet.getRange(2, 1, likesSheet.getLastRow() - 1, 2).getValues();
+      likeRows.forEach(function(r) {
+        var k = String(r[1]);
+        likesByKey[k] = (likesByKey[k] || 0) + 1;
+      });
+    }
+
+    var commentsByKey = {};
+    var commSheet = ss.getSheetByName('Commentaires');
+    if (commSheet && commSheet.getLastRow() > 1) {
+      var commRows = commSheet.getRange(2, 1, commSheet.getLastRow() - 1, 4).getValues();
+      commRows.forEach(function(r) {
+        if (!r[3]) return;
+        var k = String(r[1]);
+        if (!commentsByKey[k]) commentsByKey[k] = [];
+        var d = r[0] instanceof Date ? r[0] : new Date(r[0]);
+        commentsByKey[k].push({
+          date: Utilities.formatDate(d, 'Africa/Abidjan', 'dd MMM yyyy'),
+          prenom: String(r[2]) || 'Anonyme',
+          commentaire: String(r[3]),
+        });
+      });
+    }
+
+    sujets.forEach(function(s) {
+      var key = 'sujet-' + s.titre.trim() + '-' + s.date.trim();
+      s.likes = likesByKey[key] || 0;
+      s.comments = (commentsByKey[key] || []).slice().reverse();
+    });
+
     return ContentService
       .createTextOutput(JSON.stringify({ sujets: sortByDateDesc_(sujets) }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -750,7 +787,10 @@ function handleAdminAddSujet(data) {
     data.emission || '',
     data.question || '',
     data.img || '',
-    data.date || '',
+    // Préfixe apostrophe : force la date en texte brut, comme pour TTB et
+    // les Affiches — sinon Sheets peut la convertir en cellule Date, ce qui
+    // changerait la clé sujet-<Titre>-<Date> lue par le site.
+    "'" + (data.date || ''),
   ]);
   return ContentService
     .createTextOutput(JSON.stringify({ success: true }))

@@ -1,15 +1,19 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 
+export interface SujetComment { date: string; prenom: string; commentaire: string }
+
 export interface Sujet {
   titre: string
   emission: string
   question: string
   img: string
   date: string
+  likes: number
+  comments: SujetComment[]
 }
 
-const REFRESH_MS = 45_000
+const REFRESH_MS = 15_000
 
 export function useSujets(): { sujets: Sujet[]; loading: boolean } {
   const [sujets, setSujets] = useState<Sujet[]>([])
@@ -20,8 +24,9 @@ export function useSujets(): { sujets: Sujet[]; loading: boolean } {
     let cancelled = false
 
     // Une page laissée ouverte pendant l'émission doit voir apparaître un
-    // nouveau sujet sans rechargement manuel : on réinterroge régulièrement,
-    // mais on ne met l'état à jour que si la liste a réellement changé.
+    // nouveau sujet (ou un nouveau commentaire) sans rechargement manuel : on
+    // réinterroge régulièrement, mais on ne met l'état à jour que si la
+    // liste a réellement changé (évite de re-render toutes les 15s pour rien).
     const apply = (list: Sujet[]) => {
       const json = JSON.stringify(list)
       if (json !== lastJson.current) {
