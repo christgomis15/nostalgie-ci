@@ -34,6 +34,8 @@ export default function AdminActus() {
   const [form, setForm] = useState(EMPTY)
   const [status, setStatus] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
   const [msg, setMsg] = useState('')
+  const [cropEdits, setCropEdits] = useState<Record<string, string>>({})
+  const [cropSaving, setCropSaving] = useState<string | null>(null)
 
   function load() {
     setLoading(true)
@@ -68,6 +70,25 @@ export default function AdminActus() {
     }
   }
 
+  async function saveCrop(title: string) {
+    const imgPosition = (cropEdits[title] ?? '').trim()
+    setCropSaving(title)
+    try {
+      const res = await fetch('/api/admin/actus', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, imgPosition }),
+      })
+      const data = await res.json()
+      if (!res.ok || data?.success === false) throw new Error(data?.error || 'Erreur')
+      setArticles(prev => prev.map(a => a.title === title ? { ...a, imgPosition } : a))
+    } catch {
+      alert('Échec de la mise à jour du cadrage.')
+    } finally {
+      setCropSaving(null)
+    }
+  }
+
   async function remove(title: string) {
     if (!confirm(`Retirer l'article « ${title} » ?`)) return
     try {
@@ -95,9 +116,15 @@ export default function AdminActus() {
 
       <div className="admin-layout">
         <div>
-          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, marginBottom: 14 }}>
+          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, marginBottom: 4 }}>
             Articles en ligne ({articles.length})
           </h3>
+          <p className="sub" style={{ marginBottom: 14 }}>
+            Photo mal cadrée (tête coupée) ? Ajuste le champ « Cadrage photo » sous l&apos;article
+            concerné — ex. <code>center 30%</code> — puis « Corriger le cadrage ». Diminue le
+            pourcentage pour remonter la zone visible vers le haut de la photo, augmente-le pour
+            descendre.
+          </p>
           {loading ? (
             <p className="admin-empty">Chargement…</p>
           ) : articles.length === 0 ? (
@@ -105,14 +132,37 @@ export default function AdminActus() {
           ) : (
             <div className="admin-list">
               {articles.map(a => (
-                <div key={a.title} className="admin-row">
-                  <img src={a.img} alt="" onError={e => { (e.target as HTMLImageElement).style.visibility = 'hidden' }} />
+                <div key={a.title} className="admin-row" style={{ flexWrap: 'wrap' }}>
+                  <img
+                    src={a.img}
+                    alt=""
+                    style={a.imgPosition ? { objectPosition: a.imgPosition } : undefined}
+                    onError={e => { (e.target as HTMLImageElement).style.visibility = 'hidden' }}
+                  />
                   <div className="admin-row-info">
                     <p className="admin-row-tag">{TABS.find(t => t.value === a.tab)?.label || a.tab} · {a.cat}</p>
                     <p className="admin-row-title">{a.title}</p>
                     <p className="admin-row-sub">{a.date}</p>
                   </div>
                   <button className="admin-row-del" onClick={() => remove(a.title)}>Retirer</button>
+                  <div style={{ display: 'flex', gap: 6, width: '100%', marginTop: 4 }}>
+                    <input
+                      type="text"
+                      placeholder="Cadrage photo — ex: center 30%"
+                      defaultValue={a.imgPosition || ''}
+                      onChange={e => setCropEdits(prev => ({ ...prev, [a.title]: e.target.value }))}
+                      style={{ flex: 1, fontSize: 12, padding: '6px 10px' }}
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      style={{ padding: '6px 14px', fontSize: 12 }}
+                      disabled={cropSaving === a.title || cropEdits[a.title] === undefined}
+                      onClick={() => saveCrop(a.title)}
+                    >
+                      {cropSaving === a.title ? '…' : 'Corriger le cadrage'}
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

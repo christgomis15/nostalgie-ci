@@ -12,6 +12,18 @@ export async function POST(req: Request) {
   }
 }
 
+export async function PATCH(req: Request) {
+  try {
+    const { title, imgPosition } = await req.json()
+    if (!title) return NextResponse.json({ error: 'Titre manquant' }, { status: 400 })
+    const data = await postAdminAction({ type: 'admin_update_actus_img', title, imgPosition: imgPosition ?? '' })
+    return NextResponse.json(data)
+  } catch (err) {
+    console.error('[admin/actus PATCH]', err)
+    return NextResponse.json({ error: 'Échec de la mise à jour' }, { status: 500 })
+  }
+}
+
 export async function DELETE(req: Request) {
   try {
     const { title } = await req.json()
