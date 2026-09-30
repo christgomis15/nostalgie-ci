@@ -590,7 +590,10 @@ function migrateEmissionsFallback() {
 function extractYouTubeId_(value) {
   if (!value) return '';
   var s = String(value).trim();
-  var m = s.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  // Couvre les liens "watch?v=", "youtu.be/", "shorts/" et "embed/" — un lien
+  // Shorts collé tel quel (ex. youtube.com/shorts/xxx) n'était pas reconnu et
+  // se retrouvait utilisé tel quel comme "youtubeId", cassant la vignette et le lecteur.
+  var m = s.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   return m ? m[1] : s;
 }
 
