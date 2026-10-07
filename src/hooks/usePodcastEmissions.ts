@@ -17,6 +17,7 @@ export const AUDIO_REPLAY_EMISSIONS = ['Le Crazy Morning', 'Hits & Co']
 const EXCLUDED_PODCAST_EMISSIONS = [
   'Flash Info',
   'Retourne Les Hits',
+  'Nostalgie retourne les hits',
   'Good Morning Holidays',
   "Dans la tête d'un Ado",
   'Kaboré Fait Son Show',
