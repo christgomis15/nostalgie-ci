@@ -7,13 +7,19 @@ export async function GET(request: NextRequest) {
   if (!videoId) return NextResponse.json({ likes: 0, comments: [] })
 
   try {
+    // Chaque appel à Apps Script coûte 2-6s à lui seul (latence propre à ce
+    // service, indépendante de la taille des données depuis le 7 oct.) —
+    // un court cache ici évite de la payer à chaque poll (toutes les 20s
+    // côté site) ou pour chaque visiteur simultané.
     const res = await fetch(
       `${WEBHOOK_URL}?action=interactions&videoId=${encodeURIComponent(videoId)}`,
-      { redirect: 'follow' }
+      { redirect: 'follow', next: { revalidate: 10 } }
     )
     if (!res.ok) throw new Error(`Statut ${res.status}`)
     const data = await res.json()
-    return NextResponse.json(data)
+    return NextResponse.json(data, {
+      headers: { 'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=20' },
+    })
   } catch {
     return NextResponse.json({ likes: 0, comments: [] })
   }
