@@ -9,8 +9,6 @@ export interface Sujet {
   question: string
   img: string
   date: string
-  likes: number
-  comments: SujetComment[]
 }
 
 const REFRESH_MS = 15_000

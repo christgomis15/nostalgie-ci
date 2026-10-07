@@ -52,33 +52,72 @@ function doGet(e) {
     .setMimeType(ContentService.MimeType.TEXT);
 }
 
+// Les onglets Likes/Commentaires sont partagés par TOUT le contenu du site
+// (podcasts, vidéos, sujets confondus) et grossissent avec le temps — les
+// relire en entier à chaque appel (un par sujet/vidéo affiché, toutes les
+// ~15-20s) rendait /sujets lent, parfois en timeout. On calcule les deux
+// tables group-by UNE SEULE FOIS puis on les garde en cache script pendant
+// INTERACTIONS_CACHE_TTL_ secondes : tant que le cache est chaud, n'importe
+// quel videoId se résout instantanément sans retoucher le Sheet.
+var INTERACTIONS_CACHE_KEY_ = 'interactions_maps_v1';
+var INTERACTIONS_CACHE_TTL_ = 25;
+
+function getInteractionsMaps_() {
+  var cache = CacheService.getScriptCache();
+  var cached = cache.get(INTERACTIONS_CACHE_KEY_);
+  if (cached) {
+    try { return JSON.parse(cached); } catch (e) { /* cache corrompu, on recalcule */ }
+  }
+
+  var ss = getSS_();
+  var likesByKey = {};
+  var likesSheet = ss.getSheetByName('Likes');
+  if (likesSheet && likesSheet.getLastRow() > 1) {
+    var likeRows = likesSheet.getRange(2, 1, likesSheet.getLastRow() - 1, 2).getValues();
+    likeRows.forEach(function(r) {
+      var k = String(r[1]);
+      likesByKey[k] = (likesByKey[k] || 0) + 1;
+    });
+  }
+
+  var commentsByKey = {};
+  var commSheet = ss.getSheetByName('Commentaires');
+  if (commSheet && commSheet.getLastRow() > 1) {
+    var commRows = commSheet.getRange(2, 1, commSheet.getLastRow() - 1, 4).getValues();
+    commRows.forEach(function(r) {
+      if (!r[3]) return;
+      var k = String(r[1]);
+      if (!commentsByKey[k]) commentsByKey[k] = [];
+      var d = r[0] instanceof Date ? r[0] : new Date(r[0]);
+      commentsByKey[k].push({
+        date: Utilities.formatDate(d, 'Africa/Abidjan', 'dd MMM yyyy'),
+        prenom: String(r[2]) || 'Anonyme',
+        commentaire: String(r[3]),
+      });
+    });
+  }
+  Object.keys(commentsByKey).forEach(function(k) { commentsByKey[k].reverse(); });
+
+  var maps = { likes: likesByKey, comments: commentsByKey };
+  try {
+    cache.put(INTERACTIONS_CACHE_KEY_, JSON.stringify(maps), INTERACTIONS_CACHE_TTL_);
+  } catch (e) {
+    // Table trop volumineuse pour le cache (>100 Ko) : on continue sans cache.
+  }
+  return maps;
+}
+
+// Appelé après un nouveau J'aime/commentaire pour que l'auteur voie son
+// action reflétée tout de suite, sans attendre l'expiration du cache.
+function invalidateInteractionsCache_() {
+  try { CacheService.getScriptCache().remove(INTERACTIONS_CACHE_KEY_); } catch (e) { /* tant pis */ }
+}
+
 function getInteractions(videoId) {
   try {
-    var ss = getSS_();
-    var likeCount = 0;
-    var comments = [];
-
-    var likesSheet = ss.getSheetByName('Likes');
-    if (likesSheet && likesSheet.getLastRow() > 1) {
-      var likeRows = likesSheet.getRange(2, 1, likesSheet.getLastRow() - 1, 2).getValues();
-      likeCount = likeRows.filter(function(r) { return String(r[1]) === videoId; }).length;
-    }
-
-    var commSheet = ss.getSheetByName('Commentaires');
-    if (commSheet && commSheet.getLastRow() > 1) {
-      var commRows = commSheet.getRange(2, 1, commSheet.getLastRow() - 1, 4).getValues();
-      comments = commRows
-        .filter(function(r) { return String(r[1]) === videoId && r[3]; })
-        .map(function(r) {
-          var d = r[0] instanceof Date ? r[0] : new Date(r[0]);
-          return {
-            date: Utilities.formatDate(d, 'Africa/Abidjan', 'dd MMM yyyy'),
-            prenom: String(r[2]) || 'Anonyme',
-            commentaire: String(r[3])
-          };
-        })
-        .reverse();
-    }
+    var maps = getInteractionsMaps_();
+    var likeCount = maps.likes[videoId] || 0;
+    var comments = maps.comments[videoId] || [];
 
     return ContentService
       .createTextOutput(JSON.stringify({ likes: likeCount, comments: comments }))
@@ -472,6 +511,13 @@ function getSujetsData() {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
+    // Ne lit QUE l'onglet Sujets (petit, quelques lignes) — ne plus fusionner
+    // les J'aime/commentaires ici. Avant (22 sept.), chaque appel relisait en
+    // entier les onglets Likes/Commentaires (partagés avec tous les podcasts/
+    // vidéos du site, donc de plus en plus gros), ce qui faisait dépasser les
+    // 6s de timeout côté site et rendait /sujets lent, voire en erreur.
+    // Les compteurs/commentaires repassent par getInteractions (mis en cache
+    // quelques secondes, voir plus bas) appelé séparément par sujet affiché.
     var rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 5).getValues();
     var sujets = rows
       .filter(function(r) { return r[0] && String(r[0]).trim().toLowerCase() !== 'titre'; })
@@ -484,43 +530,6 @@ function getSujetsData() {
           date: formatDateCell_(r[4]),
         };
       });
-
-    // J'aime + commentaires de chaque sujet, calculés ici en un seul passage
-    // sur les onglets Likes/Commentaires (au lieu d'un aller-retour Apps
-    // Script par sujet depuis le site, lent et sujet aux pannes intermittentes
-    // de ce service). Clé = "sujet-<Titre>-<Date>", voir sujetKey() côté site.
-    var likesByKey = {};
-    var likesSheet = ss.getSheetByName('Likes');
-    if (likesSheet && likesSheet.getLastRow() > 1) {
-      var likeRows = likesSheet.getRange(2, 1, likesSheet.getLastRow() - 1, 2).getValues();
-      likeRows.forEach(function(r) {
-        var k = String(r[1]);
-        likesByKey[k] = (likesByKey[k] || 0) + 1;
-      });
-    }
-
-    var commentsByKey = {};
-    var commSheet = ss.getSheetByName('Commentaires');
-    if (commSheet && commSheet.getLastRow() > 1) {
-      var commRows = commSheet.getRange(2, 1, commSheet.getLastRow() - 1, 4).getValues();
-      commRows.forEach(function(r) {
-        if (!r[3]) return;
-        var k = String(r[1]);
-        if (!commentsByKey[k]) commentsByKey[k] = [];
-        var d = r[0] instanceof Date ? r[0] : new Date(r[0]);
-        commentsByKey[k].push({
-          date: Utilities.formatDate(d, 'Africa/Abidjan', 'dd MMM yyyy'),
-          prenom: String(r[2]) || 'Anonyme',
-          commentaire: String(r[3]),
-        });
-      });
-    }
-
-    sujets.forEach(function(s) {
-      var key = 'sujet-' + s.titre.trim() + '-' + s.date.trim();
-      s.likes = likesByKey[key] || 0;
-      s.comments = (commentsByKey[key] || []).slice().reverse();
-    });
 
     return ContentService
       .createTextOutput(JSON.stringify({ sujets: sortByDateDesc_(sujets) }))
@@ -1151,6 +1160,7 @@ function handleLike(data) {
     new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Abidjan' }),
     data.videoId
   ]);
+  invalidateInteractionsCache_();
   return ContentService
     .createTextOutput(JSON.stringify({ success: true }))
     .setMimeType(ContentService.MimeType.JSON);
@@ -1173,6 +1183,7 @@ function handleComment(data) {
     data.prenom || 'Anonyme',
     data.commentaire
   ]);
+  invalidateInteractionsCache_();
   return ContentService
     .createTextOutput(JSON.stringify({ success: true }))
     .setMimeType(ContentService.MimeType.JSON);
