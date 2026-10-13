@@ -27,6 +27,9 @@ export default function AppleIcon() {
             fontSize: 112,
             color: '#D4A843',
             lineHeight: 1,
+            // Même relief que icon.tsx (proportionnel à la taille plus petite)
+            textShadow:
+              '0 0 16px rgba(212,168,67,0.45), -1px -1px 1px rgba(255,241,199,0.55), 1px 2px 1px rgba(74,50,14,0.9)',
           }}
         >
           N
