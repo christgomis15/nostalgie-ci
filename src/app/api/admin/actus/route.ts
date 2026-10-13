@@ -14,8 +14,15 @@ export async function POST(req: Request) {
 
 export async function PATCH(req: Request) {
   try {
-    const { title, imgPosition } = await req.json()
+    const { title, imgPosition, tab } = await req.json()
     if (!title) return NextResponse.json({ error: 'Titre manquant' }, { status: 400 })
+    // Deux corrections possibles sans republier l'article entier : le cadrage
+    // photo, ou l'onglet (le formulaire d'ajout démarre sur "locale" par
+    // défaut — un oubli de le changer envoie l'article au mauvais endroit).
+    if (tab !== undefined) {
+      const data = await postAdminAction({ type: 'admin_update_actus_tab', title, tab })
+      return NextResponse.json(data)
+    }
     const data = await postAdminAction({ type: 'admin_update_actus_img', title, imgPosition: imgPosition ?? '' })
     return NextResponse.json(data)
   } catch (err) {

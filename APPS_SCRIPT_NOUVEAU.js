@@ -715,6 +715,27 @@ function handleAdminUpdateActusImgPosition(data) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+// Déplace un article déjà publié vers un autre onglet (colonne A), sans le
+// republier en entier — le formulaire d'ajout démarre toujours sur "locale"
+// par défaut, un oubli de le changer envoie l'article au mauvais endroit
+// (cas réel : article Potins/People publié par erreur en Actu Locale).
+function handleAdminUpdateActusTab(data) {
+  var ss = getSS_();
+  var sheet = ss.getSheetByName('Actus');
+  if (sheet && sheet.getLastRow() > 1) {
+    var titres = sheet.getRange(2, 4, sheet.getLastRow() - 1, 1).getValues();
+    for (var i = 0; i < titres.length; i++) {
+      if (String(titres[i][0]).trim() === String(data.title).trim()) {
+        sheet.getRange(i + 2, 1).setValue(data.tab || '');
+        break;
+      }
+    }
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 function handleAdminAddPodcast(data) {
   var ss = getSS_();
   var sheet = ss.getSheetByName('Podcasts');
@@ -1057,7 +1078,7 @@ function getTop5ArchiveData(startStr, endStr) {
 // car ce webhook est une URL publique — n'importe qui qui la connaîtrait pourrait sinon
 // écrire directement dans le Sheet sans passer par le mot de passe du panneau /admin.
 var ADMIN_ACTION_TYPES = [
-  'admin_add_actus', 'admin_delete_actus', 'admin_update_actus_img',
+  'admin_add_actus', 'admin_delete_actus', 'admin_update_actus_img', 'admin_update_actus_tab',
   'admin_add_podcast', 'admin_delete_podcast',
   'admin_update_top5',
   'admin_update_live',
@@ -1090,6 +1111,9 @@ function doPost(e) {
   }
   if (data.type === 'admin_update_actus_img') {
     return handleAdminUpdateActusImgPosition(data);
+  }
+  if (data.type === 'admin_update_actus_tab') {
+    return handleAdminUpdateActusTab(data);
   }
   if (data.type === 'admin_add_podcast') {
     return handleAdminAddPodcast(data);

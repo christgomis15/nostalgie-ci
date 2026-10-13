@@ -36,10 +36,12 @@ export default function AdminActus() {
   const [msg, setMsg] = useState('')
   const [cropEdits, setCropEdits] = useState<Record<string, string>>({})
   const [cropSaving, setCropSaving] = useState<string | null>(null)
+  const [tabEdits, setTabEdits] = useState<Record<string, string>>({})
+  const [tabSaving, setTabSaving] = useState<string | null>(null)
 
   function load() {
     setLoading(true)
-    fetch('/api/actus', { cache: 'no-store' })
+    fetch('/api/actus?fresh=1', { cache: 'no-store' })
       .then(r => r.json())
       .then(data => setArticles(data.articles || []))
       .catch(() => setArticles([]))
@@ -89,6 +91,26 @@ export default function AdminActus() {
     }
   }
 
+  async function saveTab(title: string) {
+    const tab = tabEdits[title]
+    if (!tab) return
+    setTabSaving(title)
+    try {
+      const res = await fetch('/api/admin/actus', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, tab }),
+      })
+      const data = await res.json()
+      if (!res.ok || data?.success === false) throw new Error(data?.error || 'Erreur')
+      setArticles(prev => prev.map(a => a.title === title ? { ...a, tab } : a))
+    } catch {
+      alert("Échec du déplacement d'onglet.")
+    } finally {
+      setTabSaving(null)
+    }
+  }
+
   async function remove(title: string) {
     if (!confirm(`Retirer l'article « ${title} » ?`)) return
     try {
@@ -123,7 +145,9 @@ export default function AdminActus() {
             Photo mal cadrée (tête coupée) ? Ajuste le champ « Cadrage photo » sous l&apos;article
             concerné — ex. <code>center 30%</code> — puis « Corriger le cadrage ». Diminue le
             pourcentage pour remonter la zone visible vers le haut de la photo, augmente-le pour
-            descendre.
+            descendre. Mauvais onglet (le formulaire démarre toujours sur « Actu Locale ») ?
+            Choisis le bon onglet puis « Déplacer vers cet onglet » — pas besoin de republier
+            l&apos;article en entier dans les deux cas.
           </p>
           {loading ? (
             <p className="admin-empty">Chargement…</p>
@@ -161,6 +185,24 @@ export default function AdminActus() {
                       onClick={() => saveCrop(a.title)}
                     >
                       {cropSaving === a.title ? '…' : 'Corriger le cadrage'}
+                    </button>
+                  </div>
+                  <div style={{ display: 'flex', gap: 6, width: '100%', marginTop: 4 }}>
+                    <select
+                      defaultValue={a.tab}
+                      onChange={e => setTabEdits(prev => ({ ...prev, [a.title]: e.target.value }))}
+                      style={{ flex: 1, fontSize: 12, padding: '6px 10px' }}
+                    >
+                      {TABS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                    </select>
+                    <button
+                      type="button"
+                      className="btn btn-outline"
+                      style={{ padding: '6px 14px', fontSize: 12 }}
+                      disabled={tabSaving === a.title || !tabEdits[a.title] || tabEdits[a.title] === a.tab}
+                      onClick={() => saveTab(a.title)}
+                    >
+                      {tabSaving === a.title ? '…' : "Déplacer vers cet onglet"}
                     </button>
                   </div>
                 </div>
