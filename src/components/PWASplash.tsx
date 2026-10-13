@@ -21,13 +21,11 @@ export default function PWASplash() {
 
   return (
     <div className={`pwa-splash${hiding ? ' pwa-splash-hide' : ''}`}>
-      <div className="pwa-splash-card">
-        <img
-          src="/img/nostalgie-logo.png"
-          alt="Nostalgie CI"
-          className="pwa-splash-logo"
-        />
-      </div>
+      <img
+        src="/img/nostalgie-logo.png"
+        alt="Nostalgie CI"
+        className="pwa-splash-logo"
+      />
       <p className="pwa-splash-freq">101.1 FM · Abidjan</p>
       <p className="pwa-splash-tagline">Sérieusement Décalée.</p>
     </div>

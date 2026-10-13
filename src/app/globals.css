@@ -595,16 +595,14 @@ textarea { resize: vertical; min-height: 100px; }
   opacity: 0;
   pointer-events: none;
 }
-.pwa-splash-card {
-  background: #F5F0E8;
-  border-radius: 20px;
-  padding: 28px 36px;
-  box-shadow: 0 8px 48px rgba(212, 168, 67, 0.2);
-}
 .pwa-splash-logo {
-  width: 240px;
+  width: 260px;
   height: auto;
   display: block;
+  /* Logo posé directement sur le fond noir (plus de carte blanche derrière,
+     qui rendait illisible le "101.1 FM" écrit en blanc dans l'image) —
+     une ombre légère le détache du fond. */
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.5));
 }
 .pwa-splash-freq {
   color: var(--or);
