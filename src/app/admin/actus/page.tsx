@@ -38,6 +38,8 @@ export default function AdminActus() {
   const [cropSaving, setCropSaving] = useState<string | null>(null)
   const [tabEdits, setTabEdits] = useState<Record<string, string>>({})
   const [tabSaving, setTabSaving] = useState<string | null>(null)
+  const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [bulkDeleting, setBulkDeleting] = useState(false)
 
   function load() {
     setLoading(true)
@@ -127,6 +129,46 @@ export default function AdminActus() {
     }
   }
 
+  function toggleSelect(title: string) {
+    setSelected(prev => {
+      const next = new Set(prev)
+      if (next.has(title)) next.delete(title)
+      else next.add(title)
+      return next
+    })
+  }
+
+  function toggleSelectAll() {
+    setSelected(prev => prev.size === articles.length ? new Set() : new Set(articles.map(a => a.title)))
+  }
+
+  async function removeSelected() {
+    const titles = Array.from(selected)
+    if (titles.length === 0) return
+    if (!confirm(`Retirer les ${titles.length} articles sélectionnés ?`)) return
+    setBulkDeleting(true)
+    let failed = 0
+    // Les unes après les autres plutôt qu'en parallèle : le webhook Apps
+    // Script supporte mal les rafales de requêtes simultanées.
+    for (const title of titles) {
+      try {
+        const res = await fetch('/api/admin/actus', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title }),
+        })
+        const data = await res.json()
+        if (!res.ok || data?.success === false) failed++
+      } catch {
+        failed++
+      }
+    }
+    setBulkDeleting(false)
+    setSelected(new Set())
+    load()
+    if (failed > 0) alert(`${failed} article(s) sur ${titles.length} n'ont pas pu être supprimés. Réessaie pour ceux-là.`)
+  }
+
   return (
     <section className="page-section">
       <div className="admin-bar">
@@ -138,9 +180,31 @@ export default function AdminActus() {
 
       <div className="admin-layout">
         <div>
-          <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, marginBottom: 4 }}>
-            Articles en ligne ({articles.length})
-          </h3>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, marginBottom: 4 }}>
+            <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, margin: 0 }}>
+              Articles en ligne ({articles.length})
+            </h3>
+            {articles.length > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={selected.size === articles.length}
+                    onChange={toggleSelectAll}
+                  />
+                  Tout sélectionner
+                </label>
+                <button
+                  type="button"
+                  className="admin-row-del"
+                  disabled={selected.size === 0 || bulkDeleting}
+                  onClick={removeSelected}
+                >
+                  {bulkDeleting ? 'Suppression…' : `Supprimer la sélection (${selected.size})`}
+                </button>
+              </div>
+            )}
+          </div>
           <p className="sub" style={{ marginBottom: 14 }}>
             Photo mal cadrée (tête coupée) ? Ajuste le champ « Cadrage photo » sous l&apos;article
             concerné — ex. <code>center 30%</code> — puis « Corriger le cadrage ». Diminue le
@@ -157,6 +221,13 @@ export default function AdminActus() {
             <div className="admin-list">
               {articles.map(a => (
                 <div key={a.title} className="admin-row" style={{ flexWrap: 'wrap' }}>
+                  <input
+                    type="checkbox"
+                    checked={selected.has(a.title)}
+                    onChange={() => toggleSelect(a.title)}
+                    style={{ flexShrink: 0, width: 16, height: 16 }}
+                    aria-label={`Sélectionner « ${a.title} »`}
+                  />
                   <img
                     src={a.img}
                     alt=""
