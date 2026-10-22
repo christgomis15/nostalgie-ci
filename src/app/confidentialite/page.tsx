@@ -16,16 +16,17 @@ export default function ConfidentialitePage() {
 
       <div className="legal-notice">
         ⚠️ <strong>Brouillon à faire valider.</strong> Ce texte a été rédigé à partir d&apos;un audit du
-        fonctionnement réel du site, pas d&apos;un modèle générique — mais plusieurs informations
-        (raison sociale exacte, siège social, durée de conservation) restent à confirmer, et une
-        relecture par un juriste ivoirien est recommandée avant publication définitive. Retire cet
-        encadré une fois le texte validé.
+        fonctionnement réel du site, pas d&apos;un modèle générique — mais la durée de conservation des
+        données et la clause sur les mineurs restent à confirmer, et une relecture par un juriste
+        ivoirien est recommandée avant publication définitive. Retire cet encadré une fois le texte validé.
       </div>
 
       <h2>1. Qui sommes-nous</h2>
       <p>
-        Le site www.nostalgie.ci est édité par <strong>[Raison sociale exacte — à confirmer, ex. « SORANO-CI »,
-        forme juridique, numéro RCCM, siège social]</strong>, exploitant la radio Nostalgie Côte d&apos;Ivoire
+        Le site www.nostalgie.ci est édité par <strong>SORANO-CI SA</strong>, société anonyme immatriculée
+        au Registre du Commerce et du Crédit Mobilier sous le numéro <strong>CI-ABJ-1993-B-170943</strong>,
+        dont le siège social est situé au Plateau, avenue Chardy, 01 BP 157 Abidjan 01, représentée par
+        Monsieur Ange Fabien Guei, Directeur Général, exploitant la radio Nostalgie Côte d&apos;Ivoire
         (101.1 FM Abidjan, 1<sup>ère</sup> radio commerciale privée de Côte d&apos;Ivoire).
       </p>
       <p>Contact : <a href="mailto:nostalgiecotedivoire@gmail.com">nostalgiecotedivoire@gmail.com</a></p>

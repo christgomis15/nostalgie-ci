@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="site-footer-inner">
         <div>
           <div className="site-footer-brand">NOSTALGIE CI</div>
-          <div className="site-footer-sub">101.1 FM Abidjan · © {new Date().getFullYear()}</div>
+          <div className="site-footer-sub">101.1 FM Abidjan · © {new Date().getFullYear()} SORANO-CI SA</div>
         </div>
         <div className="site-footer-links">
           <Link href="/confidentialite">Politique de confidentialité</Link>

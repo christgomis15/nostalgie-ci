@@ -16,16 +16,19 @@ export default function ConditionsGeneralesPage() {
 
       <div className="legal-notice">
         ⚠️ <strong>Brouillon à faire valider.</strong> Ce texte a été rédigé à partir d&apos;un audit du
-        fonctionnement réel du site — mais la raison sociale exacte et les conditions commerciales de
-        réservation publicitaire restent à confirmer, et une relecture par un juriste ivoirien est
-        recommandée avant publication définitive. Retire cet encadré une fois le texte validé.
+        fonctionnement réel du site — mais les conditions commerciales de réservation publicitaire
+        restent à confirmer, et une relecture par un juriste ivoirien est recommandée avant publication
+        définitive. Retire cet encadré une fois le texte validé.
       </div>
 
       <h2>1. Objet</h2>
       <p>
         Les présentes conditions générales d&apos;utilisation (CGU) encadrent l&apos;utilisation du site
-        www.nostalgie.ci, édité par <strong>[Raison sociale exacte — à confirmer]</strong>, exploitant la
-        radio Nostalgie Côte d&apos;Ivoire (101.1 FM Abidjan). En utilisant le site, vous acceptez ces conditions.
+        www.nostalgie.ci, édité par <strong>SORANO-CI SA</strong>, société anonyme immatriculée au Registre
+        du Commerce et du Crédit Mobilier sous le numéro <strong>CI-ABJ-1993-B-170943</strong>, dont le
+        siège social est situé au Plateau, avenue Chardy, 01 BP 157 Abidjan 01, représentée par Monsieur
+        Ange Fabien Guei, Directeur Général, exploitant la radio Nostalgie Côte d&apos;Ivoire (101.1 FM
+        Abidjan). En utilisant le site, vous acceptez ces conditions.
       </p>
 
       <h2>2. Hébergement</h2>
