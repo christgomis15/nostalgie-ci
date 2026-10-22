@@ -14,12 +14,6 @@ export default function ConfidentialitePage() {
       <h1 className="section-title">Politique de Confidentialité</h1>
       <p className="legal-updated">Dernière mise à jour : 22 octobre 2026</p>
 
-      <div className="legal-notice">
-        ⚠️ <strong>Brouillon à faire valider.</strong> Ce texte a été rédigé à partir d&apos;un audit du
-        fonctionnement réel du site, pas d&apos;un modèle générique. Une relecture par un juriste ivoirien
-        reste recommandée avant publication définitive. Retire cet encadré une fois le texte validé.
-      </div>
-
       <h2>1. Qui sommes-nous</h2>
       <p>
         Le site www.nostalgie.ci est édité par <strong>SORANO-CI SA</strong>, société anonyme immatriculée

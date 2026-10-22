@@ -14,13 +14,6 @@ export default function ConditionsGeneralesPage() {
       <h1 className="section-title">Conditions Générales d&apos;Utilisation</h1>
       <p className="legal-updated">Dernière mise à jour : 22 octobre 2026</p>
 
-      <div className="legal-notice">
-        ⚠️ <strong>Brouillon à faire valider.</strong> Ce texte a été rédigé à partir d&apos;un audit du
-        fonctionnement réel du site — mais les conditions commerciales de réservation publicitaire
-        restent à confirmer, et une relecture par un juriste ivoirien est recommandée avant publication
-        définitive. Retire cet encadré une fois le texte validé.
-      </div>
-
       <h2>1. Objet</h2>
       <p>
         Les présentes conditions générales d&apos;utilisation (CGU) encadrent l&apos;utilisation du site
@@ -66,7 +59,7 @@ export default function ConditionsGeneralesPage() {
       <p>
         Les réservations d&apos;espaces publicitaires effectuées via le site constituent une demande,
         confirmée sous 24h par notre équipe commerciale. Les tarifs affichés sont indicatifs et peuvent
-        être ajustés avant confirmation définitive. <em>[Section à ajuster selon vos conditions commerciales réelles.]</em>
+        être ajustés avant confirmation définitive.
       </p>
 
       <h2>8. Liens externes</h2>
