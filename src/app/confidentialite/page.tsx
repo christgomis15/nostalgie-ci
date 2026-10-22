@@ -16,9 +16,8 @@ export default function ConfidentialitePage() {
 
       <div className="legal-notice">
         ⚠️ <strong>Brouillon à faire valider.</strong> Ce texte a été rédigé à partir d&apos;un audit du
-        fonctionnement réel du site, pas d&apos;un modèle générique — mais la durée de conservation des
-        données et la clause sur les mineurs restent à confirmer, et une relecture par un juriste
-        ivoirien est recommandée avant publication définitive. Retire cet encadré une fois le texte validé.
+        fonctionnement réel du site, pas d&apos;un modèle générique. Une relecture par un juriste ivoirien
+        reste recommandée avant publication définitive. Retire cet encadré une fois le texte validé.
       </div>
 
       <h2>1. Qui sommes-nous</h2>
@@ -54,11 +53,13 @@ export default function ConfidentialitePage() {
       </ul>
 
       <h2>4. Durée de conservation</h2>
-      <p>
-        Vos données sont conservées le temps nécessaire à la finalité pour laquelle elles ont été
-        collectées, et au maximum 3 ans à compter de notre dernier contact avec vous, sauf obligation
-        légale nous imposant une durée différente. <em>[Durée à confirmer selon vos pratiques réelles.]</em>
-      </p>
+      <p>Vos données sont conservées le temps nécessaire à la finalité pour laquelle elles ont été collectées :</p>
+      <ul>
+        <li><strong>Dédicaces, messages de contact, abonnement à la newsletter</strong> : 3 ans à compter de votre dernier contact avec nous</li>
+        <li><strong>Inscription « communauté auditeurs »</strong> (y compris la date de naissance) : pendant toute la durée de validité de votre inscription</li>
+        <li><strong>Données des contacts commerciaux</strong> (annonceurs, partenaires) : 3 ans après la fin de la relation commerciale, à des fins de prospection et de suivi</li>
+      </ul>
+      <p>Sauf obligation légale nous imposant une durée différente.</p>
 
       <h2>5. Avec qui nous les partageons</h2>
       <p>Vos données ne sont jamais vendues. Elles sont traitées par les prestataires techniques suivants, qui agissent comme sous-traitants :</p>
@@ -83,9 +84,9 @@ export default function ConfidentialitePage() {
 
       <h2>7. Mineurs</h2>
       <p>
-        Le formulaire d&apos;inscription « communauté auditeurs » demande une date de naissance. Si vous
-        avez moins de 18 ans, assurez-vous d&apos;avoir l&apos;accord d&apos;un parent ou tuteur avant de
-        transmettre vos informations. <em>[Point sensible à faire valider en priorité par un juriste.]</em>
+        Le formulaire d&apos;inscription « communauté auditeurs » demande une date de naissance, conservée
+        pendant toute la durée de validité de votre inscription (voir section 4). Si vous avez moins de
+        18 ans, assurez-vous d&apos;avoir l&apos;accord d&apos;un parent ou tuteur avant de transmettre vos informations.
       </p>
 
       <h2>8. Vos droits</h2>
