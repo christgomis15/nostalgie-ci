@@ -15,6 +15,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/sujets`, changeFrequency: 'daily', priority: 0.7 },
     { url: `${BASE_URL}/contact`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/reserver`, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${BASE_URL}/confidentialite`, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${BASE_URL}/conditions-generales`, changeFrequency: 'yearly', priority: 0.2 },
   ]
 
   const articles = await getAllActus()

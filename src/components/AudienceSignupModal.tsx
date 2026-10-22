@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 const DONE_KEY = 'audience-signup-done'
 const DISMISSED_KEY = 'audience-signup-dismissed'
@@ -116,7 +117,13 @@ export default function AudienceSignupModal() {
 
             <label className="chk-item" style={{ marginBottom: '14px' }}>
               <input type="checkbox" checked={consentement} onChange={e => setConsentement(e.target.checked)} disabled={status === 'loading'} required />
-              <span>J&apos;accepte d&apos;être contacté(e) par SMS/téléphone par Nostalgie CI pour des offres et informations.</span>
+              <span>
+                J&apos;accepte d&apos;être contacté(e) par SMS/téléphone par Nostalgie CI pour des
+                offres et informations, conformément à la{' '}
+                <Link href="/confidentialite" target="_blank" style={{ color: 'var(--or)' }}>
+                  politique de confidentialité
+                </Link>.
+              </span>
             </label>
 
             {status === 'error' && <p style={{ color: '#ff6b6b', fontSize: '12px', marginBottom: '10px' }}>Une erreur est survenue. Réessayez.</p>}

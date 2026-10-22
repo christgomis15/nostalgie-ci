@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 import WebradioTicker from '@/components/WebradioTicker'
 import WeatherAlertBanner from '@/components/WeatherAlertBanner'
 import PlayerBar from '@/components/PlayerBar'
@@ -93,6 +94,8 @@ export default function RootLayout({
 
         {/* Contenu de la page */}
         <main>{children}</main>
+
+        <Footer />
 
         {/* Player bar — fixe en bas, persiste sur toutes les pages */}
         <PlayerBar />

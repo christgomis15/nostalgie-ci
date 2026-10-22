@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Link from 'next/link'
 
 const FREQUENCES = [
   { freq: '101.1', ville: 'Abidjan' },
@@ -96,7 +97,9 @@ export default function NewsletterWidget() {
           </form>
         )}
 
-        <p className="nl-mention">Désinscription en 1 clic · Aucun spam</p>
+        <p className="nl-mention">
+          Désinscription en 1 clic · Aucun spam · <Link href="/confidentialite">Politique de confidentialité</Link>
+        </p>
       </div>
 
       {/* ── Séparateur ── */}
