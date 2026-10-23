@@ -3,13 +3,23 @@ import { create } from 'zustand'
 const STREAM_URL = 'https://nostalgie.orange.ci/nostalgie2.mp3'
 const PREROLL_URL = '/PREEROLL%20STREAMING.mp3'
 
-// Le flux Orange CI se coupe parfois tout seul après quelques minutes
-// (coupure réseau/CDN côté fournisseur, hors de notre contrôle). Sans
+// Le flux se coupe parfois (réseau mobile/local de l'auditeur en Côte
+// d'Ivoire le plus souvent, pas le serveur — testé en direct le 23 oct. :
+// la connexion tient plusieurs minutes sans coupure depuis ici). Sans
 // reconnexion automatique, l'auditeur se retrouvait avec un lecteur arrêté
 // qu'il devait relancer lui-même ("il faut recliquer"). On retente
-// automatiquement plusieurs fois avant d'abandonner et de lui redemander un clic.
-const MAX_RECONNECT_ATTEMPTS = 6
-const RECONNECT_DELAY_MS = 2000
+// automatiquement, avec un délai qui augmente progressivement (2s → 15s max),
+// pendant plusieurs minutes avant d'abandonner — une coupure réseau locale
+// peut mettre plus de quelques secondes à se rétablir (1ère version du 13 oct.
+// abandonnait après seulement 12s, insuffisant : des auditeurs perdaient le
+// son au bout de quelques minutes quand même).
+const MAX_RECONNECT_ATTEMPTS = 40
+const RECONNECT_BASE_DELAY_MS = 2000
+const RECONNECT_MAX_DELAY_MS = 15000
+
+function reconnectDelay(attempt: number): number {
+  return Math.min(RECONNECT_BASE_DELAY_MS + attempt * 1000, RECONNECT_MAX_DELAY_MS)
+}
 
 export interface Webradio {
   badge: string
@@ -66,7 +76,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => {
         return
       }
       set({ isLoading: true })
-      setTimeout(() => connect(url, mySession, attempt + 1), RECONNECT_DELAY_MS)
+      setTimeout(() => connect(url, mySession, attempt + 1), reconnectDelay(attempt))
     }
     a.addEventListener('ended', reconnect)
     a.addEventListener('error', reconnect)
