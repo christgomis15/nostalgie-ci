@@ -3647,3 +3647,6 @@ textarea { resize: vertical; min-height: 100px; }
 .nef-tel span { white-space: nowrap; font-size: 12px; }
 .nef-infos > .nef-badges { gap: 10px 16px; }
 .nef-desc { max-width: 600px; }
+/* Surtitre centré sur la largeur du bloc, avec un trait de chaque côté */
+.nef-eyebrow { width: 100%; max-width: 600px; justify-content: center; }
+.nef-eyebrow::after { content: ''; width: 32px; height: 1px; background: var(--or); flex-shrink: 0; }
