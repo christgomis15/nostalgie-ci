@@ -36,7 +36,7 @@ export default function NefHero() {
       <div className="nef-grad" />
 
       <div className="nef-inner">
-        <p className="nef-eyebrow">L&apos;anniversaire de Nostalgie · Festival grand public</p>
+        <p className="nef-eyebrow">Festival grand public</p>
         <h1 className="nef-sr">Nostalgie en Folie — 28 et 29 novembre 2026 à l&apos;INJS Marcory</h1>
         <img src="/img/nef-logo.png" alt="Nostalgie en Folie — Sponsor officiel : Port Autonome d'Abidjan" className="nef-logo" />
 
@@ -45,7 +45,7 @@ export default function NefHero() {
         </p>
         <p className="nef-desc">
           Pour fêter son anniversaire, Nostalgie vous donne rendez-vous pour 2 jours de festival :
-          shopping, concerts, animations pour les enfants, santé et fitness. Venez en famille !
+          shopping, concerts, animations pour les enfants, santé et fitness. Venez en famille et entre amis !
         </p>
 
         <div className="nef-infos">
