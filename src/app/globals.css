@@ -3465,3 +3465,185 @@ textarea { resize: vertical; min-height: 100px; }
   .h2-villes-wrap { gap: 6px; }
   .h2-ville-chip { font-size: 11px; padding: 4px 12px; }
 }
+/* ══════════════════════════════════════════════
+   HABILLAGE « NOSTALGIE EN FOLIE » (hero accueil)
+   Actif jusqu'à la date de fin de src/data/nostalgie-en-folie.ts
+══════════════════════════════════════════════ */
+.nef-hero {
+  position: relative; overflow: hidden;
+  min-height: calc(100vh - var(--top-offset) - var(--player-height));
+  display: flex; flex-direction: column; justify-content: center;
+  background: var(--noir);
+}
+.nef-bg {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 58%;
+  background-size: cover; background-position: center top;
+  z-index: 0;
+}
+.nef-grad {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(90deg, var(--noir) 0%, var(--noir) 40%, rgba(10,10,10,0.75) 52%, rgba(10,10,10,0.05) 72%),
+    linear-gradient(to top, var(--noir) 0%, rgba(10,10,10,0.6) 18%, rgba(10,10,10,0) 40%),
+    radial-gradient(ellipse at 15% 20%, rgba(212,168,67,0.18), transparent 55%);
+}
+.nef-inner {
+  position: relative; z-index: 2;
+  padding: 56px 60px 32px; max-width: 760px;
+}
+.nef-sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.nef-eyebrow {
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--or); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.nef-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--or); flex-shrink: 0; }
+.nef-logo {
+  width: 100%; max-width: 560px; height: auto; display: block;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(212,168,67,0.25), 0 0 0 2px rgba(245,240,232,0.85);
+  margin-bottom: 26px;
+}
+.nef-accroche {
+  font-family: 'Playfair Display', serif; font-weight: 900;
+  font-size: clamp(30px, 4.2vw, 52px); line-height: 1.05;
+  color: var(--blanc); margin-bottom: 14px;
+}
+.nef-accroche span { display: block; color: var(--or); font-style: italic; }
+.nef-desc {
+  font-size: 15px; line-height: 1.6; color: rgba(245,240,232,0.72);
+  max-width: 560px; margin-bottom: 26px;
+}
+
+/* Bloc date / lieu / badges */
+.nef-infos {
+  display: flex; align-items: stretch; flex-wrap: wrap; gap: 0;
+  border: 1px solid rgba(212,168,67,0.45); border-radius: 16px;
+  background: rgba(10,10,10,0.6);
+  width: fit-content; max-width: 100%;
+  margin-bottom: 22px;
+}
+.nef-date, .nef-lieu {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 22px; color: var(--blanc); text-decoration: none;
+}
+.nef-lieu { border-left: 1px solid rgba(212,168,67,0.3); transition: background 0.2s; }
+.nef-lieu:hover { background: rgba(212,168,67,0.08); }
+.nef-ic { font-size: 26px; }
+.nef-date-j, .nef-lieu-n {
+  font-family: 'Oswald', Arial, sans-serif; font-weight: 700;
+  font-size: 30px; line-height: 1; color: var(--blanc);
+}
+.nef-date-j span { color: var(--or); font-size: 22px; }
+.nef-date-m, .nef-lieu-q {
+  font-family: 'Oswald', Arial, sans-serif; font-weight: 700;
+  font-size: 17px; color: var(--or); text-transform: uppercase; letter-spacing: 0.5px;
+}
+.nef-date-l {
+  display: inline-block; margin-top: 4px;
+  background: var(--or); color: var(--noir);
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  padding: 2px 10px; border-radius: 10px;
+}
+.nef-lieu-it { font-size: 11px; color: rgba(245,240,232,0.55); margin-top: 4px; letter-spacing: 1px; }
+.nef-badges {
+  display: flex; flex-direction: column; justify-content: center; gap: 8px;
+  padding: 14px 22px; border-left: 1px solid rgba(212,168,67,0.3);
+}
+.nef-gratuit {
+  background: linear-gradient(100deg, #F5DFA0, var(--or) 45%, var(--or-s));
+  color: var(--noir); font-family: 'Oswald', Arial, sans-serif; font-weight: 700;
+  font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 6px 14px; border-radius: 4px; transform: skewX(-8deg); text-align: center;
+}
+.nef-countdown {
+  text-align: center; font-family: 'Oswald', Arial, sans-serif; font-weight: 700;
+  font-size: 15px; color: var(--or); letter-spacing: 1px;
+  animation: nef-pulse 2s ease-in-out infinite;
+}
+@keyframes nef-pulse { 50% { opacity: 0.55; } }
+
+/* Activités */
+.nef-activites {
+  list-style: none; padding: 0; margin: 0 0 30px;
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.nef-act {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-width: 104px; padding: 10px 12px;
+  background: rgba(212,168,67,0.08); border: 1px solid rgba(212,168,67,0.22);
+  border-radius: 12px; transition: transform 0.25s, background 0.25s, border-color 0.25s;
+}
+.nef-act:hover { transform: translateY(-3px); background: rgba(212,168,67,0.18); border-color: var(--or); }
+.nef-act-ic {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--or); display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 6px;
+}
+.nef-act-l {
+  font-family: 'Oswald', Arial, sans-serif; font-weight: 600;
+  font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blanc);
+}
+.nef-act-ic img { width: 30px; height: 30px; display: block; }
+.nef-act-logo-img { height: 42px; width: auto; margin-bottom: 6px; }
+.nef-tel { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; line-height: 1.2; }
+.nef-tel strong { font-size: 17px; letter-spacing: 1px; color: var(--blanc); }
+
+/* Bandeau partenaires */
+.nef-partenaires {
+  position: relative; z-index: 2;
+  background: #fff; margin: 8px 24px 0; border-radius: 22px 22px 0 0;
+  padding: 10px 24px 6px; text-align: center;
+}
+.nef-part-t {
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: #8a7440; margin-bottom: 2px;
+}
+.nef-partenaires img { width: 100%; max-width: 1200px; height: auto; display: block; margin: 0 auto; }
+.nef-part-dup { display: none !important; }
+@keyframes nef-defile { to { transform: translateX(-50%); } }
+
+@media (max-width: 900px) {
+  .nef-bg { position: relative; width: 100%; height: 300px; flex-shrink: 0; background-position: center 20%; }
+  .nef-grad {
+    background:
+      linear-gradient(to bottom, rgba(10,10,10,0) 0px, rgba(10,10,10,0.2) 180px, var(--noir) 300px),
+      radial-gradient(ellipse at 15% 60%, rgba(212,168,67,0.14), transparent 55%);
+  }
+  .nef-hero { justify-content: flex-start; }
+  .nef-inner { padding: 0 16px 28px; margin-top: -60px; max-width: 100%; }
+  .nef-infos { width: 100%; }
+  .nef-date, .nef-lieu, .nef-badges { padding: 12px 14px; }
+  .nef-badges { border-left: none; border-top: 1px solid rgba(212,168,67,0.3); flex-direction: row; width: 100%; justify-content: space-between; align-items: center; }
+  .nef-partenaires { margin: 0 8px; padding: 8px 0 4px; border-radius: 16px 16px 0 0; overflow: hidden; }
+  .nef-part-track { display: flex; width: max-content; animation: nef-defile 28s linear infinite; }
+  .nef-partenaires img { width: auto; max-width: none; height: 64px; margin: 0; }
+  .nef-part-dup { display: block !important; }
+}
+@media (max-width: 600px) {
+  .nef-act { min-width: 0; flex: 1 1 calc(33% - 10px); padding: 8px 6px; }
+  .nef-act-l { font-size: 11px; }
+  .nef-date-j, .nef-lieu-n { font-size: 24px; }
+  .nef-lieu { border-left: 1px solid rgba(212,168,67,0.3); }
+  .nef-hero .h2-actions .btn { width: 100%; text-align: center; justify-content: center; }
+}
+
+/* Logo, bloc date/lieu, activités et boutons alignés sur une même largeur
+   → l'ensemble forme un rectangle */
+.nef-logo, .nef-infos, .nef-activites, .nef-hero .h2-actions { width: 100%; max-width: 600px; }
+.nef-infos > * { flex: 1 1 0; justify-content: center; }
+.nef-activites { display: grid; grid-template-columns: repeat(5, 1fr); }
+.nef-act { min-width: 0; }
+.nef-hero .h2-actions { display: grid; grid-template-columns: 1fr 1fr; }
+.nef-hero .h2-actions .btn { justify-content: center; text-align: center; }
+@media (max-width: 600px) {
+  .nef-activites { display: flex; }
+  .nef-hero .h2-actions { grid-template-columns: 1fr; }
+}
+.nef-act-l { white-space: nowrap; font-size: 12px; }
+.nef-tel span { white-space: nowrap; font-size: 12px; }
+.nef-infos > .nef-badges { gap: 10px 16px; }
+.nef-desc { max-width: 600px; }

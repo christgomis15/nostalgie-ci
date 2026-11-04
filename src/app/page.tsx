@@ -15,6 +15,8 @@ import EmissionsSlideshow from '@/components/EmissionsSlideshow'
 import { useLiveConfig } from '@/hooks/useLiveConfig'
 import TTBPopup from '@/components/TTBPopup'
 import EventIntro from '@/components/EventIntro'
+import NefHero from '@/components/NefHero'
+import { isNefActive } from '@/data/nostalgie-en-folie'
 import { slugify } from '@/lib/slugify'
 
 const MEDALS = ['🥇', '🥈', '🥉']
@@ -54,7 +56,8 @@ export default function Accueil() {
     <>
       <EventIntro />
 
-      {/* ── HERO V2 ── */}
+      {/* ── HERO : habillage Nostalgie en Folie jusqu'à la fin de l'événement ── */}
+      {isNefActive() ? <NefHero /> : (
       <section className="h2-hero">
         <div className="h2-hero-bg" style={{ backgroundImage: "url('/img/hero-bg.jpg')" }} />
         <div className="h2-hero-grad" />
@@ -110,6 +113,7 @@ export default function Accueil() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ── DIAPORAMA ÉMISSIONS ── */}
       <section className="h2-em-section">
