@@ -5,6 +5,9 @@
 // images public/img/nef-*.
 
 export const NEF = {
+  // false = visible uniquement sur /apercu-nostalgie-en-folie (validation
+  // Direction Marketing) ; true = affiché sur l'accueil
+  valide: false,
   // Heure d'Abidjan = UTC
   debut: '2026-11-28T00:00:00Z',
   fin: '2026-11-30T00:00:00Z',
@@ -24,5 +27,5 @@ export const NEF = {
 }
 
 export function isNefActive(now = Date.now()) {
-  return now < Date.parse(NEF.fin)
+  return NEF.valide && now < Date.parse(NEF.fin)
 }
