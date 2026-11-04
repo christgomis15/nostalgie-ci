@@ -44,7 +44,7 @@ export default function NefHero() {
           C&apos;est la folie <span>des bonnes affaires</span>
         </p>
         <p className="nef-desc">
-          Pour fêter son anniversaire, Nostalgie vous donne rendez-vous pour 2 jours de festival :
+          Pour fêter son anniversaire, Nostalgie vous donne rendez-vous pour 2 jours de festival&nbsp;:
           shopping, concerts, animations pour les enfants, santé et fitness. Venez en famille et entre amis !
         </p>
 
