@@ -29,6 +29,18 @@ function useCountdown() {
 export default function NefHero() {
   const { isPlaying, toggle } = usePlayerStore()
   const countdown = useCountdown()
+  const [copie, setCopie] = useState(false)
+
+  // Sur ordinateur, un lien tel: ouvre la boîte « Sélectionner une
+  // application » de Windows : on copie plutôt le numéro. Sur mobile
+  // (écran tactile), le lien lance l'appel normalement.
+  function onTel(e: React.MouseEvent) {
+    if (window.matchMedia('(pointer: coarse)').matches) return
+    e.preventDefault()
+    navigator.clipboard?.writeText(NEF.telephone.affiche).catch(() => {})
+    setCopie(true)
+    setTimeout(() => setCopie(false), 2000)
+  }
 
   return (
     <section className="nef-hero">
@@ -90,8 +102,8 @@ export default function NefHero() {
           <button className="btn btn-or" onClick={toggle}>
             {isPlaying ? '⏸ En cours...' : '▶ Écouter en Direct'}
           </button>
-          <a href={NEF.telephone.lien} className="btn btn-outline nef-tel">
-            <span>📞 Exposants &amp; annonceurs</span>
+          <a href={NEF.telephone.lien} onClick={onTel} className="btn btn-outline nef-tel" title="Copier le numéro">
+            <span>{copie ? 'Numéro copié ✓' : '📞 Exposants & annonceurs'}</span>
             <strong>{NEF.telephone.affiche}</strong>
           </a>
         </div>
