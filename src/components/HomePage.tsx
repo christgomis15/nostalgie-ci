@@ -28,7 +28,7 @@ function rangColor(r: number) {
   return 'rgba(245,240,232,0.35)'
 }
 
-export default function HomePage({ forceNef = false }: { forceNef?: boolean }) {
+export default function HomePage() {
   const TOP5 = useTop5()
   const actus = useActus()
   const EMISSIONS_HOME = useEmissions()
@@ -57,7 +57,7 @@ export default function HomePage({ forceNef = false }: { forceNef?: boolean }) {
       <EventIntro />
 
       {/* ── HERO : habillage Nostalgie en Folie jusqu'à la fin de l'événement ── */}
-      {forceNef || isNefActive() ? <NefHero /> : (
+      {isNefActive() ? <NefHero /> : (
       <section className="h2-hero">
         <div className="h2-hero-bg" style={{ backgroundImage: "url('/img/hero-bg.jpg')" }} />
         <div className="h2-hero-grad" />
