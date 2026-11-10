@@ -3684,13 +3684,7 @@ textarea { resize: vertical; min-height: 100px; }
 .nk-layer { position: absolute; display: block; }
 
 /* Cape : ondulation douce (filtre SVG #nk-wave) */
-.nk-cape { filter: url(#nk-wave); transform-origin: 0% 8%; animation: nk-cape-vent 2.8s ease-in-out infinite; }
-/* Balancement de toute la cape depuis les épaules, comme poussée par le vent */
-@keyframes nk-cape-vent {
-  0%, 100% { transform: rotate(0deg) skewY(0deg); }
-  35% { transform: rotate(-2.2deg) skewY(-1.5deg); }
-  70% { transform: rotate(1deg) skewY(0.8deg); }
-}
+.nk-cape { filter: url(#nk-wave); }
 
 /* Cadeaux : léger balancement */
 .nk-cadeau { animation: nk-bob 3.2s ease-in-out infinite; transform-origin: 50% 90%; }
@@ -3759,7 +3753,7 @@ textarea { resize: vertical; min-height: 100px; }
   .nk-close { top: -12px; right: -2px; width: 34px; height: 34px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nk-cape { filter: none; animation: none; }
+  .nk-cape { filter: none; }
   .nk-cadeau, .nk-shine, .nk-coffre img, .nk-spark { animation: none; }
 }
 

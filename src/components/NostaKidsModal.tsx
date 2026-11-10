@@ -80,9 +80,9 @@ export default function NostaKidsModal({ onClose }: { onClose: () => void }) {
         <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden>
           <filter id="nk-wave" x="-5%" y="-5%" width="110%" height="110%">
             <feTurbulence type="fractalNoise" baseFrequency={`${f} ${f * 2.2}`} numOctaves={2} seed={4} result="n">
-              <animate attributeName="baseFrequency" dur="3.5s" values={freqs} repeatCount="indefinite" />
+              <animate attributeName="baseFrequency" dur="6s" values={freqs} repeatCount="indefinite" />
             </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" in2="n" scale={stageW * 0.026} xChannelSelector="R" yChannelSelector="G" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale={stageW * 0.012} xChannelSelector="R" yChannelSelector="G" />
           </filter>
         </svg>
 
