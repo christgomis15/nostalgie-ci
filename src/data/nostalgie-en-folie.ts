@@ -15,6 +15,8 @@ export const NEF = {
   itineraire: 'https://www.google.com/maps/search/?api=1&query=INJS+Marcory+Abidjan',
   // Exposants & annonceurs
   telephone: { affiche: '+225 20 27 21 10 53', lien: 'tel:+2252027211053' },
+  // Journalistes : formulaire Google d'accréditation presse
+  accreditation: 'https://docs.google.com/forms/d/e/1FAIpQLSfk81AMrePSSkT7QP8XKdFviaaUO1Z4SQbung-Hh2AzNlYaWw/viewform',
   // img = icône noire dans le rond or · logo = remplace le rond (logo en couleur)
   activites: [
     { img: '/img/nef-shopping.svg', label: 'Shopping' },

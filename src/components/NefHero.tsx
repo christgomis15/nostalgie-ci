@@ -114,6 +114,19 @@ export default function NefHero() {
             <strong>{NEF.telephone.affiche}</strong>
           </a>
         </div>
+
+        <a href={NEF.accreditation} target="_blank" rel="noopener noreferrer" className="nef-accred">
+          <span className="nef-accred-ic" aria-hidden>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M9 4 7.5 6H5a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3h-2.5L15 4H9Zm3 4.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" />
+            </svg>
+          </span>
+          <span className="nef-accred-t">
+            <strong>Journalistes &amp; médias</strong>
+            <span>Accréditations ouvertes · Faire ma demande</span>
+          </span>
+          <span className="nef-accred-go" aria-hidden>→</span>
+        </a>
       </div>
 
       <div className="nef-partenaires">

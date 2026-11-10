@@ -3772,3 +3772,23 @@ textarea { resize: vertical; min-height: 100px; }
   -webkit-mask: url('/img/nostakids/masque-vague.png') 0 0 / 100% 100% no-repeat;
   mask: url('/img/nostakids/masque-vague.png') 0 0 / 100% 100% no-repeat;
 }
+
+/* Accréditation presse (lien vers le formulaire Google) */
+.nef-accred {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; max-width: 600px; margin-top: 14px; padding: 10px 14px;
+  border: 1px solid rgba(212,168,67,0.45); border-radius: 12px;
+  background: rgba(10,10,10,0.55); color: var(--blanc); text-decoration: none;
+  transition: border-color .2s, background .2s;
+}
+.nef-accred:hover { border-color: var(--or); background: rgba(212,168,67,0.12); }
+.nef-accred-ic {
+  flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--or); color: var(--noir);
+  display: flex; align-items: center; justify-content: center;
+}
+.nef-accred-t { display: flex; flex-direction: column; line-height: 1.25; flex: 1; min-width: 0; }
+.nef-accred-t strong { font-size: 14px; color: var(--or); }
+.nef-accred-t span { font-size: 12px; opacity: .85; }
+.nef-accred-go { color: var(--or); font-size: 18px; transition: transform .2s; }
+.nef-accred:hover .nef-accred-go { transform: translateX(4px); }
