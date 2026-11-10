@@ -3683,8 +3683,6 @@ textarea { resize: vertical; min-height: 100px; }
 .nk-fond { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .nk-layer { position: absolute; display: block; }
 
-/* Cape : ondulation douce (filtre SVG #nk-wave) */
-.nk-cape { filter: url(#nk-wave); }
 
 /* Cadeaux : léger balancement */
 .nk-cadeau { animation: nk-bob 3.2s ease-in-out infinite; transform-origin: 50% 90%; }
@@ -3753,7 +3751,6 @@ textarea { resize: vertical; min-height: 100px; }
   .nk-close { top: -12px; right: -2px; width: 34px; height: 34px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nk-cape { filter: none; }
   .nk-cadeau, .nk-shine, .nk-coffre img, .nk-spark { animation: none; }
 }
 

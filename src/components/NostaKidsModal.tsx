@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 // Visuel NostaKids City (fichier graphiste validé le 09/11/2026), recomposé en
-// calques pour l'animer : fond (photo + textes), cape détourée, coffre,
+// calques pour l'animer : fond (photo + textes, cape d'origine fixe), coffre,
 // cadeaux et reflet sur le logo. Coordonnées en points PDF, zone utile
 // 1134 × 850.4 (fond perdu retiré) — ne pas modifier sans re-mesurer.
 const W = 1134
@@ -40,12 +40,9 @@ function dansVague(left: number, top: number, w: number, h: number): React.CSSPr
 const CADEAU_1 = dansVague(795, 641, 117.5, 122)
 const CADEAU_2 = dansVague(895, 578, 192.5, 207)
 const LOGO = place(421.33 - 433.85 / 2, 98.72 - 243.64 / 2, 433.85, 243.64, -0.26)
-const CAPE = place(897, 167, 237, 390)
 
 export default function NostaKidsModal({ onClose }: { onClose: () => void }) {
-  const stageRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
-  const [stageW, setStageW] = useState(1000)
 
   useEffect(() => {
     closeRef.current?.focus()
@@ -58,41 +55,14 @@ export default function NostaKidsModal({ onClose }: { onClose: () => void }) {
     }
   }, [onClose])
 
-  // L'ondulation de la cape est réglée en pixels : on l'ajuste à la taille
-  // réelle du visuel pour garder le même effet sur mobile et sur ordinateur.
-  useEffect(() => {
-    const el = stageRef.current
-    if (!el) return
-    const ro = new ResizeObserver(([e]) => setStageW(e.contentRect.width))
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
-
-  const f = 1 / (stageW * 0.07)
-  const freqs = `${f} ${f * 2.2};${f * 1.25} ${f * 2.6};${f} ${f * 2.2}`
-
   // Rendu directement dans <body> pour passer au-dessus du menu et du lecteur radio
   return createPortal(
     <div className="nk-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="NostaKids City — Village Enfant">
       <div className="nk-box" onClick={e => e.stopPropagation()}>
         <button ref={closeRef} className="nk-close" onClick={onClose} aria-label="Fermer">✕</button>
 
-        <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden>
-          <filter id="nk-wave" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence type="fractalNoise" baseFrequency={`${f} ${f * 2.2}`} numOctaves={2} seed={4} result="n">
-              <animate attributeName="baseFrequency" dur="6s" values={freqs} repeatCount="indefinite" />
-            </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" in2="n" scale={stageW * 0.012} xChannelSelector="R" yChannelSelector="G" />
-          </filter>
-        </svg>
-
-        <div ref={stageRef} className="nk-stage">
+        <div className="nk-stage">
           <img className="nk-fond" src={`${IMG}fond.webp`} alt="NostaKids City x Nostalgie en Folie : amuse-toi, relève les défis et gagne ! Les 28 et 29 novembre 2026 à l'INJS Marcory, de 10h à 18h." />
-          <img className="nk-layer nk-cape" src={`${IMG}cape.webp`} alt="" style={CAPE} />
-          {/* Bras et poing de l'enfant, fixes, posés sur la cape : elle passe derrière */}
-          <img className="nk-layer" src={`${IMG}bras.webp`} alt="" style={CAPE} />
-          {/* Trait blanc du graphiste : fixe, sinon l'ondulation le déforme (effet « déchirure ») */}
-          <img className="nk-layer" src={`${IMG}trait.webp`} alt="" style={CAPE} />
           <span className="nk-layer nk-shine" style={LOGO} aria-hidden />
           <div className="nk-layer nk-vague" style={ZONE_VAGUE}>
             <img className="nk-layer nk-cadeau nk-cadeau-1" src={`${IMG}cadeau-1.webp`} alt="" style={CADEAU_1} />
