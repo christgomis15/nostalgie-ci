@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { usePlayerStore } from '@/lib/player-store'
 import { NEF } from '@/data/nostalgie-en-folie'
+import NostaKidsModal from '@/components/NostaKidsModal'
 
 const JOUR_MS = 24 * 60 * 60 * 1000
 
@@ -30,6 +31,8 @@ export default function NefHero() {
   const { isPlaying, toggle } = usePlayerStore()
   const countdown = useCountdown()
   const [copie, setCopie] = useState(false)
+  const [kids, setKids] = useState(false)
+  const closeKids = useCallback(() => setKids(false), [])
 
   // Sur ordinateur, un lien tel: ouvre la boîte « Sélectionner une
   // application » de Windows : on copie plutôt le numéro. Sur mobile
@@ -84,15 +87,19 @@ export default function NefHero() {
         </div>
 
         <ul className="nef-activites">
-          {NEF.activites.map(a => (
-            <li key={a.label} className={`nef-act ${a.logo ? 'nef-act-logo' : ''}`}>
-              {a.logo ? (
-                <img src={a.logo} alt="NostaKids City" className="nef-act-logo-img" />
-              ) : (
-                <span className="nef-act-ic" aria-hidden>
-                  <img src={a.img} alt="" />
-                </span>
-              )}
+          {NEF.activites.map(a => a.logo ? (
+            <li key={a.label} className="nef-act-li">
+              <button className="nef-act nef-act-btn" onClick={() => setKids(true)} aria-label="Village Enfant : découvrir NostaKids City">
+                <img src={a.logo} alt="" className="nef-act-logo-img" />
+                <span className="nef-act-l">{a.label}</span>
+                <span className="nef-act-voir">Découvrir ›</span>
+              </button>
+            </li>
+          ) : (
+            <li key={a.label} className="nef-act">
+              <span className="nef-act-ic" aria-hidden>
+                <img src={a.img} alt="" />
+              </span>
               <span className="nef-act-l">{a.label}</span>
             </li>
           ))}
@@ -117,6 +124,8 @@ export default function NefHero() {
           <img src="/img/nef-partenaires.jpg" alt="" aria-hidden className="nef-part-dup" />
         </div>
       </div>
+
+      {kids && <NostaKidsModal onClose={closeKids} />}
     </section>
   )
 }

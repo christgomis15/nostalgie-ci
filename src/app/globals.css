@@ -3650,3 +3650,125 @@ textarea { resize: vertical; min-height: 100px; }
 /* Surtitre centré sur la largeur du bloc, avec un trait de chaque côté */
 .nef-eyebrow { width: 100%; max-width: 600px; justify-content: center; }
 .nef-eyebrow::after { content: ''; width: 32px; height: 1px; background: var(--or); flex-shrink: 0; }
+
+/* ══════════════════════════════════════════════
+   VISUEL NOSTAKIDS CITY ANIMÉ (clic sur « Village Enfant »)
+══════════════════════════════════════════════ */
+.nk-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(10,10,10,0.88);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px; animation: nk-in 0.3s ease;
+}
+@keyframes nk-in { from { opacity: 0; } }
+.nk-box {
+  position: relative;
+  width: min(1100px, 100%, calc((100vh - 64px) * 1134 / 850.4));
+  animation: nk-zoom 0.35s cubic-bezier(.2,.9,.3,1.2);
+}
+@keyframes nk-zoom { from { transform: scale(0.92); } }
+.nk-close {
+  position: absolute; top: -14px; right: -10px; z-index: 5;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--or); color: var(--noir); border: none;
+  font-size: 18px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+}
+.nk-close:hover { background: #F5DFA0; }
+.nk-stage {
+  position: relative; width: 100%; aspect-ratio: 1134 / 850.4;
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.nk-fond { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.nk-layer { position: absolute; display: block; }
+
+/* Cape : ondulation douce (filtre SVG #nk-wave) */
+.nk-cape { filter: url(#nk-wave); }
+
+/* Cadeaux : léger balancement */
+.nk-cadeau { animation: nk-bob 3.2s ease-in-out infinite; transform-origin: 50% 90%; }
+.nk-cadeau-2 { animation-duration: 3.8s; animation-delay: -1.4s; }
+@keyframes nk-bob {
+  0%, 100% { translate: 0 0; transform: rotate(0deg); }
+  50% { translate: 0 -4%; transform: rotate(2.5deg); }
+}
+
+/* Reflet qui balaie le logo NostaKids City */
+.nk-shine {
+  -webkit-mask: url('/img/nostakids/logo.webp') center / 100% 100% no-repeat;
+  mask: url('/img/nostakids/logo.webp') center / 100% 100% no-repeat;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.75) 50%, transparent 65%) no-repeat;
+  background-size: 250% 100%;
+  animation: nk-shine 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes nk-shine {
+  0%, 55% { background-position: 150% 0; }
+  85%, 100% { background-position: -50% 0; }
+}
+
+/* Coffre : lueur douce au repos, forte au survol (+ étincelles) */
+.nk-coffre { cursor: pointer; transition: scale 0.35s cubic-bezier(.2,.9,.3,1.4); }
+.nk-coffre img {
+  width: 100%; height: 100%; display: block;
+  filter: drop-shadow(0 0 4px rgba(255,214,90,0.55));
+  animation: nk-glow 2.6s ease-in-out infinite;
+}
+@keyframes nk-glow {
+  50% { filter: drop-shadow(0 0 9px rgba(255,214,90,0.85)); }
+}
+.nk-coffre:hover { scale: 1.15; }
+.nk-coffre:hover img {
+  animation: none;
+  filter: drop-shadow(0 0 10px rgba(255,226,120,1)) drop-shadow(0 0 26px rgba(255,190,40,0.9)) brightness(1.12);
+}
+.nk-spark {
+  position: absolute; width: 9%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, #FFE38A 35%, transparent 70%);
+  opacity: 0; pointer-events: none;
+  animation: nk-spark 1.8s ease-in-out infinite;
+}
+.nk-spark-0 { left: 20%; top: 10%; animation-delay: 0s; }
+.nk-spark-1 { left: 70%; top: 5%; animation-delay: -0.3s; }
+.nk-spark-2 { left: 45%; top: -8%; animation-delay: -0.6s; }
+.nk-spark-3 { left: 85%; top: 30%; animation-delay: -0.9s; }
+.nk-spark-4 { left: 5%; top: 35%; animation-delay: -1.2s; }
+.nk-spark-5 { left: 55%; top: 20%; animation-delay: -1.5s; }
+@keyframes nk-spark {
+  0%, 100% { transform: translateY(0) scale(0.3); opacity: 0; }
+  50% { transform: translateY(-60%) scale(1); opacity: var(--nk-spark-op, 0.35); }
+}
+.nk-coffre:hover .nk-spark { --nk-spark-op: 1; width: 13%; }
+/* Pas de souris (téléphone) : le coffre scintille tout seul */
+@media (hover: none) {
+  .nk-coffre img { animation: nk-glow-touch 2.2s ease-in-out infinite; }
+  .nk-spark { --nk-spark-op: 0.85; }
+}
+@keyframes nk-glow-touch {
+  50% { filter: drop-shadow(0 0 8px rgba(255,226,120,1)) drop-shadow(0 0 18px rgba(255,190,40,0.8)) brightness(1.1); }
+}
+@media (max-width: 600px) {
+  .nk-overlay { padding: 8px; }
+  .nk-close { top: -12px; right: -2px; width: 34px; height: 34px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nk-cape { filter: none; }
+  .nk-cadeau, .nk-shine, .nk-coffre img, .nk-spark { animation: none; }
+}
+
+/* Carte « Village Enfant » cliquable */
+.nef-act-btn {
+  font: inherit; color: inherit; cursor: pointer;
+  animation: nef-act-pulse 2.4s ease-in-out infinite;
+}
+@keyframes nef-act-pulse { 50% { box-shadow: 0 0 0 3px rgba(212,168,67,0.35); border-color: var(--or); } }
+.nef-act-voir { font-size: 10px; color: var(--or); letter-spacing: 0.5px; margin-top: 2px; }
+.nef-act-li { display: flex; min-width: 0; }
+.nef-act-li .nef-act { flex: 1; width: 100%; }
+@media (max-width: 600px) { .nef-act-li { flex: 1 1 calc(33% - 10px); } }
+.nk-vague {
+  pointer-events: none;
+  -webkit-mask: url('/img/nostakids/masque-vague.png') 0 0 / 100% 100% no-repeat;
+  mask: url('/img/nostakids/masque-vague.png') 0 0 / 100% 100% no-repeat;
+}
