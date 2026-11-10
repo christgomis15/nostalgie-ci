@@ -123,7 +123,7 @@ export default function NefHero() {
           </span>
           <span className="nef-accred-t">
             <strong>Journalistes &amp; médias</strong>
-            <span>Accréditations ouvertes · Faire ma demande</span>
+            <span>Demande d&apos;accréditation</span>
           </span>
           <span className="nef-accred-go" aria-hidden>→</span>
         </a>
