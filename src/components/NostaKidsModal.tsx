@@ -91,6 +91,8 @@ export default function NostaKidsModal({ onClose }: { onClose: () => void }) {
           <img className="nk-layer nk-cape" src={`${IMG}cape.webp`} alt="" style={CAPE} />
           {/* Bras et poing de l'enfant, fixes, posés sur la cape : elle passe derrière */}
           <img className="nk-layer" src={`${IMG}bras.webp`} alt="" style={CAPE} />
+          {/* Trait blanc du graphiste : fixe, sinon l'ondulation le déforme (effet « déchirure ») */}
+          <img className="nk-layer" src={`${IMG}trait.webp`} alt="" style={CAPE} />
           <span className="nk-layer nk-shine" style={LOGO} aria-hidden />
           <div className="nk-layer nk-vague" style={ZONE_VAGUE}>
             <img className="nk-layer nk-cadeau nk-cadeau-1" src={`${IMG}cadeau-1.webp`} alt="" style={CADEAU_1} />
