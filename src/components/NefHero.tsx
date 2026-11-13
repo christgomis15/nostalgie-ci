@@ -133,7 +133,7 @@ export default function NefHero() {
         <p className="nef-part-t">Avec nos partenaires</p>
         {/* 2e copie : sert uniquement au défilement en boucle sur mobile */}
         <div className="nef-part-track">
-          <img src="/img/nef-partenaires.jpg" alt="Partenaires de Nostalgie en Folie : NCI, MACACI, CNAM, Western Union, Cody's, Pétro Ivoire, Captain, Coco Market, LG, Kaz'ann, El Paradis Cosmetic, Eburnie O" />
+          <img src="/img/nef-partenaires.jpg" alt="Partenaires de Nostalgie en Folie : NCI, BSIC Côte d'Ivoire, MACACI, CNAM, Western Union, Cody's, Pétro Ivoire, Captain, Coco Market, LG, Kaz'ann, El Paradis Cosmetic, Eburnie O" />
           <img src="/img/nef-partenaires.jpg" alt="" aria-hidden className="nef-part-dup" />
         </div>
       </div>
