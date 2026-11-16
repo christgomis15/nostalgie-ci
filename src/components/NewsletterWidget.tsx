@@ -39,7 +39,7 @@ export default function NewsletterWidget() {
 
       {/* ── Formulaire ── */}
       <div className="nl-inner">
-        <span className="nl-badge">Newsletter · Chaque vendredi</span>
+        <span className="nl-badge">Newsletter · Tous les mardis</span>
 
         <h2 className="nl-title">
           Rejoignez la communauté<br />
@@ -55,7 +55,7 @@ export default function NewsletterWidget() {
             <div className="nl-success-icon">✓</div>
             <p className="nl-success-text">
               Bienvenue {prenom ? prenom + ' !' : '!'}<br />
-              <span>Votre première newsletter arrive vendredi.</span>
+              <span>Votre première newsletter arrive mardi.</span>
             </p>
           </div>
         ) : (
