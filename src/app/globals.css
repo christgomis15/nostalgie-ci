@@ -1614,6 +1614,7 @@ textarea { resize: vertical; min-height: 100px; }
 }
 .actu-modal-img .ac-cat-badge {
   position: absolute;
+  top: auto;
   bottom: 12px;
   left: 16px;
 }
