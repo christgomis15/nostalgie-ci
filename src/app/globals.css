@@ -3771,6 +3771,54 @@ textarea { resize: vertical; min-height: 100px; }
   mask: url('/img/nostakids/masque-vague.png') 0 0 / 100% 100% no-repeat;
 }
 
+/* Interstitiel « Concerts » : diaporama des affiches (4:3) */
+.nk-box.cm-box { width: min(1000px, 100%, calc((100vh - 130px) * 4 / 3)); }
+.cm-stage {
+  position: relative; width: 100%; aspect-ratio: 4 / 3;
+  border-radius: 12px; overflow: hidden; background: var(--noir);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  touch-action: pan-y;
+}
+.cm-img {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  object-fit: contain; opacity: 0; transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.cm-img.cm-on { opacity: 1; }
+.cm-nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 44px; height: 44px; border-radius: 50%; border: none;
+  background: rgba(10,10,10,0.6); color: var(--or);
+  font-size: 30px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; padding-bottom: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+.cm-nav:hover { background: var(--or); color: var(--noir); }
+.cm-prev { left: 10px; }
+.cm-next { right: 10px; }
+.cm-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 12px; flex-wrap: wrap;
+}
+.cm-style {
+  font-family: 'Oswald', Arial, sans-serif; font-weight: 600; font-size: 15px;
+  text-transform: uppercase; letter-spacing: 1px; color: var(--or); margin: 0;
+}
+.cm-style span { color: rgba(245,240,232,0.5); font-size: 12px; margin-left: 8px; }
+.cm-dots { display: flex; gap: 8px; }
+.cm-dot {
+  width: 10px; height: 10px; border-radius: 50%; padding: 0; cursor: pointer;
+  border: 1px solid var(--or); background: transparent; transition: background 0.2s, width 0.2s;
+}
+.cm-dot-on { background: var(--or); width: 24px; border-radius: 5px; }
+@media (max-width: 600px) {
+  .cm-nav { width: 34px; height: 34px; font-size: 24px; }
+  .cm-prev { left: 6px; }
+  .cm-next { right: 6px; }
+  .cm-foot { justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) { .cm-img { transition: none; } }
+
 /* Accréditation presse (lien vers le formulaire Google) */
 .nef-accred {
   display: flex; align-items: center; gap: 12px;

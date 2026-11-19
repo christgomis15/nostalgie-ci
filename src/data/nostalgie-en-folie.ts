@@ -18,13 +18,23 @@ export const NEF = {
   // Journalistes : formulaire Google d'accréditation presse
   accreditation: 'https://docs.google.com/forms/d/e/1FAIpQLSfk81AMrePSSkT7QP8XKdFviaaUO1Z4SQbung-Hh2AzNlYaWw/viewform',
   // img = icône noire dans le rond or · logo = remplace le rond (logo en couleur)
+  // modal = la carte est cliquable et ouvre une fenêtre (kids = NostaKids City,
+  // concerts = diaporama des affiches ci-dessous)
   activites: [
     { img: '/img/nef-shopping.svg', label: 'Shopping' },
-    { img: '/img/nef-concert.svg', label: 'Concerts' },
-    { logo: '/img/nef-nostakids.png', label: 'Village Enfant' },
+    { img: '/img/nef-concert.svg', label: 'Concerts', modal: 'concerts' },
+    { logo: '/img/nef-nostakids.png', label: 'Village Enfant', modal: 'kids' },
     { img: '/img/nef-sante.svg', label: 'Village Santé' },
     { img: '/img/nef-fitness.svg', label: 'Fitness' },
-  ] as { img?: string; logo?: string; label: string }[],
+  ] as { img?: string; logo?: string; label: string; modal?: 'kids' | 'concerts' }[],
+  // Affiches des concerts (1600 × 1200), dans l'ordre du diaporama
+  concerts: [
+    { img: '/img/nef-concerts/coupe-decale.jpg', style: 'Coupé-Décalé Biama', artistes: 'Azazou Satelite, Vitale, Safarel Obiang, Serge Beynaud, Bebi Philip, Force One, Oyoki' },
+    { img: '/img/nef-concerts/zouglou.jpg', style: 'Zouglou', artistes: "Willy Gavara, Mako le King, Esaïe l'Original, Les Patrons, Molière, 100 Façons" },
+    { img: '/img/nef-concerts/variete.jpg', style: 'Variété', artistes: 'Oviékan, Mula, Roseline Layo, Ismaël Isaac, Kajeem, TNT, Lil Jay' },
+    { img: '/img/nef-concerts/rap-ivoire.jpg', style: 'Rap Ivoire', artistes: "Nifa Fanafoule, Dré-A, Elow'n, Jojo le Barbu, Suspect 95, Tazeboy, Ste Milano, Mister Chris" },
+    { img: '/img/nef-concerts/nouvelle-scene.jpg', style: 'Nouvelle Scène', artistes: 'Widgunz, Jeune Lion, Wantché, Bmux Carter, Zazi' },
+  ],
 }
 
 export function isNefActive(now = Date.now()) {
