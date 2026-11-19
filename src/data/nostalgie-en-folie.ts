@@ -19,14 +19,14 @@ export const NEF = {
   accreditation: 'https://docs.google.com/forms/d/e/1FAIpQLSfk81AMrePSSkT7QP8XKdFviaaUO1Z4SQbung-Hh2AzNlYaWw/viewform',
   // img = icône noire dans le rond or · logo = remplace le rond (logo en couleur)
   // modal = la carte est cliquable et ouvre une fenêtre (kids = NostaKids City,
-  // concerts = diaporama des affiches ci-dessous)
+  // concerts / exposants = diaporama des visuels ci-dessous)
   activites: [
-    { img: '/img/nef-shopping.svg', label: 'Shopping' },
+    { img: '/img/nef-shopping.svg', label: 'Shopping', modal: 'exposants' },
     { img: '/img/nef-concert.svg', label: 'Concerts', modal: 'concerts' },
     { logo: '/img/nef-nostakids.png', label: 'Village Enfant', modal: 'kids' },
     { img: '/img/nef-sante.svg', label: 'Village Santé' },
     { img: '/img/nef-fitness.svg', label: 'Fitness' },
-  ] as { img?: string; logo?: string; label: string; modal?: 'kids' | 'concerts' }[],
+  ] as { img?: string; logo?: string; label: string; modal?: 'kids' | 'concerts' | 'exposants' }[],
   // Affiches des concerts (1600 × 1200), dans l'ordre du diaporama
   concerts: [
     { img: '/img/nef-concerts/coupe-decale.jpg', style: 'Coupé-Décalé Biama', artistes: 'Azazou Satelite, Vitale, Safarel Obiang, Serge Beynaud, Bebi Philip, Force One, Oyoki' },
@@ -35,6 +35,48 @@ export const NEF = {
     { img: '/img/nef-concerts/rap-ivoire.jpg', style: 'Rap Ivoire', artistes: "Nifa Fanafoule, Dré-A, Elow'n, Jojo le Barbu, Suspect 95, Tazeboy, Ste Milano, Mister Chris" },
     { img: '/img/nef-concerts/nouvelle-scene.jpg', style: 'Nouvelle Scène', artistes: 'Widgunz, Jeune Lion, Wantché, Bmux Carter, Zazi' },
   ],
+  // Visuels « J'y serai » des exposants (765 × 765, public/img/nef-exposants/)
+  // Pour en ajouter un : déposer le fichier .webp et ajouter une ligne ici.
+  exposants: [
+    ['arome-spirituel', "L'Arôme Spirituel"],
+    ['batik-habits-du-dimanche', 'Batik – Habits du Dimanche'],
+    ['blessing-shop', 'Blessing Shop'],
+    ['chez-mamou', 'Chez Mamou'],
+    ['dr-scent', 'Dr Scent'],
+    ['edd', 'EDD'],
+    ['elsymar', 'Elsymar'],
+    ['fantastika-kids', 'Fantastika Kids'],
+    ['festives-by-sami', 'Festives by Sami'],
+    ['ficta', 'FICTA – Tchologo Cocktail'],
+    ['firdawshop', 'FirdawShop'],
+    ['bethel', 'Chez les Garçons – Bethel'],
+    ['ivoire-abotchi', 'Ivoire Abotchi'],
+    ['jamel-design', 'Jamel Design & Services'],
+    ['klaymi', 'KlayMi'],
+    ['dinettes-africaines', 'Les Dînettes Africaines by DLS'],
+    ['ptits-plats-de-myra', "Les P'tits Plats de Myra"],
+    ['lileen-bio', 'Lileen Bio'],
+    ['nagnin-creation', 'Nagnin Création'],
+    ['maison-esona', 'Maison Esona'],
+    ['maje-concept', "Ma'Je Concept"],
+    ['makodjiby', 'Makodjiby'],
+    ['matiks-miam', "Matik's Miam"],
+    ['miss-sandwich', 'Miss Sandwich'],
+    ['mj-confections', 'MJ Confections'],
+    ['naima-confection', 'Naïma Confection'],
+    ['nana-bio', 'Nana Bio'],
+    ['jardin-nikhaia', 'Le Jardin Nikhaïa'],
+    ['outfits-by-queen', 'Outfits by Queen'],
+    ['pain-brochette', "Pain Brochette L'Abidjanaise"],
+    ['phill-creations', 'Phill Créations'],
+    ['le-pigs', "Le Pig'S by Cochon bio"],
+    ['pizza-doudou', 'Pizza Doudou'],
+    ['queen-bio-hair', 'Queen Bio Hair'],
+    ['style-et-parfums', 'Style & Parfums'],
+    ['ll-sweet-bar', 'L&L Sweet Bar'],
+    ['syfat', 'Syfat'],
+    ['winny-delices', 'Winny Délices'],
+  ].map(([fichier, nom]) => ({ img: `/img/nef-exposants/${fichier}.webp`, nom })),
 }
 
 export function isNefActive(now = Date.now()) {

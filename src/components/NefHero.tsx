@@ -4,7 +4,24 @@ import { useCallback, useEffect, useState } from 'react'
 import { usePlayerStore } from '@/lib/player-store'
 import { NEF } from '@/data/nostalgie-en-folie'
 import NostaKidsModal from '@/components/NostaKidsModal'
-import ConcertsModal from '@/components/ConcertsModal'
+import AffichesModal from '@/components/AffichesModal'
+
+const AFFICHES_CONCERTS = NEF.concerts.map(c => ({
+  img: c.img,
+  titre: c.style,
+  alt: `Giga concert gratuit ${c.style} — ${c.artistes} — 28 et 29 novembre 2026, INJS Marcory`,
+}))
+const AFFICHES_EXPOSANTS = NEF.exposants.map(e => ({
+  img: e.img,
+  titre: e.nom,
+  alt: `${e.nom} — exposant à Nostalgie en Folie, 28 et 29 novembre 2026, INJS Marcory`,
+}))
+
+const MODAL_CARTE = {
+  kids: { aria: 'Village Enfant : découvrir NostaKids City', voir: 'Découvrir ›' },
+  concerts: { aria: 'Concerts : voir les affiches et les artistes', voir: 'Voir les artistes ›' },
+  exposants: { aria: 'Shopping : voir les exposants', voir: 'Voir les exposants ›' },
+}
 
 const JOUR_MS = 24 * 60 * 60 * 1000
 
@@ -32,10 +49,8 @@ export default function NefHero() {
   const { isPlaying, toggle } = usePlayerStore()
   const countdown = useCountdown()
   const [copie, setCopie] = useState(false)
-  const [kids, setKids] = useState(false)
-  const closeKids = useCallback(() => setKids(false), [])
-  const [concerts, setConcerts] = useState(false)
-  const closeConcerts = useCallback(() => setConcerts(false), [])
+  const [modal, setModal] = useState<'kids' | 'concerts' | 'exposants' | null>(null)
+  const closeModal = useCallback(() => setModal(null), [])
 
   // Sur ordinateur, un lien tel: ouvre la boîte « Sélectionner une
   // application » de Windows : on copie plutôt le numéro. Sur mobile
@@ -94,8 +109,8 @@ export default function NefHero() {
             <li key={a.label} className="nef-act-li">
               <button
                 className="nef-act nef-act-btn"
-                onClick={() => (a.modal === 'kids' ? setKids(true) : setConcerts(true))}
-                aria-label={a.modal === 'kids' ? 'Village Enfant : découvrir NostaKids City' : 'Concerts : voir les affiches et les artistes'}
+                onClick={() => setModal(a.modal!)}
+                aria-label={MODAL_CARTE[a.modal].aria}
               >
                 {a.logo ? (
                   <img src={a.logo} alt="" className="nef-act-logo-img" />
@@ -103,7 +118,7 @@ export default function NefHero() {
                   <span className="nef-act-ic" aria-hidden><img src={a.img} alt="" /></span>
                 )}
                 <span className="nef-act-l">{a.label}</span>
-                <span className="nef-act-voir">{a.modal === 'kids' ? 'Découvrir ›' : 'Voir les artistes ›'}</span>
+                <span className="nef-act-voir">{MODAL_CARTE[a.modal].voir}</span>
               </button>
             </li>
           ) : (
@@ -149,8 +164,13 @@ export default function NefHero() {
         </div>
       </div>
 
-      {kids && <NostaKidsModal onClose={closeKids} />}
-      {concerts && <ConcertsModal onClose={closeConcerts} />}
+      {modal === 'kids' && <NostaKidsModal onClose={closeModal} />}
+      {modal === 'concerts' && (
+        <AffichesModal affiches={AFFICHES_CONCERTS} ratio="4/3" label="Concerts de Nostalgie en Folie" onClose={closeModal} />
+      )}
+      {modal === 'exposants' && (
+        <AffichesModal affiches={AFFICHES_EXPOSANTS} ratio="1/1" label="Exposants de Nostalgie en Folie" onClose={closeModal} />
+      )}
     </section>
   )
 }
